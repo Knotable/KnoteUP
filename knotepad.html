@@ -1,0 +1,120 @@
+<head>
+  <title>knotepad</title>
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/font-icons/css/fontello.css">
+  <link rel="stylesheet" href="/font-icons/css/fontello-codes.css">
+  <link rel="stylesheet" href="/font-icons/css/animation.css">
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="css/fontello-ie7.css">
+  <![endif]-->
+</head>
+
+<body>
+  {{> pad}}
+
+  {{> loginOrRegister}}
+</body>
+
+<template name="loginOrRegister">
+  <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
+		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
+			<ul class="cd-switcher">
+				<li><a href="#0">Sign in</a></li>
+				<li><a href="#1">Sign up</a></li>
+			</ul>
+
+			<div id="cd-login"> <!-- log in form -->
+				<form class="cd-form">
+					<p class="fieldset">
+						<label class="image-replace cd-email" for="signin-email">E-mail</label>
+						<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+						<span class="cd-error-message">Error message here!</span>
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-password" for="signin-password">Password</label>
+						<input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password">
+						<a href="#0" class="hide-password">Hide</a>
+						<span class="cd-error-message">Error message here!</span>
+					</p>
+
+					<p class="fieldset">
+						<input class="full-width login" type="submit" value="Login">
+					</p>
+				</form>
+
+				<!-- <a href="#0" class="cd-close-form">Close</a> -->
+			</div> <!-- cd-login -->
+
+			<div id="cd-signup"> <!-- sign up form -->
+				<form class="cd-form">
+					<p class="fieldset">
+						<label class="image-replace cd-username" for="signup-username">Username</label>
+						<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
+						<span class="cd-error-message">Error message here!</span>
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-email" for="signup-email">E-mail</label>
+						<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+						<span class="cd-error-message">Error message here!</span>
+					</p>
+
+					<p class="fieldset">
+						<label class="image-replace cd-password" for="signup-password">Password</label>
+						<input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
+						<a href="#0" class="hide-password">Hide</a>
+						<span class="cd-error-message">Error message here!</span>
+					</p>
+
+					<p class="fieldset">
+						<input class="full-width has-padding" type="submit" value="Create account">
+					</p>
+				</form>
+
+				<!-- <a href="#0" class="cd-close-form">Close</a> -->
+			</div> <!-- cd-signup -->
+			<a href="#0" class="cd-close-form">Close</a>
+		</div> <!-- cd-user-modal-container -->
+	</div> <!-- cd-user-modal -->
+</template>
+
+
+<template name="pad">
+  <div class="pad-container">
+    <input id="pad-subject" type="text" placeholder="What is your agenda?">
+    <div class="knote-container">
+      <div class="knote-content">
+        <textarea class="knote-title" placeholder="What is your point?" tabindex="16" spellcheck="false"></textarea>
+        <div class="counter pull-right" data-limit-exceed="false">140</div>
+        <div class="clearfix"></div>
+
+
+        <div contenteditable="true" placeholder="If you need to say more." id="knote-body" spellcheck="false" tabindex="17"></div>
+
+
+        <div class="buttons pull-left">
+            <i class="button icon-key"></i>
+        </div>
+        <div class="buttons post-btn-container">
+          <input type="button" class="button post-button" value="Add" tabindex="18">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if hasLoggedIn}}
+    <div class="link-to-knotable">
+      <div class="knote-container">
+        <div class="knote-content">
+          <div class="welcome">
+            <p>{{username}}, Welcome to Knotable!</p>
+            <button class="button redirect-to-knotable">
+              <span>See saved Knotepads</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</template>
