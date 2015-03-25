@@ -11,7 +11,6 @@ meteorLoginToken = 'Meteor.loginToken'
 Accounts.onLogin ->
   if localStorage[meteorLoginToken]
     amplify.store loginToken, localStorage[meteorLoginToken]
-  console.log "login success", localStorage[meteorLoginToken]
 
 
 resetLoginToken = ->
@@ -120,6 +119,20 @@ Template.loginOrRegister.events
       Meteor.loginWithPassword email, password, (error) ->
         if not error
           $('.cd-user-modal').removeClass('is-visible')
+
+  'click #cd-signup .signup': (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    username = $("#signup-username").val()
+    email = $("#signup-email").val()
+    password = $("#signup-password").val()
+    if username and email and password
+      user =
+        username: username
+        email: email
+        password: password
+      Accounts.createUser user, (error) ->
+        $('.cd-user-modal').removeClass('is-visible') if not error
 
 
 Template.loginOrRegister.onRendered  ->
