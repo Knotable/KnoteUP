@@ -51,7 +51,7 @@ Template.knotePad.events
         Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
           if error
             console.log 'create_topic', error
-            $postButton.val('Add')
+            $postButton.val('Post')
           else
             topicId = result
 
@@ -69,7 +69,7 @@ Template.knotePad.events
               replys: []
               pinned: false
             Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
-              $postButton.val('Add')
+              $postButton.val('Post')
               if error
                 console.log 'add_knote', error
               else
