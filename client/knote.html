@@ -1,0 +1,18 @@
+<template name="knote">
+  <div class="knote-container">
+    <div class="knote-content knote">
+      <div class="pull-right knote-date">
+        <span>{{formatedDate}}</span>
+      </div>
+
+      {{#if title}}
+        <textarea class="knote-title" disabled>{{title}}</textarea>
+      {{/if}}
+      {{#if body}}
+        <div class="knote-body">
+          {{{body}}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</template>

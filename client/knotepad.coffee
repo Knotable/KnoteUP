@@ -33,12 +33,14 @@ Template.knotePad.events
     showLoginForm()
 
 
-  'click .post-button': (e) ->
-    if Meteor.userId()
+  'click .post-button': (e, template) ->
+    if not Meteor.userId()
+      showLoginForm()
+    else
       user = Meteor.user()
       subject = $("#pad-subject").val()
-      title = $(".knote-title").val()
-      body = $("#knote-body").html()
+      title = $(".new-knote-title").val()
+      body = $(".new-knote-body").html()
       if subject and title
         requiredTopicParams =
           userId: Meteor.userId()
@@ -48,36 +50,60 @@ Template.knotePad.events
 
         $postButton = $(e.currentTarget)
         $postButton.val('...')
-        Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
-          if error
-            console.log 'create_topic', error
+        if template.data?.pad?._id
+          topicId = template.data.pad._id
+
+          requiredKnoteParameters =
+            subject: subject
+            body: body
+            topic_id: topicId
+            userId: user._id
+            name: user.username
+            from: user.emails?[0]
+            isMailgun: false
+
+          optionalKnoteParameters =
+            title: title
+            replys: []
+            pinned: false
+          Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
             $postButton.val('Post')
-          else
-            topicId = result
-
-            requiredKnoteParameters =
-              subject: subject
-              body: body
-              topic_id: topicId
-              userId: user._id
-              name: user.username
-              from: user.emails?[0]
-              isMailgun: false
-
-            optionalKnoteParameters =
-              title: title
-              replys: []
-              pinned: false
-            Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+            if error
+              console.log 'add_knote', error
+            else
+              $(".new-knote-title").val('')
+              $(".new-knote-body").html('')
+        else
+          Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
+            if error
+              console.log 'create_topic', error
               $postButton.val('Post')
-              if error
-                console.log 'add_knote', error
-              else
-                $("#pad-subject").val('')
-                $(".knote-title").val('')
-                $("#knote-body").html('')
-    else
-      showLoginForm()
+            else
+              topicId = result
+
+              requiredKnoteParameters =
+                subject: subject
+                body: body
+                topic_id: topicId
+                userId: user._id
+                name: user.username
+                from: user.emails?[0]
+                isMailgun: false
+
+              optionalKnoteParameters =
+                title: title
+                replys: []
+                pinned: false
+              Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+                $postButton.val('Post')
+                if error
+                  console.log 'add_knote', error
+                else
+                  $(".new-knote-title").val('')
+                  $(".new-knote-body").html('')
+
+              Router.go 'knotePad', padId: topicId
+
 
 
 Template.knotePad.helpers

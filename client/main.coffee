@@ -1,10 +1,3 @@
-Meteor.settings.public.remoteHost ?= 'beta.knotable.com'
-
-remoteServerUrl = Meteor.settings.public.remoteHost
-Meteor.remoteConnection = DDP.connect(remoteServerUrl)
-Accounts.connection = Meteor.remoteConnection
-Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
-
 loginToken = 'loginToken'
 meteorLoginToken = 'Meteor.loginToken'
 
