@@ -1,0 +1,37 @@
+<template name="knotePad">
+  <div class="pad-container">
+    <div class="pad-header">
+      <i class="button icon-key"></i>
+      <input id="pad-subject" type="text" placeholder="What is your agenda?">
+    </div>
+
+    <div class="knote-container">
+      <div class="knote-content">
+        <textarea class="knote-title" placeholder="What is your point?" tabindex="16" spellcheck="false"></textarea>
+        <div class="counter pull-right" data-limit-exceed="false">140</div>
+        <div class="clearfix"></div>
+
+        <div contenteditable="true" placeholder="If you need to say more." id="knote-body" spellcheck="false" tabindex="17"></div>
+
+        <div class="buttons post-btn-container">
+          <input type="button" class="button post-button" value="Add" tabindex="18">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if hasLoggedIn}}
+    <div class="link-to-knotable">
+      <div class="knote-container">
+        <div class="knote-content">
+          <div class="welcome">
+            <p>{{username}}, Welcome to Knotable!</p>
+            <button class="button redirect-to-knotable">
+              <span>See saved Knotepads</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</template>

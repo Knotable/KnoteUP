@@ -11,3 +11,4 @@ accounts-base
 accounts-password
 stylus
 amplify
+iron:router

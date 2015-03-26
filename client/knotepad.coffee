@@ -40,7 +40,7 @@ showLoginForm = ->
   $tab_signup.removeClass('selected')
 
 
-Template.pad.events
+Template.knotePad.events
   'click .redirect-to-knotable': (e) ->
     token = amplify.store loginToken
     remoteHost = Meteor.settings.public.remoteHost
@@ -102,14 +102,14 @@ Template.pad.events
       showLoginForm()
 
 
-Template.pad.helpers
+Template.knotePad.helpers
   username: ->
     Meteor.user()?.username
   hasLoggedIn: ->
     Boolean Meteor.userId()
 
 
-Template.loginOrRegister.events
+Template.loginAndSignup.events
   'click #cd-login .login': (event) ->
     event.preventDefault()
     event.stopPropagation()
@@ -135,7 +135,7 @@ Template.loginOrRegister.events
         $('.cd-user-modal').removeClass('is-visible') if not error
 
 
-Template.loginOrRegister.onRendered  ->
+Template.loginAndSignup.onRendered  ->
   $form_modal = $('.cd-user-modal')
   $form_login = $form_modal.find('#cd-login')
   $form_signup = $form_modal.find('#cd-signup')

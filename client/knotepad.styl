@@ -85,9 +85,7 @@ body
   cursor: text
 
 .post-btn-container
-  position: absolute;
-  bottom: 6px;
-  right: 10px;
+  float: right
 
 .post-button
   padding: 3px 18px
@@ -125,3 +123,14 @@ body
     background-color: #337ab7
     margin: -14px 0 0 14px
     padding: 4px 12px
+
+
+.clearfix:after
+  clear: both
+
+
+.clearfix:before
+.clearfix:after
+  display: table
+  line-height: 0
+  content: ""
