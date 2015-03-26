@@ -2,19 +2,19 @@
   <div class="pad-container">
     <div class="pad-header">
       <i class="button icon-key"></i>
-      <input id="pad-subject" type="text" placeholder="What is your agenda?">
+      <input id="pad-subject" type="text" placeholder="What is your agenda?" tabindex='1'>
     </div>
 
     <div class="knote-container">
       <div class="knote-content">
-        <textarea class="knote-title" placeholder="What is your point?" tabindex="16" spellcheck="false"></textarea>
+        <textarea class="knote-title" placeholder="What is your point?" tabindex="2" spellcheck="false"></textarea>
         <div class="counter pull-right" data-limit-exceed="false">140</div>
         <div class="clearfix"></div>
 
-        <div contenteditable="true" placeholder="If you need to say more." id="knote-body" spellcheck="false" tabindex="17"></div>
+        <div contenteditable="true" placeholder="If you need to say more." id="knote-body" spellcheck="false" tabindex="3"></div>
 
         <div class="buttons post-btn-container">
-          <input type="button" class="button post-button" value="Add" tabindex="18">
+          <input type="button" class="button post-button" value="Add" tabindex="4">
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
         <div class="knote-content">
           <div class="welcome">
             <p>{{username}}, Welcome to Knotable!</p>
-            <button class="button redirect-to-knotable">
+            <button class="button redirect-to-knotable" tabindex='5'>
               <span>See saved Knotepads</span>
             </button>
           </div>
