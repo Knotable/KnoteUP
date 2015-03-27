@@ -1,7 +1,7 @@
 showLoginForm = ->
-  $(".cd-user-modal").addClass('is-visible')
+  $(".user-modal").addClass('is-visible')
 
-  $form_modal = $('.cd-user-modal')
+  $form_modal = $('.user-modal')
   $form_login = $form_modal.find('#cd-login')
   $form_signup = $form_modal.find('#cd-signup')
   $form_modal_tab = $('.cd-switcher')

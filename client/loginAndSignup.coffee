@@ -1,81 +1,95 @@
 Template.loginAndSignup.events
-  'click #cd-login .login': (event) ->
+  'click .user-modal': (event) ->
+    $userModal = $('.user-modal')
+    # $userModal.removeClass("is-visible") if $(event.target).is($userModal)
+
+  'click #register-link': ->
+    $("#login-box").addClass('hidden')
+    $("#register").removeClass('hidden')
+    resetWidth()
+
+  'click #go-login': ->
+    $('#login-box').removeClass("hidden")
+    $('#register').addClass("hidden")
+    resetWidth()
+
+  'click #login-button': (event) ->
     event.preventDefault()
     event.stopPropagation()
-    email = $("#signin-email").val()
-    password = $("#signin-password").val()
+    email = $("#login-username").val()
+    password = $("#login-password").val()
     if email and password
       Meteor.loginWithPassword email, password, (error) ->
         if not error
-          $('.cd-user-modal').removeClass('is-visible')
+          $('.user-modal').removeClass('is-visible')
+        else
+          console.log 'signup', error
 
-  'click #cd-signup .signup': (event) ->
+  'click #create-account': (event) ->
     event.preventDefault()
     event.stopPropagation()
-    username = $("#signup-username").val()
-    email = $("#signup-email").val()
-    password = $("#signup-password").val()
+    username = $("#account-username").val()
+    email = $("#account-email").val()
+    password = $("#account-password").val()
     if username and email and password
       user =
         username: username
         email: email
         password: password
       Accounts.createUser user, (error) ->
-        $('.cd-user-modal').removeClass('is-visible') if not error
+        $('.user-modal').removeClass('is-visible') if not error
+
+resetWidth = ->
+  buttonWidth = $('#login-button').width()
+  signupWidth = $('#create-account').width()
+  width = if buttonWidth > signupWidth
+    buttonWidth
+  else
+    signupWidth
+  $('.user-modal input').each (index, $input) ->
+    if $(this).width() > width
+      $(this).width(width-23)
 
 
 Template.loginAndSignup.onRendered  ->
-  $form_modal = $('.cd-user-modal')
-  $form_login = $form_modal.find('#cd-login')
-  $form_signup = $form_modal.find('#cd-signup')
-  $form_modal_tab = $('.cd-switcher')
-  $tab_login = $form_modal_tab.children('li').eq(0).children('a')
-  $tab_signup = $form_modal_tab.children('li').eq(1).children('a')
-  $main_nav = $('.main-nav')
-  # close modal
-  $('.cd-user-modal').on 'click', (event) ->
-    if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') )
-      $form_modal.removeClass('is-visible')
-
   # close modal when clicking the esc keyboard button
+  $userModal = $('.user-modal')
   $(document).keyup (event) ->
-    $form_modal.removeClass('is-visible') if(event.which=='27')
+    # $userModal.removeClass('is-visible') if event.which is 27
+
+  resetWidth()
 
 
-  # switch from a tab to another
-  $form_modal_tab.on 'click', (event) ->
-    event.preventDefault()
-    if ( $(event.target).is( $tab_login ) )
-       login_selected()
-    else
-      signup_selected()
+  bindScreenArretRender = ->
+    Meteor.clearInterval(window.arretLogin)
+    i = 0
+    window.arretLogin = Meteor.setInterval ->
+      i++
+      if i == 180
+        i = 0
+      $userModal.css "background", "linear-gradient("+(135+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
+      $userModal.css "background", "-webkit-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
+      $userModal.css "background", "-moz-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
+      $userModal.css "background", "-o-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
+      $userModal.css "background", "-ms-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
+    , 90
 
-  # hide or show password
-  $('.hide-password').on 'click', ->
-    $this= $(this)
-    $password_field = $this.prev('input')
+  vcbValues =
+    headerBottomMargin: 20 #px - space between the header and the login form. Connected with .box-container .header top
+  verticallyCenterBox = ->
+    windowHeight = $(window).height()
+    $(".user-modal-container").each ->
+      marginValue = 15
+      boxHeight = $(this).outerHeight(false)
+      if($(this).find('.header').length > 0)
+        marginValue += $(this).find('.header').outerHeight(false) + vcbValues.headerBottomMargin
+      if (windowHeight > boxHeight)
+        marginValue = Math.max((windowHeight - boxHeight)/2, marginValue)
+      marginValue += 'px'
+      $(this).css
+        "margin-top": marginValue
+        "margin-bottom": marginValue
 
-    if ( 'password' == $password_field.attr('type') )
-      $password_field.attr('type', 'text')
-    else
-      $password_field.attr('type', 'password')
-    if ( 'Hide' == $this.text() )
-      $this.text('Show')
-    else
-      $this.text('Hide')
-
-
-  $('.hide-password').click()
-
-
-  login_selected = ->
-    $form_login.addClass('is-selected')
-    $form_signup.removeClass('is-selected')
-    $tab_login.addClass('selected')
-    $tab_signup.removeClass('selected')
-
-  signup_selected = ->
-    $form_login.removeClass('is-selected')
-    $form_signup.addClass('is-selected')
-    $tab_login.removeClass('selected')
-    $tab_signup.addClass('selected')
+  bindScreenArretRender()
+  verticallyCenterBox()
+  $(window).off('resize', verticallyCenterBox).resize verticallyCenterBox

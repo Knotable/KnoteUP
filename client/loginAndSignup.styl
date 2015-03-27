@@ -1,0 +1,162 @@
+.user-modal
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(52, 54, 66, 0.9);
+  z-index: 3;
+  overflow-y: auto;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s 0, visibility 0 0.3s;
+  -moz-transition: opacity 0.3s 0, visibility 0 0.3s;
+  transition: opacity 0.3s 0, visibility 0 0.3s;
+
+.user-modal.is-visible
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: opacity 0.3s 0, visibility 0 0;
+  -moz-transition: opacity 0.3s 0, visibility 0 0;
+  transition: opacity 0.3s 0, visibility 0 0;
+
+
+.user-modal-container
+  max-width: 380px;
+  padding: 0 15px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  .header
+    left: 15px;
+    position: absolute;
+    right: 15px;
+    top: -90px;
+  a
+    color: #337ab7;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    &:hover
+      color: #204d74;
+
+form {
+  margin: 0 0 20px;
+}
+
+.logo
+  position: relative;
+  width: 203px;
+  height: 58px;
+  display: block;
+  background: url("/images/sprite_3.png") -4px -3px no-repeat;
+  margin: 0 auto 12px;
+
+.logo:after
+  content: "beta";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 44px;
+
+.box
+  background: #343c44;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  color: #fff;
+  position: relative;
+  .body
+    padding: 6%
+    .login-form
+    #register-form
+      margin-bottom: 10px
+      .title
+        margin: 5px 0 14px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 19px;
+        color: #fff;
+      .control-group
+        margin-bottom: 10px
+        .for-user:before
+        .for-password:before
+        .for-email:before
+          border-bottom-left-radius: 4px;
+          border-top-left-radius: 4px;
+          content: "";
+          width: 38px;
+          height: 39px;
+          position: absolute;
+          background-image: url("/images/sprite_3.png");
+        .for-user:before
+          background-position: -113px -69px;
+        .for-password:before
+          background-position: -166px -69px;
+        .for-email:before
+          background-position: -113px -119px;
+
+.box .control-group input[type="text"],
+.box .control-group input[type="email"],
+.box .control-group input[type="password"] {
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  height: auto;
+  padding: 10px 6px;
+  width: 100%;
+  margin: 0;
+  background-color: #404852;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+.box .control-group [class*="for-"] input {
+  padding-left: 43px;
+  background-repeat: no-repeat;
+  line-height: 19px;
+}
+
+
+.btn {
+  display: inline-block;
+  padding: 4px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: #616161;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #eee;
+  border: 1px solid rgba(0,0,0,0);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.my-btn {
+  color: #fff;
+  background: #78c5e8;
+}
+.btn-full
+  width: 100% !important;
+
+.btn-blue {
+  background: #28ade8;
+}
+.signup-link {
+  text-align: center;
+  display: block;
+  font-size: 10pt;
+  margin-top: 30px;
+}
+
+.hidden
+  display: none;
+
+.text-desc {
+  color: #a3a2a2;
+  font-style: italic;
+  padding: 3px 0 0;
+}

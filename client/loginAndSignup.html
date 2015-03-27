@@ -1,63 +1,82 @@
 <template name="loginAndSignup">
-  <div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
-		<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
-			<ul class="cd-switcher">
-				<li><a href="#0">Sign in</a></li>
-				<li><a href="#1">Sign up</a></li>
-			</ul>
+  <div class="user-modal is-visible"> <!-- this is the entire modal form, including the background -->
+		<div class="user-modal-container"> <!-- this is the container wrapper -->
+      <div class="header">
+        <a class="logo" href="/"></a>
+      </div>
 
-			<div id="cd-login"> <!-- log in form -->
-				<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signin-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
+      <div class="box" id="login-box">
+        <div class="body">
+          <form id="login-form" class="login-form" autocomplete="off">
+            <div class="title">Login</div>
+            <div class="form-message hidden"></div>
+            <div class="control-group">
+              <div class="controls for-user">
+                    <input id="login-username" class="form-control" type="text" value="" name="email" placeholder="Username or email" tabindex="11" autocomplete="off" spellcheck="off">
+                  </div>
+              </div>
+            <div class="control-group">
+               <div class="controls for-password">
+                    <input type="password" value="" name="password" id="login-password" placeholder="Password" tabindex="12">
+                  </div>
+            </div>
 
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signin-password">Password</label>
-						<input class="full-width has-padding has-border" id="signin-password" type="text"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
+            <div class="control-group">
+            	<button type="submit" class="btn btn-blue btn-full my-btn login-button" id="login-button" tabindex="13">Log in</button>
+            </div>
 
-					<p class="fieldset">
-						<input class="full-width login" type="submit" value="Login">
-					</p>
-				</form>
 
-				<!-- <a href="#0" class="cd-close-form">Close</a> -->
-			</div> <!-- cd-login -->
+            <div class="control-group">
+              <a id="register-link" class="signup-link" tabindex="6"><b>Sign up</b></a>
+            </div>
 
-			<div id="cd-signup"> <!-- sign up form -->
-				<form class="cd-form">
-					<p class="fieldset">
-						<label class="image-replace cd-username" for="signup-username">Username</label>
-						<input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
+          </form>
+          <form class="hidden" id="confirm-form" autocomplete="off">
+            <div class="title">Confirmation</div>
+            <div class="form-message hidden"></div>
+            <div class="control-group">
+              <div class="controls for-user">
+                <input type="text" class="cofirm_email" disabled="disabled" value="" name="email" tabindex="21">
+              </div>
+            </div>
+            <div class="control-group">
+            	<a href="javascript:;" id="confirm-button" tabindex="5" class="btn btn-blue btn-full my-btn">Resend email confirmation</a>
+            </div>
+          </form>
+          <div class="loading-circle hidden"></div>
+        </div>
+      </div>
 
-					<p class="fieldset">
-						<label class="image-replace cd-email" for="signup-email">E-mail</label>
-						<input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
-						<span class="cd-error-message">Error message here!</span>
-					</p>
+      <div class="box hidden" id="register">
+        <div class="body">
+          <form id="register-form" autocomplete="off">
+            <div class="title">Sign up for our beta</div>
+            <div class="form-message hidden"></div>
+  	        <div class="control-group">
+              <div class="controls for-user">
+                <input type="text" value="" name="username" id="account-username" placeholder="Please choose a username">
+             </div>
+            </div>
+            <div class="control-group">
+              <div class="controls for-email">
+    		        <input type="text" value="" name="eid" id="account-email" placeholder="Type your email">
+  		    </div>
+  		    <div class="text-desc control-group">Your correct email is super important in the way you use Knotable. And you can change or add to it later</div>
+            </div>
 
-					<p class="fieldset">
-						<label class="image-replace cd-password" for="signup-password">Password</label>
-						<input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
-						<a href="#0" class="hide-password">Hide</a>
-						<span class="cd-error-message">Error message here!</span>
-					</p>
+              <div class="control-group">
+              <div class="controls for-password">
+                  <input type="password" name="passwd" id="account-password" placeholder="And set a password">
+                  </div>
+              </div>
+              <div class="control-group">
+              <button type="submit" class="btn btn-blue btn-full my-btn" id="create-account">SIGN UP</button>
+              </div>
+              <a href="javascript:;" id="go-login"><b>I already have an account</b></a>
 
-					<p class="fieldset">
-						<input class="full-width has-padding signup" type="submit" value="Create account">
-					</p>
-				</form>
-
-				<!-- <a href="#0" class="cd-close-form">Close</a> -->
-			</div> <!-- cd-signup -->
-			<a href="#0" class="cd-close-form">Close</a>
-		</div> <!-- cd-user-modal-container -->
-	</div> <!-- cd-user-modal -->
+          </form>
+        </div>
+      </div>
+		</div> <!-- user-modal-container -->
+	</div> <!-- user-modal -->
 </template>
