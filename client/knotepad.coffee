@@ -6,6 +6,21 @@ showLoginForm = ->
 
 
 Template.knotePad.events
+  'keyup .new-knote-title': (event, template) ->
+    MAX_LENGTH = 140
+
+    text = $(event.currentTarget).val()
+    remainingTextLength = MAX_LENGTH - text.length
+    $counter = template.$('.counter')
+    $counter.text remainingTextLength
+    if remainingTextLength < 0
+      $counter.attr("data-limit-exceed", true)
+      template.$('.post-button').attr('disabled', true)
+    else
+      $counter.attr("data-limit-exceed", false)
+      template.$('.post-button').attr('disabled', false)
+
+
   'click .redirect-to-knotable': (e) ->
     token = amplify.store loginToken
     remoteHost = Meteor.settings.public.remoteHost

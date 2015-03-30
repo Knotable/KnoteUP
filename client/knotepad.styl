@@ -94,6 +94,8 @@ body
 
 .post-button
   padding: 3px 18px
+  &:disabled
+    background: #dddddd
 
 
 .buttons > *
@@ -113,10 +115,11 @@ body
   border: 1px solid rgba(0,0,0,0);
   -webkit-border-radius: 4px;
   border-radius: 4px;
-  &:hover
-  &:focus
-  &:active
-    background-color: #5aa872
+  &:enabled
+    &:hover
+    &:focus
+    &:active
+      background-color: #5aa872
 
 
 .welcome
