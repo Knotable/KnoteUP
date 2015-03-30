@@ -1,7 +1,7 @@
 Template.loginAndSignup.events
   'click .user-modal': (event) ->
     $userModal = $('.user-modal')
-    # $userModal.removeClass("is-visible") if $(event.target).is($userModal)
+    $userModal.removeClass("is-visible") if $(event.target).is($userModal)
 
   'click #register-link': ->
     $("#login-box").addClass('hidden')
@@ -55,34 +55,17 @@ Template.loginAndSignup.onRendered  ->
   # close modal when clicking the esc keyboard button
   $userModal = $('.user-modal')
   $(document).keyup (event) ->
-    # $userModal.removeClass('is-visible') if event.which is 27
+    $userModal.removeClass('is-visible') if event.which is 27
 
   resetWidth()
 
-
-  bindScreenArretRender = ->
-    Meteor.clearInterval(window.arretLogin)
-    i = 0
-    window.arretLogin = Meteor.setInterval ->
-      i++
-      if i == 180
-        i = 0
-      $userModal.css "background", "linear-gradient("+(135+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
-      $userModal.css "background", "-webkit-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
-      $userModal.css "background", "-moz-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
-      $userModal.css "background", "-o-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
-      $userModal.css "background", "-ms-linear-gradient("+(-45+2*i)+"deg, #d7d47c 0%, #72cd99 30%, #5dbee7 70%)"
-    , 90
-
-  vcbValues =
-    headerBottomMargin: 20 #px - space between the header and the login form. Connected with .box-container .header top
   verticallyCenterBox = ->
     windowHeight = $(window).height()
     $(".user-modal-container").each ->
       marginValue = 15
       boxHeight = $(this).outerHeight(false)
       if($(this).find('.header').length > 0)
-        marginValue += $(this).find('.header').outerHeight(false) + vcbValues.headerBottomMargin
+        marginValue += $(this).find('.header').outerHeight(false) + 20
       if (windowHeight > boxHeight)
         marginValue = Math.max((windowHeight - boxHeight)/2, marginValue)
       marginValue += 'px'
@@ -90,6 +73,5 @@ Template.loginAndSignup.onRendered  ->
         "margin-top": marginValue
         "margin-bottom": marginValue
 
-  bindScreenArretRender()
   verticallyCenterBox()
   $(window).off('resize', verticallyCenterBox).resize verticallyCenterBox
