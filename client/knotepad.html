@@ -1,7 +1,9 @@
 <template name="knotePad">
   <div class="pad-container">
     <div class="pad-header">
-      <i class="login-icon button icon-key">Login</i>
+      {{#unless hasLoggedIn}}
+        <i class="login-icon button icon-key">Login</i>
+      {{/unless}}
       <input id="pad-subject" type="text" placeholder="What is your agenda?" tabindex='1' value='{{pad.subject}}'>
     </div>
 
