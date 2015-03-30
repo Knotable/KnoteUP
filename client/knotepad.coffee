@@ -1,17 +1,8 @@
 showLoginForm = ->
-  $(".user-modal").addClass('is-visible')
-
   $form_modal = $('.user-modal')
-  $form_login = $form_modal.find('#cd-login')
-  $form_signup = $form_modal.find('#cd-signup')
-  $form_modal_tab = $('.cd-switcher')
-  $tab_login = $form_modal_tab.children('li').eq(0).children('a')
-  $tab_signup = $form_modal_tab.children('li').eq(1).children('a')
+  $form_modal.addClass('is-visible')
+  $form_modal.find('#login-username').focus()
 
-  $form_login.addClass('is-selected')
-  $form_signup.removeClass('is-selected')
-  $tab_login.addClass('selected')
-  $tab_signup.removeClass('selected')
 
 
 Template.knotePad.events
