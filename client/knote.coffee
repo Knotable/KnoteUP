@@ -4,3 +4,9 @@ Template.knote.events
 
   'mouseleave .knote': (e) ->
     $(e.currentTarget).find('.knote-date').hide()
+
+
+
+Template.knote.helpers
+  contact: ->
+    Contacts.findOne({emails: @from})

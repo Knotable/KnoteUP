@@ -5,6 +5,9 @@
         <i class="login-icon button icon-key">Login</i>
       {{/unless}}
       <input id="pad-subject" type="text" placeholder="What is your agenda?" tabindex='1' value='{{pad.subject}}'>
+      <div class="participators">
+        {{> participators}}
+      </div>
     </div>
 
     <div class="knote-container">
@@ -42,4 +45,16 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+
+<template name="participators">
+  {{#each contacts}}
+    {{> contact }}
+  {{/each}}
+</template>
+
+
+<template name="contact">
+
 </template>

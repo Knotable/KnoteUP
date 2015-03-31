@@ -1,6 +1,16 @@
 <template name="knote">
   <div class="knote-container">
     <div class="knote-content knote">
+      <div class="contact">
+        {{#with contact}}
+          {{#if hasAvatar}}
+            <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
+          {{else}}
+            <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">L</span>
+          {{/if}}
+        {{/with}}
+      </div>
+
       <div class="pull-right knote-date">
         <span>{{formatedDate}}</span>
       </div>

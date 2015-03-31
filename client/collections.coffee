@@ -19,4 +19,16 @@ Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
         formatedDate = knoteDate.format('[today at] ha')
       formatedDate ?= knoteDate.format('MMM DD [at] ha')
       knote.formatedDate = formatedDate || ''
+
+    knote.from = knote.from.address if knote.from and _.isObject knote.from
     return knote
+
+
+@Contacts = new Meteor.Collection "contacts",
+  connection: Meteor.remoteConnection
+  transform: (contact) ->
+    contact.hasAvatar = if contact.avatar
+      true
+    else
+      false
+    return contact
