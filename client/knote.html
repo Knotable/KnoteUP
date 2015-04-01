@@ -6,7 +6,7 @@
           {{#if hasAvatar}}
             <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
           {{else}}
-            <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">L</span>
+            <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
           {{/if}}
         {{/with}}
       </div>

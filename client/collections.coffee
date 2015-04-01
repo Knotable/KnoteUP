@@ -31,4 +31,6 @@ Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
       true
     else
       false
+    name = contact.nickname || contact.fullname || contact.username
+    contact.initialName = name[0].toUpperCase()
     return contact
