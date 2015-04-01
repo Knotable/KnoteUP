@@ -10,7 +10,6 @@ body
   margin-top: -7px
 
 #pad-subject
-  width: 100%;
   overflow: hidden;
   font-size: 20px;
   line-height: 1.3;
@@ -164,7 +163,7 @@ body
   font-style: normal
 
 
-.contact .account-avatar
+.account-avatar
   color: rgba(255,255,255,0.8);
   font-size: 22px;
   font-weight: bold;
@@ -205,3 +204,94 @@ body
 
 .bgcolor5
   background: #88a764
+
+.participators
+  display: inline-block
+  float: right
+  .add-contact
+    background: #28ACE8
+    font-size: 11px
+    color: #fff
+  .participator
+    display: inline
+
+.addContactPopup
+  display: none
+
+.popup
+  background-color: #fff;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  max-width: 98%;
+
+
+.popup-container
+  left: 50%;
+  top: 40px;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  min-width: 300px;
+  width: 46%;
+
+.add-new-users-container
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: left
+  div
+    display: table-cell;
+    padding: 5px 0 0;
+    vertical-align: top;
+    width: 100%;
+
+.add-new-users-container .btn {
+  margin-left: 5px;
+}
+
+.add-new-users-container input[type="text"] {
+  color: #28ace8;
+  width: 100%;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  /* display: inline-block; */
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #616161;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  border: solid 1px #eee;
+}
+
+a.btn-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: url("/images/sprite_3.png") no-repeat -150px -251px;
+  width: 12px;
+  height: 12px;
+  text-decoration: none;
+  opacity: 1 !important;
+  -ms-filter: none;
+  filter: none;
+  cursor: pointer
+}

@@ -5,7 +5,11 @@ Meteor.remoteConnection = DDP.connect(remoteServerUrl)
 Accounts.connection = Meteor.remoteConnection
 
 Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
+
+@UserAccounts = new Meteor.Collection "user_accounts", connection: Meteor.remoteConnection
+
 @Pads = new Meteor.Collection "topics", connection: Meteor.remoteConnection
+
 @Knotes = new Meteor.Collection "knotes",
   connection: Meteor.remoteConnection
   transform: (knote) ->

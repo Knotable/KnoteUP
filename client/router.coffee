@@ -15,5 +15,4 @@ Router.route '/p/:padId',
   waitOn: ->
     Meteor.remoteConnection.subscribe 'topic', @params.padId
     Meteor.remoteConnection.subscribe 'allRestKnotesByTopicId', @params.padId
-  onAfterAction: ->
-    Session.set('currentPadId', @params.padId)
+    Meteor.remoteConnection.subscribe 'userAccount'

@@ -6,7 +6,7 @@
       {{/unless}}
       <input id="pad-subject" type="text" placeholder="What is your agenda?" tabindex='1' value='{{pad.subject}}'>
       <div class="participators">
-        {{> participators}}
+        {{> participatorsAvatar}}
       </div>
     </div>
 
@@ -45,16 +45,48 @@
       </div>
     </div>
   {{/if}}
+
+  {{> addContactPopupBox}}
 </template>
 
 
-<template name="participators">
-  {{#each contacts}}
-    {{> contact }}
+
+<template name="participatorsAvatar">
+  <div class="participator add-participator">
+    <span class="add-contact account-avatar account-avatar-current">Add</span>
+  </div>
+
+  {{#each participators}}
+    <div class="participator">
+      {{> contactAvatar}}
+    </div>
   {{/each}}
 </template>
 
 
-<template name="contact">
 
+<template name="contactAvatar">
+  {{#if hasAvatar}}
+    <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
+  {{else}}
+    <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
+  {{/if}}
+</template>
+
+
+<template name="addContactPopupBox">
+  <div class="addContactPopup">
+    <div class="popup popup-container">
+      <a class="btn-close close"></a>
+      <div class="add-new-users-container">
+      Add email addresses:
+      <div>
+          <input class="emails" type="text" placeholder="Add contacts by email address. Separate with commas.">
+      </div>
+      <div>
+        <input type="button" class="my-btn btn add-new-users" value="+">
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
