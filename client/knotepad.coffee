@@ -64,6 +64,7 @@ Template.knotePad.events
           topic_id: topicId
           userId: user._id
           name: user.username
+          from: user.emails[0].address
           isMailgun: false
 
         optionalKnoteParameters =
