@@ -11,6 +11,8 @@ Template.knotePad.events
   'keyup .new-knote-title': (event) ->
     title = $(event.currentTarget).val()
     length = title.length
+    if length > 0
+      $('.post-button').attr('disabled', false)
     if length >= 150
       $('.new-knote-body').focus()
 
