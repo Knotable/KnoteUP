@@ -44,7 +44,7 @@ Template.knotePad.events
       showLoginForm()
     else
       user = Meteor.user()
-      subject = $("#pad-subject").val()
+      subject = $("#header .subject").val()
       title = $(".new-knote-title").val()
       body = $(".new-knote-body").html()
       if subject and title
@@ -113,10 +113,38 @@ Template.knotePad.events
 
 
 Template.knotePad.helpers
+
+
   username: ->
     Meteor.user()?.username
+
+
   hasLoggedIn: ->
     Boolean Meteor.userId()
+
+
+  contentEditableSubject: ->
+    subject = moment().format "h:mma MMM Do"
+    attrs = [
+      "class='subject'"
+    ]
+    html = "<div #{attrs.join(' ')}>#{subject}</div>"
+    return new Spacebars.SafeString html
+
+Template.knote.events
+  'mouseenter .knote': (e) ->
+    $(e.currentTarget).find('.knote-date').show()
+
+  'mouseleave .knote': (e) ->
+    $(e.currentTarget).find('.knote-date').hide()
+
+
+
+Template.knote.helpers
+  contact: ->
+    Contacts.findOne({emails: @from})
+
+
 
 
 Template.participatorsAvatar.helpers
@@ -129,9 +157,11 @@ Template.participatorsAvatar.helpers
     return contacts
 
 
+
 Template.participatorsAvatar.events
   'click .add-contact': (event, template) ->
     $('.addContactPopup').lightbox_me(centered: true)
+
 
 
 Template.addContactPopupBox.events

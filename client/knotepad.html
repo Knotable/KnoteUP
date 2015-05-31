@@ -1,17 +1,20 @@
 <template name="knotePad">
-  <div class="pad-container">
-    <div class="pad-header">
-      {{#unless hasLoggedIn}}
-        <i class="login-icon button icon-key">Login</i>
-      {{/unless}}
-      <input id="pad-subject" type="text" placeholder="What is your agenda?" tabindex='1' value='{{pad.subject}}'>
-      <div class="participators">
-        {{> participatorsAvatar}}
+  <div id="container">
+    <div id="header">
+      {{#if hasLoggedIn}}
+      <div class="user">
+        <p>{{username}}</p>
+        <button class="btn redirect-to-knotable" tabindex='5'>
+          <span>See all</span>
+        </button>
       </div>
+      {{else}}
+      <i class="login-icon button icon-key">Login</i>
+      {{/if}}
+      {{contentEditableSubject}}
     </div>
-
-    <div class="knote-container">
-      <div class="knote-content">
+    <div id="pad">
+      <div class="knote">
         <textarea class="new-knote-title" placeholder="What is your point?" tabindex="2" spellcheck="false"></textarea>
         <div class="counter pull-right" data-limit-exceed="false">140</div>
         <div class="clearfix"></div>
@@ -19,34 +22,37 @@
         <div contenteditable="true" placeholder="If you need to say more." class="new-knote-body" id="knote-body" spellcheck="false" tabindex="3"></div>
 
         <div class="buttons post-btn-container">
-          <input type="button" class="button post-button" value="Post" tabindex="4" disabled>
+          <input type="button" class="btn my-btn post-button" value="Post" tabindex="4" disabled>
         </div>
       </div>
+      {{#each knotes}}
+        {{> knote}}
+      {{/each}}
     </div>
-
-    {{#each knotes}}
-      {{> knote }}
-    {{/each}}
   </div>
+</template>
 
 
 
-  {{#if hasLoggedIn}}
-    <div class="link-to-knotable">
-      <div class="knote-container">
-        <div class="knote-content">
-          <div class="welcome">
-            <p>{{username}}</p>
-            <button class="button redirect-to-knotable" tabindex='5'>
-              <span>See all knotepads</span>
-            </button>
-          </div>
-        </div>
+<template name="knote">
+  <div class="knote">
+    {{#with contact}}
+      <div class="contact">
+        {{> contactAvatar}}
       </div>
+    {{/with}}
+    <div class="knote-date pull-right ">
+      <span>{{formatedDate}}</span>
     </div>
-  {{/if}}
-
-  {{> addContactPopupBox}}
+    {{#if title}}
+      <textarea class="knote-title" disabled>{{title}}</textarea>
+    {{/if}}
+    {{#if body}}
+      <div class="knote-body">
+        {{{body}}}
+      </div>
+    {{/if}}
+  </div>
 </template>
 
 
@@ -72,6 +78,7 @@
     <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
   {{/if}}
 </template>
+
 
 
 <template name="addContactPopupBox">

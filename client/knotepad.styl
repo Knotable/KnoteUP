@@ -1,71 +1,91 @@
 body
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-
-.pad-container
-.link-to-knotable
-  width: 60%
-  min-width: 600px
-  margin: auto
-  margin-top: -7px
-
-#pad-subject
-  overflow: hidden;
-  font-size: 20px;
-  line-height: 1.3;
-  color: #666;
-  background: none;
-  border: none;
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin: 12px 0;
-  padding: 0;
-
-  &:focus
-    background-color: #fff
-
-
-body
+  font-family: "Open Sans", sans-serif
   background: url("/images/_bg1.png") repeat left top
   font-size: 12px
+  margin: 0
 
+#container
+  width: 100%
+  height: 100%
 
-.knote-container
-  position: relative;
-  margin-bottom: 15px;
-  background: #fff;
-  border: 1px solid #e6e6e6;
-  box-shadow: 1px 1px 5px -2px #000
+#header
+  width: 100%
+  height: 50px
+  position: relative
+  .subject
+    overflow: hidden
+    font-size: 16px
+    line-height: 1.3
+    color: #666
+    background: none
+    border: none
+    -o-text-overflow: ellipsis
+    text-overflow: ellipsis
+    white-space: nowrap
+    position: absolute
+    top: 50%
+    left: 50%
+    margin-right: -50%
+    transform: translate(-50%, -50%)
+    &:focus
+      background-color: #fff
+  .user
+  .login-icon
+    font-style: normal
+    position: absolute
+    top: 50%
+    right: 10px
+    transform: translate(-50%, -50%)
+    p
+      font-size: 24px
+      font-weight: 600
+      margin-top: 0
+    button
+      background-color: #337ab7
+      margin: -14px 0 0 14px
+      padding: 4px 12px
 
-.knote-content
-  padding: 9px
-  overflow: hidden
-
-
-
-.new-knote-title
-.knote-title
-  padding: 2px 0;
-  width: 100%;
-  font-size: 16px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border: none;
-  resize: none
-
-
-.counter
-  border: 1px solid #eee;
-  color: #616161;
-  padding: 0 5px;
-  font-size: 11px
-
-
-.counter[data-limit-exceed=true]
-  color: #d9534f;
-  border: 1px solid #d9534f;
-  display: block;
+#pad
+  width: 100%
+  .knote:hover
+    box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
+  .knote
+    position: relative
+    width: 550px
+    margin: 15px auto
+    box-shadow: 0 1px 4px -1px rgba(0,0,0,.33)
+    border-radius: 2px
+    cursor: auto
+    position: relative
+    height: auto
+    transition: background .3s ease
+    padding: 15px
+    background: #fff
+    overflow: hidden
+    textarea
+      background-color: transparent
+    .new-knote-title
+    .knote-title
+      padding: 2px 0
+      width: 100%
+      font-size: 16px
+      -webkit-box-shadow: none
+      box-shadow: none
+      border: none
+      resize: none
+    .knote-date
+      font-size: 12px
+      display: none
+    .new-knote-body
+      border-top: 1px dashed #ddd
+      color: #666
+      cursor: text
+      font-size: 13px
+      line-height: 1.3
+      min-height: 32px
+      padding: 5px 0
+    .post-btn-container
+      float: right
 
 
 .pull-right
@@ -74,94 +94,48 @@ body
 :focus
   outline: none
 
-
-.new-knote-body
-  border-top: 1px dashed #ddd
-  color: #666;
-  cursor: text;
-  font-size: 13px;
-  line-height: 1.3;
-  min-height: 32px;
-  padding: 5px 0;
-
 [contenteditable][placeholder]:empty:before
   content: attr(placeholder)
   color: #ccc
   cursor: text
 
-.post-btn-container
-  float: right
-
-.post-button
-  padding: 3px 18px
-  &:disabled
-    background: #dddddd
-
-
-.buttons > *
-  display: inline-block;
-  vertical-align: middle;
-  margin: 5px 0 0 0;
-
-
-.button
-  color: #fff;
-  background: #78c5e8;
-  margin-bottom: 0;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  cursor: pointer;
-  border: 1px solid rgba(0,0,0,0);
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  &:enabled
-    &:hover
-    &:focus
-    &:active
-      background-color: #5aa872
-
-
-.welcome
+.btn
+  display: inline-block
+  padding: 4px 12px
+  margin-bottom: 0
+  font-size: 12px
+  line-height: 20px
+  color: #fff
   text-align: center
-  p
-    font-size: 24px
-    font-weight: 600
-    margin-top: 0
-  button
-    background-color: #337ab7
-    margin: -14px 0 0 14px
-    padding: 4px 12px
+  vertical-align: middle
+  cursor: pointer
+  background-color: #28ACE8
+  border: 1px solid rgba(0,0,0,0)
+  border-radius: 2px
+  -webkit-appearance: none
+  -moz-appearance: none
+  &:disabled
+    background: #ddd
 
+.my-btn
+  color: $white
+  background: #28ACE8
+  &:disabled
+  &:disabled:hover
+  &[disabled]
+  &:hover[disabled]
+    cursor: default
+    opacity: 0.6
+    background: #28ACE8
 
 .clearfix:after
   clear: both
-
 
 .clearfix:before
 .clearfix:after
   display: table
   line-height: 0
   content: ""
-
-.knote textarea
-  background-color: transparent
-
-.knote
-  &:hover
-    background-color: #f2f2f2
-
-
-.knote-date
-  font-size: 12px
-  display: none
-
-
-.login-icon
-  float: right
-  padding: 3px
-  font-style: normal
-
 
 .account-avatar
   color: rgba(255,255,255,0.8);
