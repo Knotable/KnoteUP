@@ -6,19 +6,13 @@ showLoginForm = ->
 
 
 Template.knotePad.events
-  'keyup .new-knote-title': (event, template) ->
-    MAX_LENGTH = 140
 
-    text = $(event.currentTarget).val()
-    remainingTextLength = MAX_LENGTH - text.length
-    $counter = template.$('.counter')
-    $counter.text remainingTextLength
-    if remainingTextLength < 0
-      $counter.attr("data-limit-exceed", true)
-      template.$('.post-button').attr('disabled', true)
-    else
-      $counter.attr("data-limit-exceed", false)
-      template.$('.post-button').attr('disabled', false)
+
+  'keyup .new-knote-title': (event) ->
+    title = $(event.currentTarget).val()
+    length = title.length
+    if length >= 150
+      $('.new-knote-body').focus()
 
 
   'click .redirect-to-knotable': (e) ->
@@ -34,7 +28,7 @@ Template.knotePad.events
     console.log remoteUrl
     window.location = remoteUrl
 
-  'click .icon-key':  (e) ->
+  'click .login-button':  (e) ->
     return if Meteor.userId()
     showLoginForm()
 
@@ -132,12 +126,15 @@ Template.knotePad.helpers
     return new Spacebars.SafeString html
 
 Template.knote.events
+
+
   'mouseenter .knote': (e) ->
     $(e.currentTarget).find('.knote-date').show()
 
+
+
   'mouseleave .knote': (e) ->
     $(e.currentTarget).find('.knote-date').hide()
-
 
 
 Template.knote.helpers

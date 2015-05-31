@@ -6,7 +6,7 @@
       "username": "ubuntu",
       "password": "knotable2015",
       // or pem file (ssh based authentication)
-      "pem": "~/dev.pem"
+      "pem": "~/.ssh/dev.pem"
     }
   ],
 
