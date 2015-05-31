@@ -39,12 +39,10 @@
       </div>
     {{/with}}
     {{#if title}}
-      <textarea rows="1" class="knote-title" disabled>{{title}}</textarea>
+      <div class="knote-title">{{title}}</div>
     {{/if}}
     {{#if body}}
-      <div class="knote-body">
-        {{{body}}}
-      </div>
+      <div class="knote-body">{{{body}}}</div>
     {{/if}}
   </div>
 </template>
