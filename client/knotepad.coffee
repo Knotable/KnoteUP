@@ -43,68 +43,68 @@ Template.knotePad.events
       subject = $("#header .subject").val()
       title = $(".new-knote-title").val()
       body = $(".new-knote-body").html()
-      if subject and title
-        requiredTopicParams =
-          userId: Meteor.userId()
-          participator_account_ids: []
+
+      requiredTopicParams =
+        userId: Meteor.userId()
+        participator_account_ids: []
+        subject: subject
+        permissions: ["read", "write", "upload"]
+
+      $postButton = $(e.currentTarget)
+      $postButton.val('...')
+      if template.data?.pad?._id
+        topicId = template.data.pad._id
+
+        requiredKnoteParameters =
           subject: subject
-          permissions: ["read", "write", "upload"]
+          body: body
+          topic_id: topicId
+          userId: user._id
+          name: user.username
+          from: user.emails?[0]
+          isMailgun: false
 
-        $postButton = $(e.currentTarget)
-        $postButton.val('...')
-        if template.data?.pad?._id
-          topicId = template.data.pad._id
-
-          requiredKnoteParameters =
-            subject: subject
-            body: body
-            topic_id: topicId
-            userId: user._id
-            name: user.username
-            from: user.emails?[0]
-            isMailgun: false
-
-          optionalKnoteParameters =
-            title: title
-            replys: []
-            pinned: false
-          Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+        optionalKnoteParameters =
+          title: title
+          replys: []
+          pinned: false
+        Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+          $postButton.val('Post')
+          if error
+            console.log 'add_knote', error
+          else
+            $(".new-knote-title").val('')
+            $(".new-knote-body").html('')
+      else
+        Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
+          if error
+            console.log 'create_topic', error
             $postButton.val('Post')
-            if error
-              console.log 'add_knote', error
-            else
-              $(".new-knote-title").val('')
-              $(".new-knote-body").html('')
-        else
-          Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
-            if error
-              console.log 'create_topic', error
+          else
+            topicId = result
+
+            requiredKnoteParameters =
+              subject: subject
+              body: body
+              topic_id: topicId
+              userId: user._id
+              name: user.username
+              from: user.emails?[0]
+              isMailgun: false
+
+            optionalKnoteParameters =
+              title: title
+              replys: []
+              pinned: false
+            Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
               $postButton.val('Post')
-            else
-              topicId = result
+              if error
+                console.log 'add_knote', error
+              else
+                $(".new-knote-title").val('')
+                $(".new-knote-body").html('')
 
-              requiredKnoteParameters =
-                subject: subject
-                body: body
-                topic_id: topicId
-                userId: user._id
-                name: user.username
-                from: user.emails?[0]
-                isMailgun: false
-
-              optionalKnoteParameters =
-                title: title
-                replys: []
-                pinned: false
-              Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
-                $postButton.val('Post')
-                if error
-                  console.log 'add_knote', error
-                else
-                  $(".new-knote-title").val('')
-                  $(".new-knote-body").html('')
-
-              Router.go 'knotePad', padId: topicId
+            Router.go 'knotePad', padId: topicId
 
 
 
@@ -120,7 +120,7 @@ Template.knotePad.helpers
 
 
   contentEditableSubject: ->
-    subject = moment().format "h:mma MMM Do"
+    subject = moment().format "MMM Do"
     attrs = [
       "class='subject'"
     ]
