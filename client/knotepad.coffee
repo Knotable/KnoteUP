@@ -9,6 +9,7 @@ Template.knotePad.events
 
 
   'keyup .new-knote-title': (event) ->
+    $(event.target).autosize()
     title = $(event.currentTarget).val()
     length = title.length
     if length > 0
