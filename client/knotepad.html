@@ -38,11 +38,8 @@
         {{> contactAvatar}}
       </div>
     {{/with}}
-    <div class="knote-date pull-right ">
-      <span>{{formatedDate}}</span>
-    </div>
     {{#if title}}
-      <textarea class="knote-title" disabled>{{title}}</textarea>
+      <textarea rows="1" class="knote-title" disabled>{{title}}</textarea>
     {{/if}}
     {{#if body}}
       <div class="knote-body">
