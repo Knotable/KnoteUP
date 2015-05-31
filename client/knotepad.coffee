@@ -13,6 +13,8 @@ Template.knotePad.events
     length = title.length
     if length > 0
       $('.post-button').attr('disabled', false)
+    else
+      $('.post-button').attr('disabled', true)
     if length >= 150
       $('.new-knote-body').focus()
 
@@ -52,6 +54,7 @@ Template.knotePad.events
 
       $postButton = $(e.currentTarget)
       $postButton.val('...')
+
       if template.data?.pad?._id
         topicId = template.data.pad._id
 
@@ -61,13 +64,13 @@ Template.knotePad.events
           topic_id: topicId
           userId: user._id
           name: user.username
-          from: user.emails?[0]
           isMailgun: false
 
         optionalKnoteParameters =
           title: title
           replys: []
           pinned: false
+
         Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
           $postButton.val('Post')
           if error
