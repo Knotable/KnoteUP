@@ -5,6 +5,24 @@ showLoginForm = ->
 
 
 
+
+@KnotePadHelper =
+  storeEditedContent: (editKnote) ->
+    amplify.store "knote", editKnote
+
+
+  restoreEditedContent: ->
+    storedKnote = amplify.store("knote")
+    return if _.isEmpty storedKnote
+
+    $(".new-knote-title").val(storedKnote.title)
+    $(".new-knote-body").html(storedKnote.body)
+
+    amplify.store("knote", null)
+
+
+
+
 Template.knotePad.events
 
 
@@ -35,18 +53,28 @@ Template.knotePad.events
 
   'click .login-button':  (e) ->
     return if Meteor.userId()
+    title = $(".new-knote-title").val()
+    body = $(".new-knote-body").html()
+    editKnote =
+      title: title
+      body: body
+    KnotePadHelper.storeEditedContent editKnote
     showLoginForm()
 
 
   'click .post-button': (e, template) ->
+    subject = $("#header .subject").text()
+    title = $(".new-knote-title").val()
+    body = $(".new-knote-body").html()
+
     if not Meteor.userId()
+      editKnote =
+        title: title
+        body: body
+      KnotePadHelper.storeEditedContent editKnote
       showLoginForm()
     else
       user = Meteor.user()
-      subject = $("#header .subject").val()
-      title = $(".new-knote-title").val()
-      body = $(".new-knote-body").html()
-
       requiredTopicParams =
         userId: Meteor.userId()
         participator_account_ids: []

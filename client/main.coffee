@@ -1,5 +1,5 @@
-loginToken = 'loginToken'
-meteorLoginToken = 'Meteor.loginToken'
+@loginToken = 'loginToken'
+@meteorLoginToken = 'Meteor.loginToken'
 
 Accounts.onLogin ->
   if localStorage[meteorLoginToken]
