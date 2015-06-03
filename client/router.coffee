@@ -1,5 +1,8 @@
-Router.route '/', ->
-  this.render('knotePad')
+Router.route '/',
+  name: 'homepage'
+  template: 'knotePad'
+
+
 
 Router.route '/p/:padId',
   name: 'knotePad'

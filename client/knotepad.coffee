@@ -128,6 +128,10 @@ Template.knotePad.events
             Router.go 'knotePad', padId: topicId
 
 
+  'click .logout': ->
+    Meteor.logout()
+    Router.go 'homepage'
+
 
 Template.knotePad.helpers
 

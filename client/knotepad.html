@@ -2,14 +2,17 @@
   <div id="container">
     <div id="header">
       {{#if hasLoggedIn}}
-      <div class="user">
-        <p>{{username}}</p>
-        <button class="btn redirect-to-knotable" tabindex='5'>
-          <i class="icon-logout">knotable</i>
-        </button>
-      </div>
+        <div class="user">
+          <p>{{username}}</p>
+          <button class="btn redirect-to-knotable" tabindex='5'>
+            knotable
+          </button>
+          <button class="btn logout" tabindex='6'>
+            <i class="icon-logout">logout</i>
+          </button>
+        </div>
       {{else}}
-      <button class="btn login-button">Login</button>
+        <button class="btn login-button">Login</button>
       {{/if}}
       {{contentEditableSubject}}
     </div>
