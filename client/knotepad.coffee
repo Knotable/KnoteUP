@@ -84,22 +84,23 @@ Template.knotePad.events
       $postButton = $(e.currentTarget)
       $postButton.val('...')
 
+      requiredKnoteParameters =
+        subject: subject
+        body: body
+        topic_id: topicId
+        userId: user._id
+        name: user.username
+        from: user.emails[0].address
+        isMailgun: false
+
+      optionalKnoteParameters =
+        title: title
+        replys: []
+        pinned: false
+
       if template.data?.pad?._id
         topicId = template.data.pad._id
-
-        requiredKnoteParameters =
-          subject: subject
-          body: body
-          topic_id: topicId
-          userId: user._id
-          name: user.username
-          from: user.emails[0].address
-          isMailgun: false
-
-        optionalKnoteParameters =
-          title: title
-          replys: []
-          pinned: false
+        requiredKnoteParameters.topic_id = topicId
 
         Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
           $postButton.val('Post')
@@ -115,20 +116,7 @@ Template.knotePad.events
             $postButton.val('Post')
           else
             topicId = result
-
-            requiredKnoteParameters =
-              subject: subject
-              body: body
-              topic_id: topicId
-              userId: user._id
-              name: user.username
-              from: user.emails?[0]
-              isMailgun: false
-
-            optionalKnoteParameters =
-              title: title
-              replys: []
-              pinned: false
+            requiredKnoteParameters.topic_id = topicId
             Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
               $postButton.val('Post')
               if error
