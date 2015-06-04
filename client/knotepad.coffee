@@ -110,7 +110,7 @@ Template.knotePad.events
             $(".new-knote-title").val('')
             $(".new-knote-body").html('')
       else
-        Meteor.remoteConnection.call "create_topic", requiredTopicParams, (error, result) ->
+        Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
           if error
             console.log 'create_topic', error
             $postButton.val('Post')
