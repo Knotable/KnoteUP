@@ -1,19 +1,73 @@
+Template.knote.onRendered ->
+  @$(".knote-title").autosize()
+
+
 Template.knote.events
 
-
-  'mouseenter .knote': (e) ->
+  'mouseenter .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').show()
+    template.$(".knote-actions").removeClass("hidden")
 
 
-
-  'mouseleave .knote': (e) ->
+  'mouseleave .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').hide()
+    template.$(".knote-actions").addClass("hidden")
+
+
+  'click i.archive': (e, tempalte) ->
+    knoteId = tempalte.data._id
+    Knotes.update knoteId, $set: archived: true
+
+
+  'click i.restore': (e, template) ->
+    knoteId = template.data._id
+    Knotes.update knoteId, $set: archived: false
+
+
+  'click i.edit-knote': (e, template) ->
+    template.$('.buttons').removeClass("hidden")
+    template.$(".knote-title").prop('disabled', false).focus()
+    template.$(".knote-body").prop('contenteditable', true)
+
+
+  'click .btn-cancel': (e, template) ->
+    template.$(".buttons").addClass("hidden")
+    template.$(".knote-title").prop('disabled', true)
+    template.$(".knote-body").prop('contenteditable', false)
+
+
+  "click .btn-save": (e, template) ->
+    template.$(".buttons").addClass("hidden")
+    $title = template.$(".knote-title")
+    title =$title.val()
+    $title.prop('disabled', true)
+
+    $body = template.$(".knote-body")
+    body = $body.html()
+    $body.prop('contenteditable', false)
+
+    knoteId = template.data._id
+    console.log 'save knote', title, body
+
+    knoteTitle = template.data.title
+    knoteBody = template.data.htmlBody
+    if title isnt knoteTitle or body isnt knoteBody
+      updateOptions =
+        $set:
+          title: title
+          htmlBody: body
+      Knotes.update knoteId, updateOptions
+
+
 
 
 Template.knote.helpers
   contact: ->
     Contacts.findOne({emails: @from})
 
+
+  contenteditableBody: ->
+    "<div class='knote-body'>#{@htmlBody}</div>"
 
 
 
