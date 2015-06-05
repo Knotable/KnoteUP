@@ -3,6 +3,14 @@ showLoginForm = ->
   $form_modal.addClass('is-visible')
   $form_modal.find('#login-username').focus()
 
+Template.padsList.onRendered ->
+  $title = @$(".new-knote-title")
+  $title.autosize()
+  PadsListHelper.restoreEditedContent()
+  @$('.post-button').attr('disabled', false) if $title.val().length
+
+
+
 
 Template.padsList.helpers
 
@@ -24,7 +32,6 @@ Template.padsList.events
 
   'click .logout': ->
     Meteor.logout()
-    Router.go 'homepage'
 
 
 
@@ -45,8 +52,8 @@ Template.padsList.events
 
   'click .login-button': ->
     return if Meteor.userId()
-    title = $(".new-knote-title").val()
-    body = $(".new-knote-body").html()
+    title = template.$(".new-knote-title").val()
+    body = template.$(".new-knote-body").html()
     editKnote =
       title: title
       body: body
@@ -55,7 +62,6 @@ Template.padsList.events
 
 
   'keyup .new-knote-title': (event) ->
-    $(event.target).autosize()
     title = $(event.currentTarget).val()
     length = title.length
     if length > 0
@@ -64,13 +70,15 @@ Template.padsList.events
       $('.post-button').attr('disabled', true)
     if length >= 150
       $('.new-knote-body').focus()
+    PadsListHelper.resetEditedContent()
+
 
 
 
   'click .post-button': (e, template) ->
     subject = $("#header .subject").text()
-    title = $(".new-knote-title").val()
-    body = $(".new-knote-body").html()
+    title = template.$(".new-knote-title").val()
+    body = template.$(".new-knote-body").html()
 
     if not Meteor.userId()
       editKnote =
@@ -114,6 +122,7 @@ Template.padsList.events
           else
             $(".new-knote-title").val('')
             $(".new-knote-body").html('')
+            PadsListHelper.resetEditedContent()
       else
         Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
           if error
@@ -129,6 +138,7 @@ Template.padsList.events
               else
                 $(".new-knote-title").val('')
                 $(".new-knote-body").html('')
+                PadsListHelper.resetEditedContent()
 
 
 
