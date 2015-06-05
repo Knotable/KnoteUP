@@ -4,11 +4,18 @@ remoteServerUrl = Meteor.settings.public.remoteHost
 Meteor.remoteConnection = DDP.connect(remoteServerUrl)
 Accounts.connection = Meteor.remoteConnection
 
+
 Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
+
+
 
 @UserAccounts = new Meteor.Collection "user_accounts", connection: Meteor.remoteConnection
 
+
+
 @Pads = new Meteor.Collection "topics", connection: Meteor.remoteConnection
+
+
 
 @Knotes = new Meteor.Collection "knotes",
   connection: Meteor.remoteConnection
@@ -26,6 +33,8 @@ Meteor.users = new Mongo.Collection 'users', connection: Meteor.remoteConnection
 
     knote.from = knote.from.address if knote.from and _.isObject knote.from
     return knote
+
+
 
 
 @Contacts = new Meteor.Collection "contacts",

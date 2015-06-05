@@ -1,0 +1,58 @@
+<template name="padsList">
+  <div id="container">
+    <div id="header" class="header">
+      {{#if currentUser}}
+        <div class="user">
+          <p>{{username}}</p>
+          <button class="btn redirect-to-knotable" tabindex='5'>
+            knotable
+          </button>
+          <button class="btn logout" tabindex='6'>
+            <i class="icon-logout">logout</i>
+          </button>
+        </div>
+      {{else}}
+        <button class="btn login-button">Login</button>
+      {{/if}}
+      {{contentEditableSubject}}
+    </div>
+
+
+    <div class="pad">
+      <div class="compose">
+        <textarea rows="1" class="new-knote-title" placeholder="Take knote" tabindex="1" spellcheck="false" maxlength="150"></textarea>
+        <div class="clearfix"></div>
+        <div contenteditable="true" class="new-knote-body" spellcheck="false" tabindex="2"></div>
+        <div class="post-btn-container">
+          <input type="button" class="btn my-btn post-button" value="Post" tabindex="3" disabled>
+        </div>
+      </div>
+      {{#with latestPad}}
+        {{#each knotes}}
+          {{> knote}}
+        {{/each}}
+      {{/with}}
+    </div>
+
+    {{#each restPads}}
+      {{> padItem}}
+    {{/each}}
+
+  </div>
+</template>
+
+
+
+<template name="padItem">
+  <div class="header padItem">
+    <div class="subject">
+      {{ subject }}
+    </div>
+  </div>
+
+  <div class="pad">
+    {{#each knotes}}
+      {{> knote}}
+    {{/each}}
+  </div>
+</template>

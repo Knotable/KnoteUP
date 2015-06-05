@@ -8,16 +8,25 @@ body
   width: 100%
   height: 100%
 
-#header
+.header
   width: 100%
   height: 60px
   position: relative
+
+  &.padItem .subject:after
+    content: ""
+    position: absolute
+    top: 50%
+    left: 100px
+    right: 100px
+    height: 1px
+    background: #CBC9C9
+
   .subject
-    overflow: hidden
+    width: 100%
     font-size: 16px
     line-height: 1.3
     color: #666
-    background: none
     border: none
     -o-text-overflow: ellipsis
     text-overflow: ellipsis
@@ -30,6 +39,7 @@ body
       background-color: #fff
   .user
   .login-button
+    z-index: 1
     font-style: normal
     position: absolute
     top: 50%
@@ -45,7 +55,7 @@ body
     i
       font-style: normal
 
-#pad
+.pad
   width: 100%
   .compose
     min-height: 70px

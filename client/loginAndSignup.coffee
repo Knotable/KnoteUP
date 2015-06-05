@@ -22,7 +22,7 @@ Template.loginAndSignup.events
       Meteor.loginWithPassword email, password, (error) ->
         if not error
           $('.user-modal').removeClass('is-visible')
-          KnotePadHelper.restoreEditedContent()
+          PadsListHelper.restoreEditedContent()
         else
           console.log 'signup', error
 

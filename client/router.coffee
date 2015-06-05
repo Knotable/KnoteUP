@@ -1,21 +1,28 @@
-Router.route '/',
-  name: 'homepage'
-  template: 'knotePad'
-
-
-
-Router.route '/p/:padId',
-  name: 'knotePad'
-  template: 'knotePad'
+Router.route '/(.*)',
+  name: 'pads'
+  template: 'padsList'
   data: ->
-    padId = @params.padId
-    knoteQuery = topic_id: padId
-    knoteOption = {sort: order: 1}
+    option = sort: created_time: -1
+
+    latestPad = Pads.findOne {}, option
+    dateOfLatestPad = latestPad?.created_time
+    if dateOfLatestPad
+      isToday = moment().isSame(moment(dateOfLatestPad), 'day')
+      if isToday
+        option.skip = 1
+        latestPad.knotes = Knotes.find topic_id: latestPad._id,
+          sort: order: 1
+      else
+        latestPad = null
+
+    pads = Pads.find {}, option
+
     return {
-      pad: Pads.findOne padId || {}
-      knotes: Knotes.find knoteQuery, knoteOption
+      latestPad: latestPad
+      restPads: pads
     }
+
   waitOn: ->
-    Meteor.remoteConnection.subscribe 'topic', @params.padId
-    Meteor.remoteConnection.subscribe 'allRestKnotesByTopicId', @params.padId
-    Meteor.remoteConnection.subscribe 'userAccount'
+    if Meteor.userId()
+      Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
+      Meteor.remoteConnection.subscribe 'userAccount'
