@@ -50,7 +50,7 @@ Template.padsList.events
 
 
 
-  'click .login-button': ->
+  'click .login-button': (event, template) ->
     return if Meteor.userId()
     title = template.$(".new-knote-title").val()
     body = template.$(".new-knote-body").html()
