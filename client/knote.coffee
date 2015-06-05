@@ -47,7 +47,6 @@ Template.knote.events
     $body.prop('contenteditable', false)
 
     knoteId = template.data._id
-    console.log 'save knote', title, body
 
     knoteTitle = template.data.title
     knoteBody = template.data.htmlBody
@@ -67,7 +66,7 @@ Template.knote.helpers
 
 
   contenteditableBody: ->
-    "<div class='knote-body'>#{@htmlBody}</div>"
+    "<div class='knote-body'>#{@htmlBody or ''}</div>"
 
 
 

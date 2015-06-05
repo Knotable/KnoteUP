@@ -61,15 +61,16 @@ Template.padsList.events
     showLoginForm()
 
 
-  'keyup .new-knote-title': (event) ->
+  'keyup .new-knote-title': (event, template) ->
     title = $(event.currentTarget).val()
     length = title.length
+    $postButton = template.$('.post-button')
     if length > 0
-      $('.post-button').attr('disabled', false)
+      $postButton.attr('disabled', false)
     else
-      $('.post-button').attr('disabled', true)
+      $postButton.attr('disabled', true)
     if length >= 150
-      $('.new-knote-body').focus()
+      template.$('.new-knote-body').focus()
     PadsListHelper.resetEditedContent()
 
 
@@ -77,8 +78,10 @@ Template.padsList.events
 
   'click .post-button': (e, template) ->
     subject = $("#header .subject").text()
-    title = template.$(".new-knote-title").val()
-    body = template.$(".new-knote-body").html()
+    $newTitle = template.$(".new-knote-title")
+    $newBody = template.$(".new-knote-body")
+    title = $newTitle.val()
+    body = $newBody.html()
 
     if not Meteor.userId()
       editKnote =
@@ -120,8 +123,8 @@ Template.padsList.events
           if error
             console.log 'add_knote', error
           else
-            $(".new-knote-title").val('')
-            $(".new-knote-body").html('')
+            $newTitle.val('')
+            $newBody.html('')
             PadsListHelper.resetEditedContent()
       else
         Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
@@ -136,8 +139,8 @@ Template.padsList.events
               if error
                 console.log 'add_knote', error
               else
-                $(".new-knote-title").val('')
-                $(".new-knote-body").html('')
+                $newTitle.val('')
+                $newBody.html('')
                 PadsListHelper.resetEditedContent()
 
 

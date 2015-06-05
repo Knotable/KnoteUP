@@ -5,13 +5,8 @@
         {{> contactAvatar}}
       </div>
     {{/with}}
-    {{#if title}}
-      <!-- <div class="knote-title">{{title}}</div> -->
-      <textarea disabled="disabled" rows="1" class="knote-title editKnote" maxlength="150" tabindex="16">{{title}}</textarea>
-    {{/if}}
-    {{#if htmlBody}}
-      {{{contenteditableBody}}}
-    {{/if}}
+    <textarea disabled="disabled" rows="1" class="knote-title editKnote" maxlength="150" tabindex="16">{{title}}</textarea>
+    {{{contenteditableBody}}}
     <div class="knote-actions hidden">
       <!-- <i class="icon icon-chat"></i> -->
       <i class="icon icon-pencil edit-knote"></i>
