@@ -6,12 +6,14 @@ Template.knote.events
 
   'mouseenter .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').show()
-    template.$(".knote-actions").removeClass("hidden")
+    template.$(".knote-actions").removeClass("invisible")
 
 
   'mouseleave .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').hide()
-    template.$(".knote-actions").addClass("hidden")
+    console.log(template.$(".knote-body").prop('contenteditable'))
+    unless template.$(".buttons").is(':visible')
+      template.$(".knote-actions").addClass("invisible")
 
 
   'click i.archive': (e, tempalte) ->
@@ -26,18 +28,22 @@ Template.knote.events
 
   'click i.edit-knote': (e, template) ->
     template.$('.buttons').removeClass("hidden")
+    template.$(".knote-actions").removeClass("invisible")
     template.$(".knote-title").prop('disabled', false).focus()
-    template.$(".knote-body").prop('contenteditable', true)
+    if template.$(".knote-body").val().length
+      template.$(".knote-body").prop('contenteditable', true)
 
 
   'click .btn-cancel': (e, template) ->
     template.$(".buttons").addClass("hidden")
+    template.$(".knote-actions").addClass("invisible")
     template.$(".knote-title").prop('disabled', true)
     template.$(".knote-body").prop('contenteditable', false)
 
 
   "click .btn-save": (e, template) ->
     template.$(".buttons").addClass("hidden")
+    template.$(".knote-actions").addClass("invisible")
     $title = template.$(".knote-title")
     title =$title.val()
     $title.prop('disabled', true)
