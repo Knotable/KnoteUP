@@ -7,7 +7,7 @@
     {{/with}}
     <textarea disabled="disabled" rows="1" class="knote-title editKnote" maxlength="150" tabindex="16">{{title}}</textarea>
     {{{contenteditableBody}}}
-    <div class="knote-actions invisible">
+    <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
       <!-- <i class="icon icon-chat"></i> -->
       {{#if archived}}
         <i class="icon icon-reply restore"></i>

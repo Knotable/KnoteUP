@@ -12,7 +12,7 @@ Template.knote.events
   'mouseleave .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').hide()
     console.log(template.$(".knote-body").prop('contenteditable'))
-    unless template.$(".buttons").is(':visible')
+    unless template.$(".buttons").is(':visible') or Knotes.archived
       template.$(".knote-actions").addClass("invisible")
 
 
