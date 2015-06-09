@@ -44,7 +44,7 @@ Template.padsList.helpers
 Template.padsList.events
 
   'click .show-compose': ->
-    $('.padList').scrollTop 0
+    $(".padList").animate {scrollTop: 0}, 600
     $('.new-knote-title').focus()
 
 
