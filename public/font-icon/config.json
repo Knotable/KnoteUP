@@ -13,6 +13,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "41087bc74d4b20b55059c60a33bf4008",
+      "css": "edit",
+      "code": 59393,
+      "src": "fontawesome"
+    },
+    {
       "uid": "dcedf50ab1ede3283d7a6c70e2fe32f3",
       "css": "chat",
       "code": 59394,
@@ -35,12 +41,6 @@
       "css": "reply",
       "code": 59397,
       "src": "mfglabs"
-    },
-    {
-      "uid": "272e08e0e16226aadf94dcbf33aab2b2",
-      "css": "key",
-      "code": 59393,
-      "src": "elusive"
     }
   ]
 }

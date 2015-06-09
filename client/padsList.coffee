@@ -11,11 +11,16 @@ Template.padsList.onRendered ->
 
   @$('.padList').on 'scroll', ->
     scrollDistance = $('.padList').scrollTop()
+
     if scrollDistance > 0
       $('#header').addClass('scrolling')
     else
       $('#header').removeClass('scrolling')
 
+    if scrollDistance > 180
+      $('.show-compose').removeClass("invisible")
+    else
+      $('.show-compose').addClass("invisible")
 
 
 
@@ -37,6 +42,11 @@ Template.padsList.helpers
 
 
 Template.padsList.events
+
+  'click .show-compose': ->
+    $('.padList').scrollTop 0
+    $('.new-knote-title').focus()
+
 
   'click .logout': ->
     Meteor.logout()
