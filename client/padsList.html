@@ -17,26 +17,29 @@
       {{contentEditableSubject}}
     </div>
 
+    <div class="padList">
 
-    <div class="pad">
-      <div class="compose">
-        <textarea rows="1" class="new-knote-title" placeholder="Take knote" tabindex="1" spellcheck="false" maxlength="150"></textarea>
-        <div class="clearfix"></div>
-        <div contenteditable="true" class="new-knote-body" spellcheck="false" tabindex="2"></div>
-        <div class="post-btn-container">
-          <input type="button" class="btn my-btn post-button" value="Post" tabindex="3" disabled>
+      <div class="pad">
+        <div class="compose">
+          <textarea rows="1" class="new-knote-title" placeholder="Take knote" tabindex="1" spellcheck="false" maxlength="150"></textarea>
+          <div class="clearfix"></div>
+          <div contenteditable="true" class="new-knote-body" spellcheck="false" tabindex="2"></div>
+          <div class="post-btn-container">
+            <input type="button" class="btn my-btn post-button" value="Post" tabindex="3" disabled>
+          </div>
         </div>
+        {{#with latestPad}}
+          {{#each knotes}}
+            {{> knote}}
+          {{/each}}
+        {{/with}}
       </div>
-      {{#with latestPad}}
-        {{#each knotes}}
-          {{> knote}}
-        {{/each}}
-      {{/with}}
-    </div>
 
-    {{#each restPads}}
-      {{> padItem}}
-    {{/each}}
+      {{#each restPads}}
+        {{> padItem}}
+      {{/each}}
+
+    </div>
 
   </div>
 </template>
@@ -44,7 +47,7 @@
 
 
 <template name="padItem">
-  <div class="header padItem">
+  <div class="header padItem" data-subject="{{subject}}">
     <div class="subject">
       {{ subject }}
     </div>
