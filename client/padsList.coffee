@@ -9,13 +9,14 @@ Template.padsList.onRendered ->
   PadsListHelper.restoreEditedContent()
   @$('.post-button').attr('disabled', false) if $title.val().length
 
-  template = @
   @$('.padList').on 'scroll', ->
     scrollDistance = $('.padList').scrollTop()
     if scrollDistance > 0
       $('#header').addClass('scrolling')
     else
       $('#header').removeClass('scrolling')
+
+
 
 
 
