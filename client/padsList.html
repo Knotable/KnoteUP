@@ -24,7 +24,7 @@
 
     <div class="padList">
 
-      <div class="pad">
+      <div class="pad currentDatePad">
         <div class="compose">
           <textarea rows="1" class="new-knote-title" placeholder="Take knote" tabindex="1" spellcheck="false" maxlength="150"></textarea>
           <div class="clearfix"></div>
@@ -34,9 +34,11 @@
           </div>
         </div>
         {{#with latestPad}}
-          {{#each knotes}}
-            {{> knote}}
-          {{/each}}
+          <div class="knote-list">
+            {{#each knotes}}
+              {{> knote}}
+            {{/each}}
+          </div>
         {{/with}}
       </div>
 
@@ -59,8 +61,10 @@
   </div>
 
   <div class="pad">
-    {{#each knotes}}
-      {{> knote}}
-    {{/each}}
+    <div class="knote-list">
+      {{#each knotes}}
+        {{> knote}}
+      {{/each}}
+    </div>
   </div>
 </template>
