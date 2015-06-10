@@ -189,4 +189,4 @@ Template.padsList.events
 
 Template.padItem.helpers
   knotes: ->
-    Knotes.find {topic_id: @_id}, sort: order: 1
+    Knotes.find {topic_id: @_id}, sort: archived: 1, order: 1

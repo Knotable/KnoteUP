@@ -11,7 +11,7 @@ Router.route '/(.*)',
       if isToday
         option.skip = 1
         latestPad.knotes = Knotes.find topic_id: latestPad._id,
-          sort: order: 1
+          sort: archived: 1, order: 1
       else
         latestPad = null
 
