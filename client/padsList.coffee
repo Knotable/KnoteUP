@@ -34,7 +34,7 @@ Template.padsList.onRendered ->
 
     $currentPadItem = $('.padItem').filter( ->
       $pad = $(@)
-      top = -40
+      top = 80
       $pad.position().top < top
     ).last()
 
