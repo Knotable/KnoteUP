@@ -3,25 +3,49 @@ showLoginForm = ->
   $form_modal.addClass('is-visible')
   $form_modal.find('#login-username').focus()
 
+
+
+todaySubject = ->
+  moment().format "MMM Do"
+
+
+
 Template.padsList.onRendered ->
+  @data.subject = moment().format "MMM Do"
+
   $title = @$(".new-knote-title")
   $title.autosize()
   PadsListHelper.restoreEditedContent()
   @$('.post-button').attr('disabled', false) if $title.val().length
 
-  @$('.padList').on 'scroll', ->
-    scrollDistance = $('.padList').scrollTop()
 
-    if scrollDistance > 0
+  scrollAction = ->
+    currentScroll = $('.padList').scrollTop()
+
+    if currentScroll > 0
       $('#header').addClass('scrolling')
     else
       $('#header').removeClass('scrolling')
 
-    if scrollDistance > 180
+    if currentScroll > 180
       $('.show-compose').removeClass("invisible")
     else
       $('.show-compose').addClass("invisible")
 
+    $currentPadItem = $('.padItem').filter( ->
+      $pad = $(@)
+      top = -40
+      $pad.position().top < top
+    ).last()
+
+    if $currentPadItem.length
+      subject = $currentPadItem.data('subject')
+    else
+      subject = todaySubject()
+    $('#header .subject').text subject
+
+
+  @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
 
 
 
@@ -32,7 +56,7 @@ Template.padsList.helpers
 
 
   contentEditableSubject: ->
-    subject = moment().format "MMM Do"
+    subject = todaySubject()
     attrs = [
       "class='subject'"
     ]
