@@ -12,6 +12,7 @@ Router.route '/(.*)',
         option.skip = 1
         latestPad.knotes = Knotes.find topic_id: latestPad._id,
           sort: archived: 1, order: 1
+        latestPad.knotes = PadsListHelper.sortKnotesOrder(latestPad.knotes.fetch())
       else
         latestPad = null
 
@@ -24,5 +25,8 @@ Router.route '/(.*)',
 
   waitOn: ->
     if Meteor.userId()
-      Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
-      Meteor.remoteConnection.subscribe 'userAccount'
+      [
+        Meteor.subscribe 'QuickknotesRank'
+        Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
+        Meteor.remoteConnection.subscribe 'userAccount'
+      ]

@@ -191,7 +191,7 @@ Template.padsList.events
         topicId = template.data.latestPad._id
         requiredKnoteParameters.topic_id = topicId
 
-        Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+        Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
           $postButton.val('Post')
           if error
             console.log 'add_knote', error
@@ -199,6 +199,7 @@ Template.padsList.events
             $newTitle.val('')
             $newBody.html('')
             PadsListHelper.resetEditedContent()
+            PadsListHelper.setKnotesRankForPad topicId, knoteId, false
       else
         Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
           if error
@@ -207,7 +208,7 @@ Template.padsList.events
           else
             topicId = result
             requiredKnoteParameters.topic_id = topicId
-            Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, result) ->
+            Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
               $postButton.val('Post')
               if error
                 console.log 'add_knote', error
@@ -215,12 +216,16 @@ Template.padsList.events
                 $newTitle.val('')
                 $newBody.html('')
                 PadsListHelper.resetEditedContent()
+                PadsListHelper.setKnotesRankForPad topicId, knoteId, false
 
 
 
 Template.padItem.helpers
   knotes: ->
-    Knotes.find {topic_id: @_id}, sort: archived: 1, order: 1
+    knotes = Knotes.find {topic_id: @_id}, sort: archived: 1, order: 1
+    PadsListHelper.sortKnotesOrder knotes.fetch()
+
+
 
 Template.padItem.onRendered ->
   @find('.pad .knote-list')?._uihooks = moveAnimationHooks
