@@ -24,9 +24,22 @@
         else
           quickRank.knoteIds.unarchived?.indexOf knoteId
       knotes = _.sortBy knotes, (knote) -> [knote.archived, knote.quickRank, knote.order]
-      subjects = _.map knotes, (knote) -> knote.title
-      console.log 'knote order', subjects.join(' ')
     return knotes
+
+
+
+  setNewKnoteRank: (padId, knoteId) ->
+    knotesRank = QuickKnotesRank.findOne(padId: padId)
+    if knotesRank
+      knoteIds = knotesRank.knoteIds
+      knoteIds.unarchived.unshift knoteId
+      QuickKnotesRank.update knotesRank._id, $set: knoteIds: knoteIds
+    else
+      knoteIds =
+        archived: []
+        unarchived: [knoteId]
+      QuickKnotesRank.insert padId: padId, knoteIds: knoteIds
+
 
 
   setKnotesRankForPad: (padId, knoteId, isArchived) ->

@@ -199,7 +199,7 @@ Template.padsList.events
             $newTitle.val('')
             $newBody.html('')
             PadsListHelper.resetEditedContent()
-            PadsListHelper.setKnotesRankForPad topicId, knoteId, false
+            PadsListHelper.setNewKnoteRank topicId, knoteId
       else
         Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
           if error
@@ -216,7 +216,7 @@ Template.padsList.events
                 $newTitle.val('')
                 $newBody.html('')
                 PadsListHelper.resetEditedContent()
-                PadsListHelper.setKnotesRankForPad topicId, knoteId, false
+                PadsListHelper.setNewKnoteRank topicId, knoteId
 
 
 
