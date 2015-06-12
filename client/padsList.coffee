@@ -47,6 +47,7 @@ Template.padsList.onRendered ->
   @$('.post-button').attr('disabled', false) if $title.val().length
 
 
+  previousScroll = 0
   scrollAction = ->
     currentScroll = $('.padList').scrollTop()
 
@@ -55,7 +56,7 @@ Template.padsList.onRendered ->
     else
       $('#header').removeClass('scrolling')
 
-    if currentScroll > 180
+    if currentScroll > 180 or (currentScroll is 0 and previousScroll > 180)
       $('.show-compose').removeClass("invisible")
     else
       $('.show-compose').addClass("invisible")
@@ -71,7 +72,7 @@ Template.padsList.onRendered ->
     else
       subject = todaySubject()
     $('#header .subject').text subject
-
+    previousScroll = currentScroll
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
 
