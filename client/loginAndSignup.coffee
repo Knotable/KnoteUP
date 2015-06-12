@@ -24,7 +24,7 @@ Template.loginAndSignup.events
           $('.user-modal').removeClass('is-visible')
           PadsListHelper.restoreEditedContent()
         else
-          console.log 'signup', error
+          console.log 'login error', error
 
   'click #create-account': (event) ->
     event.preventDefault()
