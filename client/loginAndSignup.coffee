@@ -40,6 +40,14 @@ Template.loginAndSignup.events
       Accounts.createUser user, (error) ->
         $('.user-modal').removeClass('is-visible') if not error
 
+
+  'keyup #login-username, keyup #account-username': (e) ->
+    $target = $(e.currentTarget)
+    username = $target.val()
+    $target.val username.toLowerCase() if username
+
+
+
 resetWidth = ->
   buttonWidth = $('#login-button').width()
   signupWidth = $('#create-account').width()
