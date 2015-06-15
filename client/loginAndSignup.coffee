@@ -13,7 +13,7 @@ Template.loginAndSignup.events
     $('#register').addClass("hidden")
     resetWidth()
 
-  'click #login-button': (event) ->
+  'click #login-button': (event, template) ->
     event.preventDefault()
     event.stopPropagation()
     email = $("#login-username").val()
@@ -25,6 +25,8 @@ Template.loginAndSignup.events
           PadsListHelper.restoreEditedContent()
         else
           console.log 'login error', error
+          template.$('#login-form .form-message.hidden').removeClass('hidden').text(error.reason)
+
 
   'click #create-account': (event) ->
     event.preventDefault()
@@ -41,10 +43,15 @@ Template.loginAndSignup.events
         $('.user-modal').removeClass('is-visible') if not error
 
 
-  'keyup #login-username, keyup #account-username': (e) ->
+  'keyup #login-username, keyup #account-username': (e, template) ->
     $target = $(e.currentTarget)
     username = $target.val()
     $target.val username.toLowerCase() if username
+    template.$('#login-form .form-message').addClass('hidden').text('')
+
+
+  'keyup #login-password': (e, template) ->
+    template.$('#login-form  .form-message').addClass('hidden').text('')
 
 
 
