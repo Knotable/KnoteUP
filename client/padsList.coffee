@@ -188,10 +188,7 @@ Template.padsList.events
         replys: []
         pinned: false
 
-      if template.data?.latestPad?._id
-        topicId = template.data.latestPad._id
-        requiredKnoteParameters.topic_id = topicId
-
+      addKnote = ->
         Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
           $postButton.val('Post')
           if error
@@ -201,6 +198,11 @@ Template.padsList.events
             $newBody.html('')
             PadsListHelper.resetEditedContent()
             PadsListHelper.setNewKnoteRank topicId, knoteId
+
+      if template.data?.latestPad?._id
+        topicId = template.data.latestPad._id
+        requiredKnoteParameters.topic_id = topicId
+        addKnote()
       else
         Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
           if error
@@ -209,15 +211,7 @@ Template.padsList.events
           else
             topicId = result
             requiredKnoteParameters.topic_id = topicId
-            Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
-              $postButton.val('Post')
-              if error
-                console.log 'add_knote', error
-              else
-                $newTitle.val('')
-                $newBody.html('')
-                PadsListHelper.resetEditedContent()
-                PadsListHelper.setNewKnoteRank topicId, knoteId
+            addKnote()
 
 
 

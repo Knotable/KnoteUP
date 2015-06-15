@@ -76,7 +76,8 @@ Template.knote.helpers
 
 
   contenteditableBody: ->
-    "<div class='knote-body'>#{@htmlBody or ''}</div>"
+    body = @htmlBody or @body or ''
+    "<div class='knote-body'>#{body}</div>"
 
 
 
