@@ -14,4 +14,4 @@ amplify
 iron:router
 momentjs:moment
 copleykj:jquery-autosize
-accounts-slack
+acemtp:accounts-slack
