@@ -28,6 +28,22 @@ Template.loginAndSignup.events
           template.$('#login-form .form-message.hidden').removeClass('hidden').text(error.reason)
 
 
+  'click #login-with-slack-button': (event, template) ->
+    Accounts.connection = knoteupConnection
+    event.preventDefault()
+    event.stopPropagation()
+    Meteor.loginWithSlack {
+      requestPermissions: [
+        'read', 'post', 'identify', 'client'
+        ]
+    },
+    (error, result) ->
+      Accounts.connection = knotableConnection
+      console.log 'loginWithSlack error:', error
+      console.log 'loginWithSlack result:', result
+
+
+
   'click #create-account': (event) ->
     event.preventDefault()
     event.stopPropagation()

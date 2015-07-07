@@ -13,11 +13,12 @@ resetLoginToken = ->
     localStorage[meteorLoginToken] = amplify.store loginToken if amplify.store loginToken
 
     Meteor.clearInterval(timer) if localStorage[meteorLoginToken]
-    console.log 'resetLoginToken'
-  , 50
+  , 200
 
 
 Accounts.onLoginFailure resetLoginToken
 
 
 resetLoginToken()
+
+
