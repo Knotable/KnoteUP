@@ -8,6 +8,7 @@ Meteor.remoteConnection = knotableConnection
 Accounts.connection = knotableConnection
 
 
+
 Meteor.users = new Mongo.Collection 'users', connection: knotableConnection
 @UserAccounts = new Meteor.Collection "user_accounts", connection: knotableConnection
 @Pads = new Meteor.Collection "topics", connection: knotableConnection
@@ -40,3 +41,6 @@ Meteor.users = new Mongo.Collection 'users', connection: knotableConnection
     name = contact.nickname || contact.fullname || contact.username
     contact.initialName = name[0].toUpperCase()
     return contact
+
+
+@SharingKeys = new Meteor.Collection "sharing_keys", connection: knoteupConnection

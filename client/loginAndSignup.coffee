@@ -29,18 +29,9 @@ Template.loginAndSignup.events
 
 
   'click #login-with-slack-button': (event, template) ->
-    Accounts.connection = knoteupConnection
     event.preventDefault()
     event.stopPropagation()
-    Meteor.loginWithSlack {
-      requestPermissions: [
-        'read', 'post', 'identify', 'client'
-        ]
-    },
-    (error, result) ->
-      Accounts.connection = knotableConnection
-      console.log 'loginWithSlack error:', error
-      console.log 'loginWithSlack result:', result
+    loginWithSlackLocally()
 
 
 

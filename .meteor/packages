@@ -15,3 +15,4 @@ iron:router
 momentjs:moment
 copleykj:jquery-autosize
 acemtp:accounts-slack
+reactive-var

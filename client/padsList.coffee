@@ -105,7 +105,11 @@ Template.padsList.events
 
 
   'click .logout': ->
-    Meteor.logout()
+    logout()
+
+
+  'click #slack-login-button': ->
+    loginWithSlackLocally()
 
 
 
