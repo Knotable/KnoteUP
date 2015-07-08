@@ -46,7 +46,7 @@ Meteor.startup ->
   },
   (error) ->
     Accounts.connection = knotableConnection
-    console.log 'loginWithSlack error:', error
+    console.log 'loginWithSlack error:', error if error
     Meteor.defer ->
       for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
         #intercept Meteor keys

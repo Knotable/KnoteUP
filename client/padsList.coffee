@@ -108,10 +108,6 @@ Template.padsList.events
     logout()
 
 
-  'click #slack-login-button': ->
-    loginWithSlackLocally()
-
-
 
   'click .redirect-to-knotable': (e) ->
     token = amplify.store loginToken

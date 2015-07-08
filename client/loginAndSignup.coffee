@@ -28,12 +28,6 @@ Template.loginAndSignup.events
           template.$('#login-form .form-message.hidden').removeClass('hidden').text(error.reason)
 
 
-  'click #login-with-slack-button': (event, template) ->
-    event.preventDefault()
-    event.stopPropagation()
-    loginWithSlackLocally()
-
-
 
   'click #create-account': (event) ->
     event.preventDefault()
