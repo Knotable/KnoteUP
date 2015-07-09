@@ -104,6 +104,7 @@
 
 .share-popup-button:disabled {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33) !important;
+    cursor: default;
 }
 
 #share-ok:hover {
