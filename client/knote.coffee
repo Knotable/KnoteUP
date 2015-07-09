@@ -38,6 +38,15 @@ Template.knote.events
       template.$(".knote-body").prop('contenteditable', true)
 
 
+  'click i.share-knote': (e, template) ->
+    e.stopPropagation()
+    knoteId = template.data._id
+    topicId = template.data.topic_id
+    title = template.$(".knote-title").val()
+    body = template.$(".knote-body").html()
+    new SharePopup(knoteId: knoteId, topicId: topicId, title: title, body: body).show()
+
+
   'click .btn-cancel': (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
