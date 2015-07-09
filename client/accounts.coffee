@@ -51,9 +51,8 @@ Meteor.startup ->
       for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
         #intercept Meteor keys
         amplify.store 'Local' + key, localStorage['Meteor' + key] if localStorage['Meteor' + key]
-        #set Knotable keys because they could be overriden
-        #if Knotable keys are undefined, let Meteor keys be so
-        ensureSetLocalStorage 'Meteor' + key, localStorage['Knotable' + key]
+        #set Knotable keys because they could have been overriden
+        ensureSetLocalStorage 'Meteor' + key, amplify.store 'Knotable' + key
 
 
 
