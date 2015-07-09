@@ -17,4 +17,5 @@ class @SharePopup
 
 
   show: ->
-    @$popup.lightbox_me()
+    @$popup.lightbox_me
+      centered: true
