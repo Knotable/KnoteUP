@@ -84,6 +84,11 @@
   margin-right: 0;
 }
 
+.share-content-card-content i.everythings-ok:before {
+    font-size: 30px;
+    color: rgba(40, 172, 232, 1);
+}
+
 /* bottom buttons */
 
 .share-popup-buttons-container {
@@ -159,3 +164,11 @@
     display: inline-block;
     min-width: 150px;
 }
+
+.selectric .label,
+.selectric-items li {
+    color: #666;
+    font-size: 14px;
+}
+
+
