@@ -1,6 +1,6 @@
 {
   "public": {
-    "remoteHost": "dev.knotable.com"
+    "remoteHost": "http://localhost:5000"
   },
   "slack_production": {
     "clientId": "2154116941.6714603873",

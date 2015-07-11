@@ -10,6 +10,24 @@
         </div>
 
         <div class="share-popup-internal-container">
+
+          <div id="authorize-slack-for-knotable" class="share-content-card hidden">
+            <div class="share-content-card-content">
+              <table>
+                <tr>
+                  <td>
+                    <i class="icon icon-check everythings-ok hidden"></i>
+                    <i class="icon icon-spin2 animate-spin hidden"></i>
+                    &nbsp;
+                  </td>
+                  <td>
+                    <a href="#" id="authorize-slack-for-knotable-link">Click here to authorize slack for quick.knotable.com</a>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
           <div id="checking-slack-connection" class="share-content-card hidden">
             <div class="share-content-card-content">
               <table>
@@ -27,21 +45,18 @@
             </div>
           </div>
 
-          <div class="share-content-card hidden">
+          <div id="choose-slack-channel" class="share-content-card hidden">
             <div class="share-content-card-content">
               <table>
                 <tr>
                   <td>
-                    <i class="icon icon-check everythings-ok"></i> &nbsp;
+                    <i class="icon icon-check everythings-ok hidden"></i> &nbsp;
                   </td>
                   <td>
                     Choose a channel to post &nbsp;</td>
                   <td>
                     <select id="channels-list" name="slack-channel">
-                      <option value="Dev">Dev</option>
-                      <option value="Chrome">Chrome</option>
-                      <option value="Beta">Beta</option>
-                      <option value="Mobile">Mobile</option>
+
                     </select>
                   </td>
                 </tr>
@@ -54,7 +69,7 @@
               <table>
                 <tr>
                   <td>
-                    <i class="icon icon-check everythings-ok"></i>
+                    <i class="icon icon-check everythings-ok hidden"></i>
                     &nbsp;
                   </td>
                   <td>
