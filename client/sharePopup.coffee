@@ -53,7 +53,6 @@ class SlackWorks
     @template.$('#checking-slack-connection-authorize-link').removeClass('hidden')
     knoteupConnection.setUserId null
     pollUntilLoggedIn = =>
-      console.log '#eluck# pollUntilLoggedIn userId:', knoteupConnection.userId()
       return done() if knoteupConnection.userId()
       return done @slackLoginError if @slackLoginError
       setTimeout pollUntilLoggedIn, 200
@@ -63,7 +62,6 @@ class SlackWorks
   getListOfSlackChannelsAndPopulateSelect: (done) =>
     Meteor.call 'getListOfSlackChannels', (error, result) =>
       done error if error
-      console.log '#eluck# getListOfSlackChannels result:', result
       done 'getListOfSlackChannels - not ok' unless result.ok
       $select = @template.$('#channels-list')
       $select.append "<option value='#{channel.id}'>#{channel.name}</option>" for channel in result.channels
@@ -99,8 +97,6 @@ class SlackWorks
 
 
   post: (title, text) =>
-    console.log '#eluck# posting title:', title
-    console.log '#eluck# posting text:', text
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', 'disabled')
     @template.$('#channels-list').closest('.selectric-wrapper').addClass('selectric-disabled')

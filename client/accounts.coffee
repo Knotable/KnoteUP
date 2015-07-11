@@ -9,9 +9,6 @@ Meteor.startup ->
   Tracker.autorun -> loggedInLocally.set Boolean knoteupConnection.userId()
   Tracker.autorun -> loggedInKnotable.set Boolean knotableConnection.userId()
 
-  Tracker.autorun -> console.log '#eluck# logged in locally' if loggedInLocally.get()
-  Tracker.autorun -> console.log '#eluck# logged in Knotable' if loggedInKnotable.get()
-
 
 # Key names to use in localStorage
 loginTokenKey = ".loginToken"
@@ -67,7 +64,6 @@ ensureSetLocalStorage = (localStorageKey, value) ->
   maintainedFor = 0
   timeout = 200
   check = ->
-    console.log '#eluck# localStorageKey:', localStorageKey, '  desiredValue:', value
     if localStorage[localStorageKey] == value
       maintainedFor += timeout
       return if maintainedFor >= maintainFor
