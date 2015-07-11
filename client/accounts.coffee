@@ -37,7 +37,7 @@ Meteor.startup ->
       makeClientLoggedOut()
 
 
-@loginWithSlackLocally = ->
+@loginWithSlackLocally = (done) ->
   Accounts.connection = knoteupConnection
   Meteor.loginWithSlack {
     requestPermissions: [
@@ -46,13 +46,14 @@ Meteor.startup ->
   },
   (error) ->
     Accounts.connection = knotableConnection
-    console.log 'loginWithSlack error:', error if error
+    console.error 'loginWithSlack error:', error if error
     Meteor.defer ->
       for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
         #intercept Meteor keys
         amplify.store 'Local' + key, localStorage['Meteor' + key] if localStorage['Meteor' + key]
         #set Knotable keys because they could have been overriden
         ensureSetLocalStorage 'Meteor' + key, amplify.store 'Knotable' + key
+    done error
 
 
 
