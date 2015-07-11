@@ -48,16 +48,6 @@ Template.knote.events
       .show()
 
 
-  'click i.share-knote-static-reference': (e, template) ->
-    e.stopPropagation()
-    knoteId = template.data._id
-    topicId = template.data.topic_id
-    title = template.$(".knote-title").val()
-    body = template.$(".knote-body").html()
-    new SharePopupStaticReference knoteId: knoteId, topicId: topicId, title: title, body: body
-    .show()
-
-
   'click .btn-cancel': (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
