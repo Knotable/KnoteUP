@@ -64,6 +64,13 @@
   top: 50%;
 }
 
+
+#authorize-slack-for-knotable-link {
+  color: rgba(40, 172, 232, 1);
+  border-bottom: 1px dashed;
+  text-decoration: none;
+}
+
 /* spinner icon */
 
 .share-content-card-content i:before {

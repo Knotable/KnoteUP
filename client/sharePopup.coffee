@@ -87,7 +87,7 @@ class SlackWorks
 
   markChannelSelectionDoneAndHideCheckingConnection: (done) =>
     @template.$('#choose-slack-channel .everythings-ok').removeClass('hidden')
-    @template.$('#share-ok').prop('disabled', false)
+    @template.$('#share-ok').removeClass('hidden')
     done()
 
 
@@ -103,7 +103,8 @@ class SlackWorks
     console.log '#eluck# posting text:', text
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', 'disabled')
-    @template.$('#channels-list').addClass('selectric-disabled')
+    @template.$('#channels-list').closest('.selectric-wrapper').addClass('selectric-disabled')
+    @template.$('#slack-popup-posting').removeClass('hidden')
     channelId = @template.$('#channels-list').val()
     Meteor.call 'postOnSlack', title, text, channelId, (error, result) =>
       if error
@@ -113,19 +114,21 @@ class SlackWorks
 
 
   showSuccess: =>
-    @template.$('#slack-popup-success-message').removeClass('hidden')
+    @template.$('#slack-popup-posting-message').text 'Successfully shared the record on Slack'
+    @template.$('#slack-popup-posting .animate-spin').addClass('hidden')
+    @template.$('#slack-popup-posting .everythings-ok').removeClass('hidden')
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', false)
     @template.$('#share-cancel .share-popup-button-content').text('Close')
 
 
   showError: (text) =>
-    @template.$('#slack-popup-error-message-text').text text if text
-    @template.$('#slack-popup-error-message').removeClass('hidden')
+    text = 'An error occured while sharing the knote on Slack'
+    @template.$('#slack-popup-posting-message').text text
+    @template.$('#slack-popup-posting .animate-spin').addClass('hidden')
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', false)
     @template.$('#share-cancel .share-popup-button-content').text('Close')
-
 
 
 
@@ -138,12 +141,16 @@ Template.sharePopup.onRendered ->
 
 Template.sharePopup.events
   'click #authorize-slack-for-knotable-link': (e, template) ->
-    template.$('#checking-slack-connection .animate-spin').removeClass('invisible')
+    e.preventDefault()
+    $spinner = template.$('#checking-slack-connection .animate-spin').removeClass('invisible')
     template.$('#checking-slack-connection-text').removeClass('hidden')
     template.$('#checking-slack-connection-authorize-link').addClass('hidden')
-    e.preventDefault()
+    $spinner.removeClass('animate-spin')
     loginWithSlackLocally (error) ->
       template.data.slackWorks.slackLoginError = 'slack login error: ' + error if error
+      template.data.slackWorks.teardown = true
+      template.data.sharePopup.close()
+    Meteor.defer -> $spinner.addClass('animate-spin')
 
 
   'click #share-cancel': (e, template) ->

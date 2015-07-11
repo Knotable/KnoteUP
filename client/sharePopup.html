@@ -51,44 +51,29 @@
             </div>
           </div>
 
-          <div id="slack-popup-error-message" class="share-content-card hidden">
+          <div id="slack-popup-posting" class="share-content-card hidden">
             <div class="share-content-card-content">
               <table>
                 <tr>
                   <td>
+                    <i class="icon icon-spin2 animate-spin"></i>
                     <i class="icon icon-check everythings-ok hidden"></i>
                     &nbsp;
                   </td>
                   <td>
-                    <span id="slack-popup-error-message-text">An error occured while posting on Slack</span>
+                    <span id="slack-popup-posting-message">Sharing the knote on Slack</span>
                   </td>
                 </tr>
               </table>
             </div>
           </div>
 
-          <div id="slack-popup-success-message" class="share-content-card hidden">
-            <div class="share-content-card-content">
-              <table>
-                <tr>
-                  <td>
-                    <i class="icon icon-check everythings-ok"></i>
-                    &nbsp;
-                  </td>
-                  <td>
-                    <span id="slack-popup-error-success-text">Successfully posted on Slack</span>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-
+        </div> <!-- share-popup-internal-container -->
 
         <div class="share-popup-buttons-container">
-          <button class="share-popup-button" id="share-ok" disabled="disabled">
+          <button class="share-popup-button hidden" id="share-ok">
             <div class="share-popup-button-content">
-              Ok
+              Share
             </div>
           </button>
           <button class="share-popup-button" id="share-cancel">
