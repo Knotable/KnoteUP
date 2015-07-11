@@ -43,8 +43,8 @@ Template.knote.events
     knoteId = template.data._id
     topicId = template.data.topic_id
     title = template.$(".knote-title").val()
-    body = template.$(".knote-body").html()
-    new SharePopup knoteId: knoteId, topicId: topicId, title: title, body: body
+    text = template.$(".knote-body").text()
+    new SharePopup knoteId: knoteId, topicId: topicId, title: title, text: text
       .show()
 
 

@@ -26,6 +26,8 @@ class SlackWorks
       @goThroughOauthIfNeeded
       @getListOfSlackChannelsAndPopulateSelect
       @showChannelSelectionCard
+      @waitForChannelToBeSelected
+      @markChannelSelectionDoneAndHideCheckingConnection
     ], (error) =>
       @processFirstStepErrors error
       done error
@@ -79,9 +81,51 @@ class SlackWorks
     done()
 
 
+  waitForChannelToBeSelected: (done) =>
+    @template.$('#channels-list').on 'change', -> done()
+
+
+  markChannelSelectionDoneAndHideCheckingConnection: (done) =>
+    @template.$('#choose-slack-channel .everythings-ok').removeClass('hidden')
+    @template.$('#share-ok').prop('disabled', false)
+    done()
+
+
   processFirstStepErrors: (error) =>
     return console.log 'SlackWorks.onFirstStep.processFirstStepErrors teardown' if error == 'teardown'
-    console.error 'SlackWorks.onFirstStep.processFirstStepErrors errors:', error if error
+    if error
+      console.error 'SlackWorks.onFirstStep.processFirstStepErrors errors:', error
+      @showError()
+
+
+  post: (title, text) =>
+    console.log '#eluck# posting title:', title
+    console.log '#eluck# posting text:', text
+    @template.$('#share-ok').addClass('hidden')
+    @template.$('#share-cancel').prop('disabled', 'disabled')
+    @template.$('#channels-list').addClass('selectric-disabled')
+    channelId = @template.$('#channels-list').val()
+    Meteor.call 'postOnSlack', title, text, channelId, (error, result) =>
+      if error
+        console.error 'SlackWorks.post error:', error
+        return @showError 'Unable to post on Slack'
+      @showSuccess()
+
+
+  showSuccess: =>
+    @template.$('#slack-popup-success-message').removeClass('hidden')
+    @template.$('#share-ok').addClass('hidden')
+    @template.$('#share-cancel').prop('disabled', false)
+    @template.$('#share-cancel .share-popup-button-content').text('Close')
+
+
+  showError: (text) =>
+    @template.$('#slack-popup-error-message-text').text text if text
+    @template.$('#slack-popup-error-message').removeClass('hidden')
+    @template.$('#share-ok').addClass('hidden')
+    @template.$('#share-cancel').prop('disabled', false)
+    @template.$('#share-cancel .share-popup-button-content').text('Close')
+
 
 
 
@@ -100,3 +144,12 @@ Template.sharePopup.events
     e.preventDefault()
     loginWithSlackLocally (error) ->
       template.data.slackWorks.slackLoginError = 'slack login error: ' + error if error
+
+
+  'click #share-cancel': (e, template) ->
+    template.data.slackWorks.teardown = true
+    template.data.sharePopup.close()
+
+
+  'click #share-ok': (e, template) ->
+    template.data.slackWorks.post template.data.title, template.data.text

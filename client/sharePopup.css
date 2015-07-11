@@ -153,6 +153,10 @@
   background-color: rgba(0, 0, 0, 0.45);
 }
 
+#share-cancel:disabled {
+  background-color: rgba(100, 100, 100, 0.5);
+}
+
 #share-cancel:active {
   background-color: rgba(0, 0, 0, 0.39) !important;
 }

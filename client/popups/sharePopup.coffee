@@ -6,6 +6,7 @@ class @SharePopup
 
   constructor: (data = {}) ->
     removeInstanceIfExists $ SharePopup.id
+    data.sharePopup = @
     UI.renderWithData Template.sharePopup, data, $(SharePopup.parent)[0]
     SharePopup.activeInstance = @
     @$popup = $ SharePopup.id
@@ -19,6 +20,10 @@ class @SharePopup
   show: ->
     @$popup.lightbox_me
       centered: true
+
+
+  close: ->
+    @$popup.trigger 'close'
 
 
 
