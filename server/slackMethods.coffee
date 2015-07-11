@@ -29,8 +29,8 @@ Meteor.methods
     postData = "token=#{slackAccessToken}&channel=#{channelId}&as_user=true"
     attachments = [{
       fallback: "Posted via KnoteUp",
-      color: "#2098ec",
-      author_name: "Posted via KnoteUp",
+      color: "#2DACED",
+      author_name: "See progress on my queue at Knoteup",
       author_link: "http://quick.knotable.com",
       author_icon: "http://d1wubs3nxxxkxo.cloudfront.net/static/public/images/chome_notification_icon.png",
       title: title,
