@@ -1,12 +1,12 @@
 {
   "public": {
-    "remoteHost": "http://localhost:5000"
+    "remoteHost": "beta.knotable.com"
   },
-  "slack_production": {
+  "slack": {
     "clientId": "2154116941.6714603873",
     "clientSecret": "84cd0fcc1d21a249c19f9fb9be88c2b5"
   },
-  "slack": {
+  "slack_testing": {
     "clientId": "2154116941.6717959525",
     "clientSecret": "ee5bf1e9949bd1cf128c7006d532d851"
   }
