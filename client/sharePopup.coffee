@@ -100,6 +100,7 @@ class SlackWorks
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', 'disabled')
     @template.$('#channels-list').closest('.selectric-wrapper').addClass('selectric-disabled')
+    @template.$('#checking-slack-connection').addClass('hidden')
     @template.$('#slack-popup-posting').removeClass('hidden')
     channelId = @template.$('#channels-list').val()
     Meteor.call 'postOnSlack', title, text, channelId, (error, result) =>
@@ -110,7 +111,7 @@ class SlackWorks
 
 
   showSuccess: =>
-    @template.$('#slack-popup-posting-message').text 'Successfully shared the record on Slack'
+    @template.$('#slack-popup-posting-message').text 'Successfully shared the knote on Slack'
     @template.$('#slack-popup-posting .animate-spin').addClass('hidden')
     @template.$('#slack-popup-posting .everythings-ok').removeClass('hidden')
     @template.$('#share-ok').addClass('hidden')
@@ -143,9 +144,10 @@ Template.sharePopup.events
     template.$('#checking-slack-connection-authorize-link').addClass('hidden')
     $spinner.removeClass('animate-spin')
     loginWithSlackLocally (error) ->
-      template.data.slackWorks.slackLoginError = 'slack login error: ' + error if error
-      template.data.slackWorks.teardown = true
-      template.data.sharePopup.close()
+      if error
+        template.data.slackWorks.slackLoginError = 'slack login error: ' + error
+        template.data.slackWorks.teardown = true
+        template.data.sharePopup.close()
     Meteor.defer -> $spinner.addClass('animate-spin')
 
 
