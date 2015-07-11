@@ -25,7 +25,7 @@ class SlackWorks
       @checkWhetherCurrentCredentialsWork
       @goThroughOauthIfNeeded
       @getListOfSlackChannelsAndPopulateSelect
-      @markCheckingSlackConnectionDone
+      @showChannelSelectionCard
     ], (error) =>
       @processFirstStepErrors error
       done error
@@ -43,11 +43,12 @@ class SlackWorks
 
 
   goThroughOauthIfNeeded: (credentialsStatusObject, done) =>
-    @template.$('#checking-slack-connection').addClass('hidden')
     return done() if credentialsStatusObject.ok
     #we have to show login link explicitly because chrome doesn't allow opening new windows
     #now withing an event handler thread
-    @template.$('#authorize-slack-for-knotable').removeClass('hidden')
+    @template.$('#checking-slack-connection .animate-spin').addClass('invisible')
+    @template.$('#checking-slack-connection-text').addClass('hidden')
+    @template.$('#checking-slack-connection-authorize-link').removeClass('hidden')
     knoteupConnection.setUserId null
     pollUntilLoggedIn = =>
       console.log '#eluck# pollUntilLoggedIn userId:', knoteupConnection.userId()
@@ -58,8 +59,6 @@ class SlackWorks
 
 
   getListOfSlackChannelsAndPopulateSelect: (done) =>
-    $('#authorize-slack-for-knotable .animate-spin').addClass('hidden')
-    $('#authorize-slack-for-knotable .everythings-ok').removeClass('hidden')
     Meteor.call 'getListOfSlackChannels', (error, result) =>
       done error if error
       console.log '#eluck# getListOfSlackChannels result:', result
@@ -70,10 +69,13 @@ class SlackWorks
       done()
 
 
-  markCheckingSlackConnectionDone: (done) =>
-    @template.$('#authorize-slack-for-knotable').addClass('hidden')
-    @template.$('#choose-slack-channel').removeClass('hidden')
+  showChannelSelectionCard: (done) =>
+    @template.$('#checking-slack-connection .animate-spin').addClass('hidden')
+    @template.$('#checking-slack-connection-text').addClass('hidden')
+    @template.$('#checking-slack-connection-authorize-link').addClass('hidden')
     @template.$('#checking-slack-connection .everythings-ok').removeClass('hidden')
+    @template.$('#slack-connection-is-ok').removeClass('hidden')
+    @template.$('#choose-slack-channel').removeClass('hidden')
     done()
 
 
@@ -92,7 +94,9 @@ Template.sharePopup.onRendered ->
 
 Template.sharePopup.events
   'click #authorize-slack-for-knotable-link': (e, template) ->
-    $('#authorize-slack-for-knotable .animate-spin').removeClass('hidden')
+    template.$('#checking-slack-connection .animate-spin').removeClass('invisible')
+    template.$('#checking-slack-connection-text').removeClass('hidden')
+    template.$('#checking-slack-connection-authorize-link').addClass('hidden')
     e.preventDefault()
     loginWithSlackLocally (error) ->
       template.data.slackWorks.slackLoginError = 'slack login error: ' + error if error

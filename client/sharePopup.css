@@ -171,4 +171,9 @@
     font-size: 14px;
 }
 
+/* do not display disabled items (the default one) */
+.selectric-items .disabled {
+  display: none;
+}
+
 

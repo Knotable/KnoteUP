@@ -11,23 +11,6 @@
 
         <div class="share-popup-internal-container">
 
-          <div id="authorize-slack-for-knotable" class="share-content-card hidden">
-            <div class="share-content-card-content">
-              <table>
-                <tr>
-                  <td>
-                    <i class="icon icon-check everythings-ok hidden"></i>
-                    <i class="icon icon-spin2 animate-spin hidden"></i>
-                    &nbsp;
-                  </td>
-                  <td>
-                    <a href="#" id="authorize-slack-for-knotable-link">Click here to authorize slack for quick.knotable.com</a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-
           <div id="checking-slack-connection" class="share-content-card hidden">
             <div class="share-content-card-content">
               <table>
@@ -38,7 +21,11 @@
                     &nbsp;
                   </td>
                   <td>
-                    Checking slack connection ...
+                    <span id="checking-slack-connection-text">Checking Slack connection ...</span>
+                    <span id="checking-slack-connection-authorize-link" class="hidden">
+                      <a href="#" id="authorize-slack-for-knotable-link">Click here to authorize Slack for quick.knotable.com</a>
+                    </span>
+                    <span id="slack-connection-is-ok" class="hidden">Successfully connected to Slack</span>
                   </td>
                 </tr>
               </table>
@@ -53,10 +40,10 @@
                     <i class="icon icon-check everythings-ok hidden"></i> &nbsp;
                   </td>
                   <td>
-                    Choose a channel to post &nbsp;</td>
+                    Choose a channel to post to &nbsp;</td>
                   <td>
                     <select id="channels-list" name="slack-channel">
-
+                      <option selected disabled value=''></option>
                     </select>
                   </td>
                 </tr>
