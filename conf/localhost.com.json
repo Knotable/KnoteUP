@@ -1,0 +1,9 @@
+{
+  "public": {
+    "remoteHost": "localhost:7000"
+  },
+  "slack": {
+    "clientId": "2154116941.6717959525",
+    "clientSecret": "ee5bf1e9949bd1cf128c7006d532d851"
+  }
+}
