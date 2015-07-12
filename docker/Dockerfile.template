@@ -1,0 +1,9 @@
+FROM registry.knotable.com:443/meteord-webapp
+MAINTAINER Knotable
+
+ENV KNOTEUP_BUILD=KNOTEUP_BUILD_NUMBER
+
+VOLUME /logs
+EXPOSE 80
+
+CMD /conf/start_instance.sh
