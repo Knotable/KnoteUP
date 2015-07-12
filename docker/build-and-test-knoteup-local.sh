@@ -26,15 +26,15 @@ fi
 
 
 #check whether the repo is clean
-#if [ "`git status -s`" ] ; then
-#  echo "
-#    The repository is not clean.
-#    Please make sure you committed all your changes and run this script again.
-#    Aborting...
-#
-#  "
-#  exit
-#fi
+if [ "`git status -s`" ] ; then
+  echo "
+    The repository is not clean.
+    Please make sure you committed all your changes and run this script again.
+    Aborting...
+
+  "
+  exit
+fi
 
 
 echo "
