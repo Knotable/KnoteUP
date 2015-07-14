@@ -37,6 +37,11 @@ moveAnimationHooks =
     $inBetween.addClass('animate').css('top', 0);
 
 
+$(document).click ->
+  settingDropdown = $('#setting-dropdown')
+  if settingDropdown.is(':visible')
+    settingDropdown.slideToggle()
+
 
 Template.padsList.onRendered ->
   @data.subject = moment().format "MMM Do"
@@ -82,6 +87,8 @@ Template.padsList.onRendered ->
 
 
 Template.padsList.helpers
+  currentContact: ->
+    Contacts.findOne()
 
   username: ->
     Meteor.user()?.username
@@ -98,6 +105,14 @@ Template.padsList.helpers
 
 
 Template.padsList.events
+  'click .user': (e) ->
+    e.stopPropagation()
+    $('#setting-dropdown').slideToggle()
+
+
+  'click #setting-dropdown': (e) ->
+    e.stopPropagation()
+
 
   'click .show-compose': ->
     $(".padList").animate {scrollTop: 0}, 600
