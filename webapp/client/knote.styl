@@ -9,6 +9,12 @@ body
   font-size: 12px
   overflow: hidden
 
+ul
+  list-style: none
+  padding: 0
+  margin: 0
+
+
 
 #container
   width: 100%
@@ -335,6 +341,7 @@ body
   width: 100%
 
 
+textarea
 input[type="text"],
 input[type="password"],
 input[type="datetime"],
@@ -373,22 +380,79 @@ a.btn-close
   filter: none
   cursor: pointer
 
+.share-part
+  display: inline
+  position: relative
+  margin-left: 20px
 
+  .share-pad-btn
+    padding: 2px 8px
+
+  .share-pad-dropdown
+    top: 30px
+    left: 0
+
+.share-pad-dropdown
 #setting-dropdown
   display: none
-  list-style: none
   box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, .5)
   position: absolute
   padding: 4px
-  top: 35px
-  right: 20px
   background: white
   cursor: pointer
+  font-size: 12px
+
+  li
+    padding: 4px
 
   li a
     display: block
-    padding: 4px
     text-decoration: none
+
+  li
+  li a
     color: #555
     &:hover
       color: #28ace8
+
+#setting-dropdown
+  top: 50px
+  right: 20px
+
+#share-pad-popup
+  background: white
+  padding: 25px
+  border-radius: 2px
+  width: 500px
+  .popup-title
+    margin-bottom: 10px
+    font-size: 14px
+  .share-to, .share-message, .shared-url
+    width: 486px
+    font-size: 12px
+  .share-message
+    height: 90px
+  .btn-cancel-share
+    color: #999
+    font-size: 12px
+    margin-left: 10px
+    text-decoration: none
+
+#sys-message-popup
+  display: none
+  position: fixed
+  top: 60px
+  right: 20px
+  width: 120px
+  font-size: 12px
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 50%)
+  background: white
+  padding: 0 10px
+  &.success
+    border-left: 3px solid green
+    .icon
+      color: green
+  &.warning
+    border-left: 3px solid red
+    .icon
+      color: red

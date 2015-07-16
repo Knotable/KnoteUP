@@ -57,6 +57,10 @@
   <div class="header padItem" data-subject="{{subject}}">
     <div class="subject">
       {{ subject }}
+      <div class="share-part" data-id="{{_id}}">
+        <button class="btn my-btn share-pad-btn">Share</button>
+        {{> sharePadDropdown}}
+      </div>
     </div>
   </div>
 
@@ -71,9 +75,19 @@
 
 
 
+<template name="sharePadDropdown">
+  <ul class="share-pad-dropdown">
+    <li class="share-invite"><i class="icon icon-user"></i>Invite someone</li>
+    <li class="share-link"><i class="icon icon-link"></i>Share this link</li>
+    <li class="share-slack"><i class="icon icon-slack"></i>Post to Slack</li>
+  </ul>
+</template>
+
+
+
 <template name="settingDropdown">
   <ul id="setting-dropdown">
-    <li><a href="http://beta.knotable.com/settings" target="_blank">Knotable Settings</a></li>
-    <li><a href="#" class="logout">Logout</a></li>
+    <li><a href="http://beta.knotable.com/settings" target="_blank"><i class="icon icon-info"></i>Knotable Settings</a></li>
+    <li><a href="#" class="logout"><i class="icon icon-logout"></i>Logout</a></li>
   </ul>
 </template>

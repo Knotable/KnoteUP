@@ -38,9 +38,7 @@ moveAnimationHooks =
 
 
 $(document).click ->
-  settingDropdown = $('#setting-dropdown')
-  if settingDropdown.is(':visible')
-    settingDropdown.slideToggle()
+  $('#setting-dropdown:visible, .share-pad-dropdown:visible').slideToggle()
 
 
 Template.padsList.onRendered ->
@@ -239,3 +237,24 @@ Template.padItem.helpers
 
 Template.padItem.onRendered ->
   @find('.pad .knote-list')?._uihooks = moveAnimationHooks
+
+
+
+Template.padItem.events
+  'click .share-pad-btn': (e) ->
+    e.stopPropagation()
+    btn = $(e.currentTarget)
+    btn.siblings('.share-pad-dropdown').slideToggle()
+
+
+
+Template.sharePadDropdown.events
+  'click .share-invite': (e) ->
+    padId = $(e.currentTarget).parents('.share-part').data('id')
+    new SharePadPopup({shareLink: false, padId: padId}).show()
+
+  'click .share-link': (e) ->
+    padId = $(e.currentTarget).parents('.share-part').data('id')
+    new SharePadPopup({shareLink: true, padId: padId}).show()
+
+  'click .share-slack': (e) ->
