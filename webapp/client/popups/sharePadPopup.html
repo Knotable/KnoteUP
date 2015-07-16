@@ -1,0 +1,31 @@
+<template name="sharePadPopup">
+  <div id="share-pad-popup">
+    <div class="popup-title">
+      {{#if shareLink}}
+        <span class="share-text">Share this link</span>
+      {{else}}
+        <span class="share-text">Invite people to collaborate</span>
+      {{/if}}
+    </div>
+    <div class="popup-content">
+      {{#if shareLink}}
+      <input type="text" class="shared-url" value="{{url}}" readonly>{{#if copySupported}}<i class="icon icon-docs"></i>{{/if}}
+        <p class="share-description">This pad is visible to anyone with the link</p>
+        <p class="share-description">Send this link by email</p>
+      {{/if}}
+
+      <div class="share-view">
+        <div class="inner-conatiner">
+          <div id="shareEmails">
+            <input type="text" placeholder="Emails" class="share-to">
+          </div>
+          <div><textarea name="" id="" cols="30" rows="10" placeholder="Message (optional)" class="share-message"></textarea></div>
+        </div>
+      </div>
+      <div class="buttons text-right">
+        <input type="button" class="btn my-btn btn-share" value="Share"/>
+        <a href="#" class="btn-cancel-share">Cancel</a>
+      </div>
+    </div>
+  </div>
+</template>
