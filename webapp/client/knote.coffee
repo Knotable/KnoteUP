@@ -44,8 +44,11 @@ Template.knote.events
     topicId = template.data.topic_id
     title = template.$(".knote-title").val()
     text = template.$(".knote-body").text()
-    new SharePopup knoteId: knoteId, topicId: topicId, title: title, text: text
-      .show()
+    new SharePopup(
+      knoteId: knoteId
+      title: title
+      text: text
+    ).show()
 
 
   'click .btn-cancel': (e, template) ->

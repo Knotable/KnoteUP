@@ -96,14 +96,14 @@ class SlackWorks
       @showError()
 
 
-  post: (title, text) =>
+  post: (options) =>
     @template.$('#share-ok').addClass('hidden')
     @template.$('#share-cancel').prop('disabled', 'disabled')
     @template.$('#channels-list').closest('.selectric-wrapper').addClass('selectric-disabled')
     @template.$('#checking-slack-connection').addClass('hidden')
     @template.$('#slack-popup-posting').removeClass('hidden')
-    channelId = @template.$('#channels-list').val()
-    Meteor.call 'postOnSlack', title, text, channelId, (error, result) =>
+    options.channelId = @template.$('#channels-list').val()
+    Meteor.call 'postOnSlack', options, (error, result) =>
       if error
         console.error 'SlackWorks.post error:', error
         return @showError 'Unable to post on Slack'
@@ -157,4 +157,5 @@ Template.sharePopup.events
 
 
   'click #share-ok': (e, template) ->
-    template.data.slackWorks.post template.data.title, template.data.text
+    options = _.pick template.data, 'topicId', 'authorName', 'authorLink', 'knoteId', 'title', 'text'
+    template.data.slackWorks.post options

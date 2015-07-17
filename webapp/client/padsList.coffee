@@ -258,3 +258,16 @@ Template.sharePadDropdown.events
     new SharePadPopup({shareLink: true, padId: padId}).show()
 
   'click .share-slack': (e) ->
+    topicId = $(e.currentTarget).parents('.share-part').data('id')
+    pad = Pads.findOne _id: topicId
+    padUrl = AppHelper.getPadUrlFromId topicId
+    knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()
+    title = ''
+    for knote, i in knotes
+      title += (i+1) + '. ' + knote.title + '\n'
+    new SharePopup(
+      authorName: pad.subject
+      authorLink: padUrl
+      title: title
+      text: '<' + padUrl + '|track my progress>'
+    ).show()

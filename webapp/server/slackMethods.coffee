@@ -19,22 +19,30 @@ Meteor.methods
     return result.data
 
 
-  postOnSlack: (title, text, channelId) ->
-    check title, String
-    check text, String
-    check channelId, String
+  postOnSlack: (options) ->
+    check options.title, String
+    check options.text, String
+    check options.channelId, String
+
     user = Meteor.user()
     slackAccessToken = user?.services?.slack?.accessToken
     return false unless slackAccessToken
-    postData = "token=#{slackAccessToken}&channel=#{channelId}&as_user=true"
+
+    authorName = options.authorName or 'See progress on my queue at Knoteup'
+    authorLink = options.authorLink or 'http://quick.knotable.com'
+    check authorName, String
+    check authorLink, String
+
+    postData = "token=#{slackAccessToken}&channel=#{options.channelId}&as_user=true"
     attachments = [{
       fallback: "Posted via KnoteUp",
       color: "#2DACED",
-      author_name: "See progress on my queue at Knoteup",
-      author_link: "http://quick.knotable.com",
+      author_name: authorName,
+      author_link: authorLink,
       author_icon: "http://d1wubs3nxxxkxo.cloudfront.net/static/public/images/chome_notification_icon.png",
-      title: title,
-      text: text
+      title: options.title,
+      text: options.text,
+      mrkdwn_in: ["text"]
     }]
     postData += "&attachments=#{encodeURIComponent JSON.stringify attachments}"
     result = HTTP.post 'https://slack.com/api/chat.postMessage', query: postData
