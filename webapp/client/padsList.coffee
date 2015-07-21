@@ -6,7 +6,12 @@ showLoginForm = ->
 
 
 todaySubject = ->
-  moment().format "MMM Do"
+  user = Contacts.findOne()
+  date = moment().format "MMM Do"
+  if user
+    user.username + '\'s Knoteup for ' + date
+  else
+    date
 
 
 moveAnimationHooks =
@@ -72,9 +77,12 @@ Template.padsList.onRendered ->
 
     if $currentPadItem.length
       subject = $currentPadItem.data('subject')
+      id = $currentPadItem.data('id')
     else
       subject = todaySubject()
+      id = $('#header .title').data('latest-id')
     $('#header .subject').text subject
+    $('#header .share-part').attr 'data-id', id
     previousScroll = currentScroll
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
@@ -240,25 +248,22 @@ Template.padItem.onRendered ->
 
 
 
-Template.padItem.events
+Template.sharePadDropdown.events
   'click .share-pad-btn': (e) ->
     e.stopPropagation()
     btn = $(e.currentTarget)
     btn.siblings('.share-pad-dropdown').slideToggle()
 
-
-
-Template.sharePadDropdown.events
   'click .share-invite': (e) ->
-    padId = $(e.currentTarget).parents('.share-part').data('id')
+    padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: false, padId: padId}).show()
 
   'click .share-link': (e) ->
-    padId = $(e.currentTarget).parents('.share-part').data('id')
+    padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: true, padId: padId}).show()
 
   'click .share-slack': (e) ->
-    topicId = $(e.currentTarget).parents('.share-part').data('id')
+    topicId = $(e.currentTarget).parents('.share-part').attr('data-id')
     pad = Pads.findOne _id: topicId
     padUrl = AppHelper.getPadUrlFromId topicId
     knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()

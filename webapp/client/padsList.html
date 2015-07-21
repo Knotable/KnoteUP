@@ -15,9 +15,14 @@
         <a href="http://beta.knotable.com" target="_blank" class="btn redirect-to-knotable" tabindex='5'>
           k
         </a>
-        <div class="title">
+        <div class="title" data-latest-id="{{latestPad._id}}">
           {{contentEditableSubject}}
         </div>
+        {{#if latestPad}}
+          {{#with latestPad}}
+            {{> sharePadDropdown}}
+          {{/with}}
+        {{/if}}
         <i class='icon icon-edit show-compose invisible'></i>
       </div>
     </div>
@@ -54,13 +59,10 @@
 
 
 <template name="padItem">
-  <div class="header padItem" data-subject="{{subject}}">
+  <div class="header padItem" data-subject="{{subject}}" data-id="{{_id}}">
     <div class="subject">
       {{ subject }}
-      <div class="share-part" data-id="{{_id}}">
-        <button class="btn my-btn share-pad-btn">Share</button>
-        {{> sharePadDropdown}}
-      </div>
+      {{> sharePadDropdown}}
     </div>
   </div>
 
@@ -76,11 +78,14 @@
 
 
 <template name="sharePadDropdown">
-  <ul class="share-pad-dropdown">
-    <li class="share-invite"><i class="icon icon-user"></i>Invite someone</li>
-    <li class="share-link"><i class="icon icon-link"></i>Share this link</li>
-    <li class="share-slack"><i class="icon icon-slack"></i>Post to Slack</li>
-  </ul>
+  <div class="share-part" data-id="{{_id}}">
+    <button class="btn my-btn share-pad-btn">Share</button>
+    <ul class="share-pad-dropdown">
+      <li class="share-invite"><i class="icon icon-user"></i>Invite someone</li>
+      <li class="share-link"><i class="icon icon-link"></i>Share this link</li>
+      <li class="share-slack"><i class="icon icon-slack"></i>Post to Slack</li>
+    </ul>
+  </div>
 </template>
 
 
