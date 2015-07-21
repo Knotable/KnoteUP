@@ -267,12 +267,13 @@ Template.sharePadDropdown.events
     pad = Pads.findOne _id: topicId
     padUrl = AppHelper.getPadUrlFromId topicId
     knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()
-    title = ''
+    text = ''
     for knote, i in knotes
-      title += (i+1) + '. ' + knote.title + '\n'
+      text += (i+1) + '. ' + knote.title + '\n'
+    text += '<' + padUrl + '|track my progress>'
     new SharePopup(
       authorName: pad.subject
       authorLink: padUrl
-      title: title
-      text: '<' + padUrl + '|track my progress>'
+      title: ''
+      text: text
     ).show()
