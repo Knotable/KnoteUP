@@ -156,7 +156,12 @@ Template.padsList.events
     showLoginForm()
 
 
+  'keydown .new-knote-title': (event, template) ->
+    PadsListHelper.moveFocusToBodyIfNecessary(event, template)
+
+
   'keyup .new-knote-title': (event, template) ->
+    PadsListHelper.listenToTitleInput event, template
     title = $(event.currentTarget).val()
     length = title.length
     $postButton = template.$('.post-button')
@@ -164,8 +169,6 @@ Template.padsList.events
       $postButton.attr('disabled', false)
     else
       $postButton.attr('disabled', true)
-    if length >= 150
-      template.$('.new-knote-body').focus()
     PadsListHelper.resetEditedContent()
 
 

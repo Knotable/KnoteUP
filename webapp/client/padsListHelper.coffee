@@ -1,3 +1,5 @@
+@CHAR_LIMITATION_IN_KNOTE_TITLE = 150
+
 @PadsListHelper =
   storeEditedContent: (editKnote) ->
     amplify.store "knote", editKnote
@@ -75,3 +77,46 @@
       else
         knoteIds.unarchived.push knoteId
       QuickKnotesRank.insert padId: padId, knoteIds: knoteIds
+
+
+
+  listenToTitleInput: (jQueryEvent, templateInstance) ->
+    unless jQueryEvent.metaKey or jQueryEvent.ctrlKey
+      titleText = jQueryEvent.currentTarget.value
+      content = PadsListHelper.splitKnoteTitle titleText
+      if content.bodyText
+        body = templateInstance.find('.new-knote-body')
+        PadsListHelper.insertContentIntoTitleAndBody jQueryEvent.currentTarget, body, content
+
+
+
+  splitKnoteTitle: (text) ->
+    if _.size(text) > CHAR_LIMITATION_IN_KNOTE_TITLE
+      result =
+        titleText: text.substr(0, CHAR_LIMITATION_IN_KNOTE_TITLE)
+        bodyText: text.substr(CHAR_LIMITATION_IN_KNOTE_TITLE)
+    else
+      result = titleText: text
+    result
+
+
+
+  insertContentIntoTitleAndBody: (titleElement, bodyElement, content) ->
+    cursor = SelectionTextHelper.getSelectionData()
+    titleElement.value = content.titleText
+    $(titleElement).trigger('autosize.resize')
+    if content.bodyText
+      $(bodyElement).prepend(content.bodyText).show()
+      $(bodyElement).focus()
+      SelectionTextHelper.setCursorAt(content.bodyText.length, bodyElement)
+    else
+      SelectionTextHelper.setCursorAt(cursor.pos, titleElement)
+
+
+
+  moveFocusToBodyIfNecessary: (jQueryEvent, templateInstance) ->
+    if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
+      jQueryEvent.preventDefault()
+      text = jQueryEvent.currentTarget.value
+      templateInstance.$('.new-knote-body').show().focus() unless _.isEmpty(text)
+      return false
