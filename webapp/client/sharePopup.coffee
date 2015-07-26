@@ -39,7 +39,8 @@ class SlackWorks
 
 
   checkWhetherCurrentCredentialsWork: (done) =>
-    Meteor.call 'checkCurrentSlackCredentials', (error, credentialsStatusObject) ->
+    knotableConnection.call 'checkCurrentSlackCredentials', (error, credentialsStatusObject) ->
+      console.error error if error
       done error if error
       done null, credentialsStatusObject
 
@@ -51,16 +52,16 @@ class SlackWorks
     @template.$('#checking-slack-connection .animate-spin').addClass('invisible')
     @template.$('#checking-slack-connection-text').addClass('hidden')
     @template.$('#checking-slack-connection-authorize-link').removeClass('hidden')
-    knoteupConnection.setUserId null
+    SlackLogin.credentials = undefined
     pollUntilLoggedIn = =>
-      return done() if knoteupConnection.userId()
+      return done() if SlackLogin.credentials
       return done @slackLoginError if @slackLoginError
       setTimeout pollUntilLoggedIn, 200
     pollUntilLoggedIn()
 
 
   getListOfSlackChannelsAndPopulateSelect: (done) =>
-    Meteor.call 'getListOfSlackChannels', (error, result) =>
+    knotableConnection.call 'getListOfSlackChannels', (error, result) =>
       done error if error
       done 'getListOfSlackChannels - not ok' unless result.ok
       $select = @template.$('#channels-list')
@@ -103,7 +104,7 @@ class SlackWorks
     @template.$('#checking-slack-connection').addClass('hidden')
     @template.$('#slack-popup-posting').removeClass('hidden')
     options.channelId = @template.$('#channels-list').val()
-    Meteor.call 'postOnSlack', options, (error, result) =>
+    knotableConnection.call 'postOnSlack', options, (error, result) =>
       if error
         console.error 'SlackWorks.post error:', error
         return @showError 'Unable to post on Slack'
@@ -143,7 +144,7 @@ Template.sharePopup.events
     template.$('#checking-slack-connection-text').removeClass('hidden')
     template.$('#checking-slack-connection-authorize-link').addClass('hidden')
     $spinner.removeClass('animate-spin')
-    loginWithSlackLocally (error) ->
+    SlackLogin.locally (error) ->
       if error
         template.data.slackWorks.slackLoginError = 'slack login error: ' + error
         template.data.slackWorks.teardown = true

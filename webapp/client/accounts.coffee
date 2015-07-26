@@ -34,28 +34,39 @@ Meteor.startup ->
       makeClientLoggedOut()
 
 
-@loginWithSlackLocally = (done) ->
-  Accounts.connection = knoteupConnection
-  Meteor.loginWithSlack {
-    requestPermissions: [
-      'read', 'post', 'identify', 'client'
-      ]
-  },
-  (error) ->
-    Accounts.connection = knotableConnection
-    console.error 'loginWithSlack error:', error if error
-    Meteor.defer ->
-      for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
-        #intercept Meteor keys
-        amplify.store 'Local' + key, localStorage['Meteor' + key] if localStorage['Meteor' + key]
-        #set Knotable keys because they could have been overriden
-        ensureSetLocalStorage 'Meteor' + key, amplify.store 'Knotable' + key
-    done error
+
+@SlackLogin =
+  locally: (done) ->
+    Accounts.connection = knoteupConnection
+    Meteor.loginWithSlack {
+      requestPermissions: [
+        'read', 'post', 'identify', 'client'
+        ]
+    },
+    (error) ->
+      Accounts.connection = knotableConnection
+      console.error 'loginWithSlack error:', error if error
+      saveSlackCredentialsOnKnotable() unless error
+      Meteor.defer ->
+        for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
+          #intercept Meteor keys
+          amplify.store 'Local' + key, localStorage['Meteor' + key] if localStorage['Meteor' + key]
+          #set Knotable keys because they could have been overriden
+          ensureSetLocalStorage 'Meteor' + key, amplify.store 'Knotable' + key
+      done error
+
+
+  credentials: undefined
 
 
 
-Meteor.startup ->
-  knoteupConnection.apply('login', [{resume: amplify.store 'Local' + loginTokenKey}]) if amplify.store 'Local' + loginTokenKey
+saveSlackCredentialsOnKnotable = ->
+  knoteupConnection.call 'getMySlackCredentials', (error, result) ->
+    return console.error 'getMySlackCredentials error:', error if error
+    return console.error 'getMySlackCredentials no credentials got' unless result
+    knotableConnection.call 'updateSlackCredentials', result.id, result.accessToken
+    SlackLogin.credentials = result
+
 
 
 
