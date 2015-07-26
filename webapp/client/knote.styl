@@ -471,3 +471,47 @@ a.btn-close
     border-left: 3px solid red
     .icon
       color: red
+
+
+@media screen and (max-width: 667px)
+  body
+    font-size: 14px
+    & ::-webkit-scrollbar
+      display: none
+  .btn
+    padding: 2px 10px
+    margin: 0
+    font-size: 14px
+    line-height: 22px
+
+  #container
+    box-shadow: 10px 0 10px 8px #000
+    left: 0
+    right: initial
+
+    &::-webkit-scrollbar
+      display: none
+     
+    #header
+      padding: 10px 5px
+      height: 40px
+      &.scrolling
+        box-shadow: 0px 2px 12px -3px rgba(0,0,0,0.45)
+      .left-header
+        margin-top: 20px
+
+    .padList
+      .pad .knote
+        margin: 15px auto
+      .pad .compose
+        width: 100%
+        margin: 10px auto
+        padding: 0
+        border: 1px solid white
+        .compose-wrapper
+          margin: 10px
+
+    #header .share-pad-btn
+    .header .redirect-to-knotable
+    .header .subject
+      left: 10px
