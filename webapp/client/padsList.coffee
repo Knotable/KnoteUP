@@ -273,10 +273,10 @@ Template.sharePadDropdown.events
     text = ''
     for knote, i in knotes
       text += (i+1) + '. ' + knote.title + '\n'
-    text += '<' + padUrl + '|track my progress>'
     new SharePopup(
       authorName: pad.subject
       authorLink: padUrl
       title: ''
       text: text
+      textLink: '<' + padUrl + '|track my progress>'
     ).show()

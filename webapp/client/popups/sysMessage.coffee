@@ -4,12 +4,21 @@ class @SysMessagePopup
   @activeInstance = null
 
 
+  ###
+  # data =
+  #   type: 'success' || 'warning'
+  #   message: 'string' # bold
+  #   detail: 'string'  # plain
+  #   duration: Number # -1: don't close popup automatically
+  #   showOk: Boolean
+  ###
   constructor: (data = {}) ->
     removeInstanceIfExists $ SysMessagePopup.id
     data.SysMessagePopup = @
     UI.renderWithData Template.sysMessagePopup, data, $(SysMessagePopup.parent)[0]
     SysMessagePopup.activeInstance = @
     @$popup = $ SysMessagePopup.id
+    @options = data
 
 
   removeInstanceIfExists = ($popup) ->
@@ -19,9 +28,10 @@ class @SysMessagePopup
 
   show: ->
     @$popup.slideToggle() unless @$popup.is(':visible')
-    Meteor.setTimeout =>
-      @close()
-    , 2000
+    unless @options.duration is -1
+      Meteor.setTimeout =>
+        @close()
+      , @options.duration or 2000
 
 
   close: ->
@@ -35,15 +45,22 @@ Template.sysMessagePopup.helpers
       when 'warning' then 'icon-info'
 
 
+Template.sysMessagePopup.events
+  'click .ok-btn': ->
+    SysMessagePopup.activeInstance.close()
 
-showMessage = (type, message) ->
-  popup = new SysMessagePopup
+
+
+showMessage = (type, message, options) ->
+  data =
     type: type
     message: message
+  _.extend data, options
+  popup = new SysMessagePopup data
   popup.show()
 
-@showSuccessMessage = (message) ->
-  showMessage 'success', message
+@showSuccessMessage = (message, options) ->
+  showMessage 'success', message, options
 
-@showWarningMessage = (message) ->
-  showMessage 'warning', message
+@showWarningMessage = (message, options) ->
+  showMessage 'warning', message, options

@@ -104,20 +104,22 @@ class SlackWorks
     @template.$('#checking-slack-connection').addClass('hidden')
     @template.$('#slack-popup-posting').removeClass('hidden')
     options.channelId = @template.$('#channels-list').val()
+    options.baseText = options.text
+    options.text = options.text + options.textLink
     knotableConnection.call 'postOnSlack', options, (error, result) =>
       if error
         console.error 'SlackWorks.post error:', error
         return @showError 'Unable to post on Slack'
-      @showSuccess()
+      @showSuccess(options)
+      SharePopup.activeInstance.close()
 
 
-  showSuccess: =>
-    @template.$('#slack-popup-posting-message').text 'Successfully shared the knote on Slack'
-    @template.$('#slack-popup-posting .animate-spin').addClass('hidden')
-    @template.$('#slack-popup-posting .everythings-ok').removeClass('hidden')
-    @template.$('#share-ok').addClass('hidden')
-    @template.$('#share-cancel').prop('disabled', false)
-    @template.$('#share-cancel .share-popup-button-content').text('Close')
+  showSuccess: (options) =>
+    detail = "<p><b>#{options.authorName}</b></p><p>#{options.baseText.replace(/\n/g, '<br>')}</p>"
+    showSuccessMessage 'You just posted this to slack #' + $('#channels-list option:selected').text(),
+      duration: -1
+      detail: detail
+      showOk: true
 
 
   showError: (text) =>
@@ -158,5 +160,5 @@ Template.sharePopup.events
 
 
   'click #share-ok': (e, template) ->
-    options = _.pick template.data, 'topicId', 'authorName', 'authorLink', 'knoteId', 'title', 'text'
+    options = _.pick template.data, 'topicId', 'authorName', 'authorLink', 'knoteId', 'title', 'text', 'textLink'
     template.data.slackWorks.post options
