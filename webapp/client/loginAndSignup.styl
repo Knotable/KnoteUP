@@ -1,3 +1,7 @@
+html
+  -webkit-tap-highlight-color: transparent 
+  -webkit-font-smoothing: antialiased 
+
 .user-modal
   position: fixed
   top: 0
@@ -34,7 +38,6 @@
     right: 15px
     top: -90px
   a
-    color: #337ab7
     outline: none
     cursor: pointer
     text-decoration: none
@@ -63,7 +66,7 @@ form
   top: 44px
 
 .box
-  background: #343c44
+  background: #28ace8
   -webkit-border-radius: 4px
   border-radius: 4px
   color: #fff
@@ -77,8 +80,12 @@ form
         margin: 5px 0 14px
         text-align: center
         font-weight: 600
-        font-size: 19px
+        font-size: 16px
         color: #fff
+      .message
+        text-align: center
+        font-size: 14px
+        margin: 30px 0
       .control-group
         margin-bottom: 10px
         .for-user:before
@@ -97,18 +104,25 @@ form
           background-position: -166px -69px
         .for-email:before
           background-position: -113px -119px
+        .login-button
+        #create-account
+          border: 2px solid white
+          border-radius: 4px
+          box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
+          &:hover
+            background-color: #248fbe
 
 .box .control-group input[type="text"],
 .box .control-group input[type="email"],
 .box .control-group input[type="password"]
   border: none
-  color: #fff
+  color: #555
   font-size: 12px
   height: auto
   padding: 10px 6px
   width: 100%
   margin: 0
-  background-color: #404852
+  background-color: white
   -webkit-border-radius: 5px
   border-radius: 5px
 
@@ -123,11 +137,15 @@ form
 .btn-blue
   background: #28ade8
 
+#go-login
 .signup-link
-  text-align: center
   display: block
-  font-size: 10pt
-  margin-top: 30px
+  color: white
+  text-align: center
+  font-size: 10px
+  cursor: pointer
+  &:hover
+    color: #204d74
 
 .hidden
   display: none !important
@@ -136,6 +154,6 @@ form
   visibility: hidden !important
 
 .text-desc
-  color: #a3a2a2
+  color: white
   font-style: italic
   padding: 3px 0 0
