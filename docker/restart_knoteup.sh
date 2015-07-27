@@ -3,7 +3,7 @@ cd ~/.ssh
 
 # ==== uncomment lines with servers to be restarted ==== #
 
-#frontendIP_1=upknote.com
+#frontendIP_1=knoteup.com
 
 key=dev.pem
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd ~/.ssh
 
-frontendIP_1=upknote.com
+frontendIP_1=knoteup.com
 
 key=dev.pem
 
@@ -44,9 +44,9 @@ ssh -i $key ubuntu@$frontendIP_1 bash -c '              \
   sudo docker run -d                                    \
       --name webapp                                     \
       --link knoteup-mongo:knoteup-mongo                \
-      -e DOMAIN_LONG=upknote.com                        \
-      -e DOMAIN_SHORT=upknote                           \
-      -e HOSTNAME=upknote.com                           \
+      -e DOMAIN_LONG=knoteup.com                        \
+      -e DOMAIN_SHORT=knoteup                           \
+      -e HOSTNAME=knoteup.com                           \
       -e MONGO_URL="mongodb://knoteup-mongo/knotepad"   \
       -p 5000:80                                        \
       -v /knotable-var:/logs                            \
@@ -56,8 +56,8 @@ ssh -i $key ubuntu@$frontendIP_1 bash -c '              \
   sleep 2                                           ;   \
   sudo docker run -d                                    \
         --name knoteup-nginx                            \
-        -e DOMAIN_LONG=upknote.com                      \
-        -e DOMAIN_SHORT=upknote                         \
+        -e DOMAIN_LONG=knoteup.com                      \
+        -e DOMAIN_SHORT=knoteup                         \
         -p 80:80                                        \
         --link webapp:webapp                            \
         registry.knotable.com:443/instance-nginx    &&  \

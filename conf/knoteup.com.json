@@ -1,0 +1,9 @@
+{
+  "public": {
+    "remoteHost": "beta.knotable.com"
+  },
+  "slack": {
+    "clientId": "2154116941.6714603873",
+    "clientSecret": "8d046222c057a286b75e915254477dfc"
+  }
+}
