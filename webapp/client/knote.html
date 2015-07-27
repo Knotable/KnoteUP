@@ -1,27 +1,29 @@
 <template name="knote">
   <div class="knote {{#if archived}} gray {{/if}}">
-    {{#with contact}}
-      <div class="contact">
-        {{> contactAvatar}}
+    <div class="knote-wrapper">
+      {{#with contact}}
+        <div class="contact">
+          {{> contactAvatar}}
+        </div>
+      {{/with}}
+      <textarea disabled="disabled" rows="1" class="knote-title editKnote" maxlength="150" tabindex="16">{{title}}</textarea>
+      {{{contenteditableBody}}}
+      <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
+        <!-- <i class="icon icon-chat"></i> -->
+        {{#if archived}}
+          <i class="icon icon-reply-1 restore"></i>
+        {{else}}
+          <i class="icon icon-pencil edit-knote"></i>
+          <i class="icon icon-check archive"></i>
+          <!--
+          <i class="icon icon-share share-knote"></i>
+          -->
+        {{/if}}
+        <span class="buttons hidden pull-right">
+          <input type="button" class="btn btn-small my-btn btn-save" value="Save">
+          <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
+        </span>
       </div>
-    {{/with}}
-    <textarea disabled="disabled" rows="1" class="knote-title editKnote" maxlength="150" tabindex="16">{{title}}</textarea>
-    {{{contenteditableBody}}}
-    <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
-      <!-- <i class="icon icon-chat"></i> -->
-      {{#if archived}}
-        <i class="icon icon-reply-1 restore"></i>
-      {{else}}
-        <i class="icon icon-pencil edit-knote"></i>
-        <i class="icon icon-check archive"></i>
-        <!--
-        <i class="icon icon-share share-knote"></i>
-        -->
-      {{/if}}
-      <span class="buttons hidden pull-right">
-        <input type="button" class="btn btn-small my-btn btn-save" value="Save">
-        <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
-      </span>
     </div>
   </div>
 </template>
