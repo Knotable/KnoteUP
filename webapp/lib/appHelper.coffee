@@ -14,6 +14,20 @@ ALPHABET_LENGTH = ALPHABET.length
       urlHash += ALPHABET[uniqueNumber % ALPHABET_LENGTH]
       uniqueNumber = parseInt(uniqueNumber / ALPHABET_LENGTH, 10)
     return urlHash.split("").reverse().join("")
-    
+
   getPadUrlFromId: (padId) ->
     'http://' + Meteor.settings.public.remoteHost + '/p/' + @getShortHash(padId)
+
+  USERNAME_REGEX: /^[a-zA-Z0-9\._\-]+$/
+
+  isValidUsername: (username) ->
+    AppHelper.USERNAME_REGEX.test(username)
+
+  EMAIL_REGEX: /^[a-zA-Z0-9\._\-\+]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,6}$/
+
+  isCorrectEmail: (address) ->
+    AppHelper.EMAIL_REGEX.test(address)
+
+  # password length should be more than 6 characters
+  isValidPassword : (val) ->
+    val.length >= 6 ? true : false
