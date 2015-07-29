@@ -85,7 +85,7 @@
       titleText = jQueryEvent.currentTarget.value
       content = PadsListHelper.splitKnoteTitle titleText
       if content.bodyText
-        body = templateInstance.find('.new-knote-body')
+        body = templateInstance.find('.new-knote-body, .knote-body')
         PadsListHelper.insertContentIntoTitleAndBody jQueryEvent.currentTarget, body, content
 
 
@@ -118,5 +118,5 @@
     if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
       jQueryEvent.preventDefault()
       text = jQueryEvent.currentTarget.value
-      templateInstance.$('.new-knote-body').show().focus() unless _.isEmpty(text)
+      templateInstance.$('.new-knote-body,.knote-body').show().focus() unless _.isEmpty(text)
       return false

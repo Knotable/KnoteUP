@@ -54,8 +54,8 @@ Template.knote.events
   'click .btn-cancel': (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
-    template.$(".knote-title").prop('disabled', true)
-    template.$(".knote-body").prop('contenteditable', false)
+    template.$(".knote-title").prop('disabled', true).val(@title)
+    template.$(".knote-body").prop('contenteditable', false).html(@htmlBody or @body or '')
 
 
   "click .btn-save": (e, template) ->
@@ -80,6 +80,13 @@ Template.knote.events
           htmlBody: body
       Knotes.update knoteId, updateOptions
 
+
+  'keydown .knote-title': (event, template) ->
+    PadsListHelper.moveFocusToBodyIfNecessary(event, template)
+
+
+  'keyup .knote-title': (event, template) ->
+    PadsListHelper.listenToTitleInput event, template
 
 
 
