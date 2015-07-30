@@ -104,7 +104,13 @@ Template.loginAndSignup.events
       logIn email, password, (error) ->
         if error
           console.log 'login error', error
-          template.$('#login-form .form-message.invisible').removeClass('invisible').text(error.reason)
+          reason = error.reason or error.error or error.message
+          try
+            parseReason = JSON.parse reason
+            reason = parseReason.message or reason
+          catch e
+
+          template.$('#login-form .form-message').removeClass('invisible').text(reason)
 
   'click #create-account': (event) ->
     event.preventDefault()
@@ -120,11 +126,11 @@ Template.loginAndSignup.events
     $target = $(e.currentTarget)
     username = $target.val()
     $target.val username.toLowerCase() if username
-    template.$('#login-form .form-message').addClass('invisible')
 
 
-  'keyup #login-password': (e, template) ->
-    template.$('#login-form  .form-message').addClass('invisible')
+  'keyup #login-password,#login-username': (e, template) ->
+    if e.keyCode isnt 13
+      template.$('#login-form  .form-message').addClass('invisible')
 
 
   'keyup #account-username,#account-email,#account-password': (e) ->
