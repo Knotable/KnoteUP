@@ -111,6 +111,8 @@ Template.loginAndSignup.events
           catch e
 
           template.$('#login-form .form-message').removeClass('invisible').text(reason)
+    else
+      template.$('#login-form .form-message').removeClass('invisible').text('Please fill out all the boxes!')
 
   'click #create-account': (event) ->
     event.preventDefault()

@@ -3,7 +3,6 @@
   height: 100%
   overflow: hidden
 
-
 .padList
   top: 60px
   position: relative
@@ -11,21 +10,37 @@
   overflow-x: hidden
   height: calc(100% - 60px)
 
+  .min-k-btn
+    display: inline-block
+    padding: 0
+    margin-right: 5px
+    font-size: 16px
+    text-decoration: none
+    font-weight: bold
+    height: 26px
+    width: 26px
+    line-height: 26px
+
+
 .header
   width: 100%
-  height: 50px
   position: relative
   z-index: 100
 
   &#header
+    padding: 10px 0
     position: fixed
     top: 0px
     &.scrolling
       background-color: white
       box-shadow: 0px 2px 7px -3px rgba(0,0,0,0.45)
+    .subject
+      line-height: 30px
+      height: 30px
+      padding-left: 10px
 
   .left-header
-    margin-top: 25px
+    margin-left: 20px
     .title
     .show-compose
       float: left
@@ -36,42 +51,43 @@
       border-radius: 50%
       height: 30px
       width: 30px
-      margin-left: 35px
-      margin-top: -15px
       font-size: 15px
-      &:before
-        margin-top: 7px
-        margin-left: 8px
+      cursor: pointer
+      line-height: 30px
+      text-align: center
 
 
-  &.padItem .subject:after
-    content: ""
-    position: absolute
-    top: 50%
-    left: 200px
-    right: 200px
-    height: 1px
-    background: #e5e5e5
+  &.padItem
+    display: table
+    .subject
+      display: table-cell
+    .divider
+      display: table-cell
+      width: 100%
+      &:after
+        display: block;
+        content: "";
+        height: 1px;
+        background: #e5e5e5;
+        margin: 0 200px 5px 40px;
 
   &#header .share-part
     float: left
-    margin-left: 10px
 
   &#header .share-pad-btn
   .redirect-to-knotable
   .subject
-    position: relative
-    top: 50%
-    left: 20px
-    transform: translate(0, -50%)
     font-size: 16px
+    padding-left: 20px
 
   &#header .share-pad-btn
-    font-size: 12px !important
+    font-size: 14px !important
+    height: 30px
+    padding: 2px 8px
 
   &#header .share-pad-dropdown
-    top: 20px
-    left: 20px
+    top: 35px
+    left: 0px
     li
       white-space: nowrap
 
@@ -80,7 +96,6 @@
     text-decoration: none
     padding: 2px 9px
     line-height: 24px
-    margin-right: 10px
 
   .subject
     line-height: 1.3
@@ -98,9 +113,8 @@
     font-style: normal
     font-size: 14px
     position: absolute
-    top: 50%
+    top: 8px
     right: 20px
-    transform: translate(0, -50%)
     p
       font-size: 16px
       float: left
@@ -114,6 +128,9 @@
       line-height: 24px
     .logout
       padding: 2px 1px 2px 5px
+
+  .login-button
+    top: 10px
 
 .pad
   width: 100%
@@ -380,7 +397,7 @@ a.btn-close
 .share-part
   display: inline
   position: relative
-  margin-left: 20px
+  margin-left: 10px
 
   .share-pad-btn
     padding: 2px 8px

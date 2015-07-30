@@ -1,8 +1,11 @@
+hidePadShareDropdown = ->
+  $('#setting-dropdown:visible, .share-pad-dropdown:visible').slideToggle()
+
+
 showLoginForm = ->
   $form_modal = $('.user-modal')
   $form_modal.addClass('is-visible')
   $form_modal.find('#login-username').focus()
-
 
 
 todaySubject = ->
@@ -43,7 +46,7 @@ moveAnimationHooks =
 
 
 $(document).click ->
-  $('#setting-dropdown:visible, .share-pad-dropdown:visible').slideToggle()
+  hidePadShareDropdown()
 
 
 Template.padsList.onRendered ->
@@ -54,6 +57,9 @@ Template.padsList.onRendered ->
   PadsListHelper.restoreEditedContent()
   @$('.post-button').attr('disabled', false) if $title.val().length
 
+  latestPad = @data.latestPad
+  if latestPad
+    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(latestPad._id)
 
   previousScroll = 0
   scrollAction = ->
@@ -83,6 +89,7 @@ Template.padsList.onRendered ->
       id = $('#header .title').data('latest-id')
     $('#header .subject').text subject
     $('#header .share-part').attr 'data-id', id
+    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(id)
     previousScroll = currentScroll
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
@@ -113,6 +120,7 @@ Template.padsList.helpers
 Template.padsList.events
   'click .user': (e) ->
     e.stopPropagation()
+    hidePadShareDropdown()
     $('#setting-dropdown').slideToggle()
 
 
@@ -127,22 +135,6 @@ Template.padsList.events
 
   'click .logout': ->
     logout()
-
-
-
-  'click .redirect-to-knotable': (e) ->
-    token = amplify.store loginToken
-    remoteHost = Meteor.settings.public.remoteHost
-    if remoteHost[-1] is '/'
-      tokenSuffix = "loginToken/#{token}"
-    else
-      tokenSuffix = "/loginToken/#{token}"
-    remoteUrl = "http://" + Meteor.settings.public.remoteHost + tokenSuffix
-    if not remoteUrl.match('http://')
-      remoteUrl = 'http://' + remoteUrl
-    console.log remoteUrl
-    window.location = remoteUrl
-
 
 
   'click .login-button': (event, template) ->
@@ -240,6 +232,9 @@ Template.padsList.events
 
 
 Template.padItem.helpers
+  knotableLink: ->
+    AppHelper.getPadUrlFromId(@_id)
+
   knotes: ->
     knotes = Knotes.find {topic_id: @_id}, sort: archived: 1, order: 1
     PadsListHelper.sortKnotesOrder knotes.fetch()

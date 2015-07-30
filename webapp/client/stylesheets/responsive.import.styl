@@ -18,20 +18,36 @@
       display: none
      
     #header
-      padding: 10px 0px
-      height: 40px
+      z-index: 200
+      .user
+        right: 10px
       &.scrolling
         box-shadow: 0px 2px 12px -3px rgba(0,0,0,0.45)
       .left-header
-        margin-top: 20px
+        margin-left: 10px
+        .show-compose
+          position: fixed
+          bottom: 20px
+          right: 20px
+          font-size: 20px
+          width: 45px
+          height: 45px
+          line-height: 45px
 
     .padList
       overflow-x: hidden
       .pad .knote
+        margin: 40px auto
         width: 100%
         padding: 15px 0
         .knote-wrapper
           margin: 0 15px
+          .contact
+            top: -22px
+            left: 10px
+            .account-avatar
+              width: 30px
+              height: 30px
       .pad .compose
         width: 100%
         margin: 10px auto
@@ -50,3 +66,11 @@
 
   .share-popup-centered-container
     width: 90%
+
+  .header.padItem .divider:after
+    margin: 0 20px 5px 10px
+
+  #header .share-part .share-pad-dropdown
+  .share-part .share-pad-dropdown
+    right: 0
+    left: auto
