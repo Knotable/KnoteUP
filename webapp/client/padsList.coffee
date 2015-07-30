@@ -1,5 +1,5 @@
 hidePadShareDropdown = ->
-  $('#setting-dropdown:visible, .share-pad-dropdown:visible').slideToggle()
+  $('.share-pad-dropdown:visible').slideToggle()
 
 
 showLoginForm = ->
@@ -46,6 +46,7 @@ moveAnimationHooks =
 
 
 $(document).click ->
+  $('#setting-dropdown:visible').slideToggle()
   hidePadShareDropdown()
 
 
