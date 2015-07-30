@@ -29,4 +29,5 @@ Router.route '/(.*)',
         Meteor.subscribe 'QuickknotesRank'
         Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
         Meteor.remoteConnection.subscribe 'userAccount'
+        Meteor.remoteConnection.subscribe 'contactById'
       ]
