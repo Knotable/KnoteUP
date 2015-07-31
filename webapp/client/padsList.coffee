@@ -2,10 +2,12 @@ hidePadShareDropdown = ->
   $('.share-pad-dropdown:visible').slideToggle()
 
 
+
 showLoginForm = ->
   $form_modal = $('.user-modal')
   $form_modal.addClass('is-visible')
   $form_modal.find('#login-username').focus()
+
 
 
 todaySubject = ->
@@ -15,6 +17,7 @@ todaySubject = ->
     user.username + '\'s Knoteup for ' + date
   else
     date
+
 
 
 moveAnimationHooks =
@@ -45,9 +48,11 @@ moveAnimationHooks =
     $inBetween.addClass('animate').css('top', 0);
 
 
+
 $(document).click ->
   $('#setting-dropdown:visible').slideToggle()
   hidePadShareDropdown()
+
 
 
 Template.padsList.onRendered ->
@@ -101,13 +106,15 @@ Template.padsList.onRendered ->
     PadsListHelper.initKnoteDraggable()
 
 
-
 Template.padsList.helpers
   currentContact: ->
     AppHelper.currentContact()
 
+
+
   username: ->
     Meteor.user()?.username
+
 
 
   contentEditableSubject: ->
@@ -141,8 +148,10 @@ Template.padsList.events
     $('#setting-dropdown').slideToggle()
 
 
+
   'click #setting-dropdown': (e) ->
     e.stopPropagation()
+
 
 
   'click .show-compose': ->
@@ -150,8 +159,10 @@ Template.padsList.events
     $('.new-knote-title').focus()
 
 
+
   'click .logout': ->
     logout()
+
 
 
   'click .login-button': (event, template) ->
@@ -165,8 +176,10 @@ Template.padsList.events
     showLoginForm()
 
 
+
   'keydown .new-knote-title': (event, template) ->
     PadsListHelper.moveFocusToBodyIfNecessary(event, template)
+
 
 
   'keyup .new-knote-title': (event, template) ->
@@ -179,6 +192,7 @@ Template.padsList.events
     else
       $postButton.attr('disabled', true)
     PadsListHelper.resetEditedContent()
+
 
 
   'click .post-button': (e, template) ->
@@ -281,6 +295,8 @@ Template.padItem.helpers
   knotableLink: ->
     UrlHelper.getPadUrlFromId(@_id)
 
+
+
   knotes: ->
     PadsListHelper.getSortedKnotes @_id
 
@@ -304,13 +320,19 @@ Template.sharePadDropdown.events
     btn = $(e.currentTarget)
     btn.siblings('.share-pad-dropdown').slideToggle()
 
+
+
   'click .share-invite': (e) ->
     padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: false, padId: padId}).show()
 
+
+
   'click .share-link': (e) ->
     padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: true, padId: padId}).show()
+
+
 
   'click .share-slack': (e) ->
     topicId = $(e.currentTarget).parents('.share-part').attr('data-id')
