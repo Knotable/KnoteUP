@@ -54,9 +54,8 @@ Template.padsList.onRendered ->
   @data.subject = moment().format "MMM Do"
 
   $title = @$(".new-knote-title")
-  $title.autosize()
   PadsListHelper.restoreEditedContent()
-  @$('.post-button').attr('disabled', false) if $title.val().length
+  @$('.post-button').attr('disabled', false) if $title.text().length
 
   latestPad = @data.latestPad
   if latestPad
@@ -140,7 +139,7 @@ Template.padsList.events
 
   'click .login-button': (event, template) ->
     return if Meteor.userId()
-    title = template.$(".new-knote-title").val()
+    title = template.$(".new-knote-title").html()
     body = template.$(".new-knote-body").html()
     editKnote =
       title: title
@@ -155,7 +154,7 @@ Template.padsList.events
 
   'keyup .new-knote-title': (event, template) ->
     PadsListHelper.listenToTitleInput event, template
-    title = $(event.currentTarget).val()
+    title = $(event.currentTarget).text()
     length = title.length
     $postButton = template.$('.post-button')
     if length > 0
@@ -171,7 +170,7 @@ Template.padsList.events
     subject = $("#header .subject").text()
     $newTitle = template.$(".new-knote-title")
     $newBody = template.$(".new-knote-body")
-    title = $newTitle.val()
+    title = $newTitle.text()
     body = $newBody.html()
 
     if not Meteor.userId()
@@ -211,7 +210,7 @@ Template.padsList.events
           if error
             console.log 'add_knote', error
           else
-            $newTitle.val('')
+            $newTitle.html('')
             $newBody.html('')
             PadsListHelper.resetEditedContent()
             PadsListHelper.setNewKnoteRank topicId, knoteId
@@ -244,6 +243,13 @@ Template.padItem.helpers
 
 Template.padItem.onRendered ->
   @find('.pad .knote-list')?._uihooks = moveAnimationHooks
+
+
+
+Template.sharePadDropdown.onRendered ->
+  isTopHeader = $(@find '.share-part').parents('#header').length
+  if isTopHeader
+    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(@data._id)
 
 
 

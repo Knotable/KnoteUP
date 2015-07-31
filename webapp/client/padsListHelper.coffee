@@ -82,7 +82,7 @@
 
   listenToTitleInput: (jQueryEvent, templateInstance) ->
     unless jQueryEvent.metaKey or jQueryEvent.ctrlKey
-      titleText = jQueryEvent.currentTarget.value
+      titleText = $(jQueryEvent.currentTarget).text()
       content = PadsListHelper.splitKnoteTitle titleText
       if content.bodyText
         body = templateInstance.find('.new-knote-body, .knote-body')
@@ -103,8 +103,7 @@
 
   insertContentIntoTitleAndBody: (titleElement, bodyElement, content) ->
     cursor = SelectionTextHelper.getSelectionData()
-    titleElement.value = content.titleText
-    $(titleElement).trigger('autosize.resize')
+    $(titleElement).text content.titleText
     if content.bodyText
       $(bodyElement).prepend(content.bodyText).show()
       $(bodyElement).focus()
@@ -117,6 +116,6 @@
   moveFocusToBodyIfNecessary: (jQueryEvent, templateInstance) ->
     if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
       jQueryEvent.preventDefault()
-      text = jQueryEvent.currentTarget.value
+      text = $(jQueryEvent.currentTarget).text()
       templateInstance.$('.new-knote-body,.knote-body').show().focus() unless _.isEmpty(text)
       return false

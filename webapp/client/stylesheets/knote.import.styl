@@ -174,10 +174,8 @@
       padding: 0
       margin: 0
       width: 100%
-      overflow: hidden
       word-wrap: break-word
       resize: none
-      height: 17px
 
     .knote-date
       font-size: 12px
@@ -188,6 +186,8 @@
       line-height: 1.3
       padding: 5px 0
       word-wrap: break-word
+      p
+        margin: 0
     .post-btn-container
       width: 100%
       height: 30px
@@ -476,3 +476,389 @@ a.btn-close
     font-size: 10px
     padding: 0 6px
     margin-bottom: 12px
+
+// copy
+span.img-wrapper
+  position: relative
+  display: inline-block
+  overflow: visible
+  & .btn-close
+    top: -8px
+    right: -8px
+    display: none
+
+div[contenteditable=true] span.img-wrapper .btn-close
+  display: block
+  opacity: .5
+  z-index: 1
+
+div[contenteditable=true] span.img-wrapper:hover .btn-close
+  opacity: 1
+
+.file-list .thumb.thumb-loading
+.file.thumb-loading
+  background: url("cdn_url_variable/images/loading.gif") no-repeat center center
+
+.thumbnail-wrapper .embed
+  padding: 0
+
+.viewing .thumbnail-wrapper
+  border-color: transparent
+
+.delete_file_ico
+  position: absolute
+  right: 0
+  top: 0
+  margin: 10px
+  cursor: pointer
+  width: 12px
+  height: 12px
+  background: url("cdn_url_variable/images/sprite_3.png") -150px -251px no-repeat
+  z-index: 10
+
+.message .thumbnail-wrapper .delete_file_ico
+.key-note .thumbnail-wrapper .delete_file_ico
+.message .viewing .need-readmoresmall .thumbnail-wrapper .delete_file_ico
+.message .viewing .need-readmore-large .thumbnail-wrapper .delete_file_ico
+  display: none
+
+.message.in-edit .thumbnail-wrapper .delete_file_ico
+.key-note.in-edit .thumbnail-wrapper .delete_file_ico
+  display: block !important
+
+.thumbnail1
+  width: 504px
+  height: 378px
+  max-width: 98%
+
+.thumbnail2
+  width: 251px
+  height: 188px
+  max-width: 48%
+
+.knote-compose-popup .file-list
+  margin-bottom: 0
+  position: relative
+
+.transparent
+  opacity: 0
+
+
+.file > a
+.thumb .file
+  display: inline-block
+  text-decoration: none
+  background-repeat: no-repeat
+  background-position: center center
+  background-size: 50% auto
+  background-image: url("cdn_url_variable/images/file_type_icon/txt.png")
+  width: 95px
+  height: 95px
+
+.thumbnail-wrapper .file
+  border: 1px solid $gray-lighter !important
+  &:hover
+    border: 1px solid $gray-light !important
+  & .file-name
+    display: block
+    overflow: hidden
+    text-overflow: ellipsis
+    margin-top: 92px
+    white-space: nowrap
+    color: $gray
+
+.thumbnail-wrapper .thumb + .file
+  display: none
+
+.file .delete_file_ico
+  display: none
+  right: 5px
+
+.file:hover .delete_file_ico
+  display: block
+
+.file a img
+  max-width: 100%
+  max-height: 100%
+
+.file .thumbnail-wrapper
+  width: 82px
+  height: 82px
+  position: relative
+
+.file.image>a
+.file.gif>a
+.file.jpg>a
+.file.png>a
+.thumb.image
+.thumb.gif
+.thumb.jpg
+.thumb.png
+  background-image: none
+
+.file.doc>a
+.file.docx>a
+.thumb.doc
+.thumb.docx
+.thumb a.file[href$=".docx"]
+.thumb a.file[href$=".doc"]
+  background-image: url("cdn_url_variable/images/file_type_icon/word.png")
+
+.file.avi>a
+.file.mpeg>a
+.thumb.avi
+.thumb.mpeg
+.thumb a.file[href$=".avi"]
+.thumb a.file[href$=".mpeg"]
+  background-image: url("cdn_url_variable/images/file_type_icon/video.png")
+
+.file.xls>a
+.file.xlsx>a
+.thumb.xls
+.thumb.xlsx
+.thumb a.file[href$=".xls"]
+.thumb a.file[href$=".xlsx"]
+  background-image: url("cdn_url_variable/images/file_type_icon/excel.png")
+
+.file.pdf>a
+.thumb.pdf
+.thumb a.file[href$=".pdf"]
+  background-image: url("cdn_url_variable/images/file_type_icon/acrobat.png")
+
+.file.ai>a
+.thumb.ai
+.thumb a.file[href$=".ai"]
+  background-image: url("cdn_url_variable/images/file_type_icon/illustrator.png")
+
+.file.html>a
+.thumb.html
+.thumb a.file[href$=".html"]
+  background-image: url("cdn_url_variable/images/file_type_icon/html.png")
+
+.file.css>a
+.thumb.css
+.thumb a.file[href$=".css"]
+  background-image: url("cdn_url_variable/images/file_type_icon/css.png")
+
+.file.php>a
+.thumb.php
+.thumb a.file[href$=".php"]
+  background-image: url("cdn_url_variable/images/file_type_icon/php.png")
+
+.file.mp3>a
+.thumb.mp3
+.thumb a.file[href$=".mp3"]
+  background-image: url("cdn_url_variable/images/file_type_icon/music.png")
+
+.file.js>a
+.thumb.js
+.thumb a.file[href$=".js"]
+  background-image: url("cdn_url_variable/images/file_type_icon/js.png")
+
+.file.rar>a
+.thumb.rar
+.file.zip>a
+.thumb.zip
+.thumb a.file[href$=".zip"]
+.thumb a.file[href$=".rar"]
+  background-image: url("cdn_url_variable/images/file_type_icon/archive.png")
+
+.file.ses>a
+.thumb.ses
+.thumb a.file[href$=".ses"]
+  background-image: url("cdn_url_variable/images/file_type_icon/audition.png")
+
+.file.mxp>a
+.thumb.mxp
+.thumb a.file[href$=".mxp"]
+  background-image: url("cdn_url_variable/images/file_type_icon/dreamweaver.png")
+
+.file.swf>a
+.thumb.swf
+.thumb a.file[href$=".swf"]
+  background-image: url("cdn_url_variable/images/file_type_icon/flash.png")
+
+.file.indd>a
+.thumb.indd
+.thumb a.file[href$=".indd"]
+  background-image: url("cdn_url_variable/images/file_type_icon/indesign.png")
+
+.file.otf>a
+.thumb.otf
+.thumb a.file[href$=".otf"]
+  background-image: url("cdn_url_variable/images/file_type_icon/otf.png")
+
+.file.psd>a
+.thumb.psd
+.thumb a.file[href$=".psd"]
+  background-image: url("cdn_url_variable/images/file_type_icon/photoshop.png")
+
+.file.ppt>a
+.thumb.ppt
+.file.pptx>a
+.thumb.pptx
+.thumb a.file[href$=".ppt"]
+.thumb a.file[href$=".pptx"]
+  background-image: url("cdn_url_variable/images/file_type_icon/powerpoint.png")
+
+.file.torrent>a
+.thumb.torrent
+.thumb a.file[href$=".torrent"]
+  background-image: url("cdn_url_variable/images/file_type_icon/torrent.png")
+
+.file.ttf>a
+.thumb.ttf
+.thumb a.file[href$=".ttf"]
+  background-image: url("cdn_url_variable/images/file_type_icon/ttf.png")
+
+.file.wav>a
+.thumb.wav
+.thumb a.file[href$=".wav"]
+  background-image: url("cdn_url_variable/images/file_type_icon/wav.png")
+
+.file
+  height: 94px
+  padding: 5px
+
+.file-box
+  display: inline-block
+  height: 117px
+  margin: 0 8px 16px 0
+  width: 94px
+  text-align: center
+  white-space: nowrap
+  vertical-align: top
+
+.file-box .file
+.thumb-box .thumb
+  margin-bottom: 3px
+
+.file-box .file
+  position: relative
+
+.thumb-box .thumb
+  background-color: #FFFFFF
+
+.thumb-box .thumb.thumb-loading
+  background: none
+
+.loading-status
+  animation: flash 1s infinite
+
+
+.thumb-box .thumb .delete_file_ico
+  top: 0
+  right: 0
+  margin-right: 0
+  margin-top: 0
+  display: none
+
+.file-name
+  text-align: center
+
+#saving_file_box
+  display: none
+
+#saving_file_box.show
+  display: inline-block
+
+#saving_file_box img
+  width: 94px
+  height: 94px
+
+.profile-icon
+  background: url("cdn_url_variable/images/profile.png") no-repeat right center
+  height: 12px
+  width: 12px
+  background-size: 12px
+  display: inline-block
+  margin: 1px 0 0 0 !important
+
+.knote-content.images-hidden .compose-area .thumbnail-wrapper
+#compose-popup .images-hidden .thumbnail-wrapper
+  display: none
+
+.compose-area .uploading-thumb span.img-wrapper .delete_file_ico
+  display: none
+
+.uploading-thumb span.img-wrapper .btn-close
+  display: block
+  right: 0
+  top: 0
+  position: absolute
+
+.embed
+  margin: 10px 0
+
+.embed a
+  border: none
+  margin-right: 5px
+
+.embed > a
+  float: left
+
+.embed a:hover
+  border: none
+  text-decoration: underline
+
+.embed img
+  display: inline-block !important
+
+.embed .origin-link
+.embed .origin-link a
+  word-wrap: break-word
+  word-break: break-all
+
+.embed.link
+  .embedded-link
+    width: auto
+  .origin-link
+    display: inline
+
+.embed.link.has-photo
+.embed.photo.has-photo
+  .embedded-link
+  .embedded-link:hover
+    border: none
+    overflow: hidden
+    width: 100%
+    .detail
+      line-height: 2
+      .embedded-title
+        font-size: 13px
+  .origin-link
+    display: block
+
+.embed.link
+.embed.photo
+  .img-wrapper
+    float: left
+    margin: 2px 10px 2px 2px
+    max-height: 100px !important
+    max-width: 100px !important
+    box-shadow: 0 0 2px
+    border-radius: 5px
+    overflow: hidden
+    img
+      object-fit: contain
+    .embedded-favicon
+      width: 50px !important
+      height: 50px !important
+    &.longer-width img
+      height: 100px
+    &.longer-height img
+      width: 100px
+
+.embed.video
+  .origin-link
+    text-align: center
+
+.knote-content p.embed-original-link
+  margin-top: 5px
+
+.embed-original-link a
+  background-color: #e6e6e6
+  padding: 3px
+
+
+

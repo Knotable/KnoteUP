@@ -6,8 +6,10 @@
           {{> contactAvatar}}
         </div>
       {{/with}}
-      <textarea disabled="disabled" rows="1" class="knote-title editKnote" tabindex="16">{{title}}</textarea>
-      {{{contenteditableBody}}}
+      <div class="knote-content">
+        <div class="knote-title editKnote" tabindex="16">{{{title}}}</div>
+        {{{contenteditableBody}}}
+      </div>
       <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
         <!-- <i class="icon icon-chat"></i> -->
         {{#if archived}}

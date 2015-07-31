@@ -1,7 +1,3 @@
-Template.knote.onRendered ->
-  @$(".knote-title").autosize()
-
-
 Template.knote.events
 
   'mouseenter .knote': (e, template) ->
@@ -33,7 +29,7 @@ Template.knote.events
   'click i.edit-knote': (e, template) ->
     template.$('.buttons').removeClass("hidden")
     template.$(".knote-actions").removeClass("invisible")
-    template.$(".knote-title").prop('disabled', false).focus()
+    template.$(".knote-title").prop('contenteditable', true).focus()
     if template.$(".knote-body").text().length
       template.$(".knote-body").prop('contenteditable', true)
 
@@ -54,16 +50,17 @@ Template.knote.events
   'click .btn-cancel': (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
-    template.$(".knote-title").prop('disabled', true).val(@title)
+    template.$(".knote-title").prop('contenteditable', false).html(@title or '')
     template.$(".knote-body").prop('contenteditable', false).html(@htmlBody or @body or '')
 
 
   "click .btn-save": (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
+
     $title = template.$(".knote-title")
-    title =$title.val()
-    $title.prop('disabled', true)
+    title =$title.html()
+    $title.prop('contenteditable', false)
 
     $body = template.$(".knote-body")
     body = $body.html()
@@ -97,7 +94,7 @@ Template.knote.helpers
 
   contenteditableBody: ->
     body = @htmlBody or @body or ''
-    "<div class='knote-body'>#{body}</div>"
+    "<div class='knote-body compose-area file-container highlight-color-link-color message_text'>#{body}</div>"
 
 
 
