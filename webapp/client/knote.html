@@ -1,5 +1,5 @@
 <template name="knote">
-  <div class="knote {{#if archived}} gray {{/if}}">
+  <div class="knote {{#if archived}} gray {{/if}}" data-order="{{order}}">
     <div class="knote-wrapper">
       {{#with contact}}
         <div class="contact">
@@ -72,3 +72,67 @@
     </div>
   </div>
 </template>
+
+
+
+<Template name="knote_embed_video">
+<div class="embed video">
+  <div class="embedded-object">
+    {{{html}}}
+  </div>
+  <div class="origin-link">
+    <a href="{{original_url}}" target="_blank" class="embedded-link">{{title}}</a>
+  </div>
+</div>
+</Template>
+
+
+
+<Template name="knote_embed_photo">
+<div class="embed photo has-photo clearfix">
+  <a href="{{original_url}}" title="{{original_url}}" target="_blank" class="embedded-link">
+    <div class="img-wrapper" contenteditable="false">
+      <img src="{{original_url}}" />
+    </div>
+    <div class="photo-name">
+      {{photoName}}
+    </div>
+  </a>
+</div>
+</Template>
+
+
+
+<Template name="knote_embed_block_link">
+<div contenteditable="false" class="embed link clearfix {{#if hasPhoto}}has-photo{{/if}}">
+  <a href="{{original_url}}" target="_blank" class="embedded-link" title="{{description}}">
+    {{#if hasPhoto}}
+    <div class="img-wrapper {{#if longerWidth}}longer-width{{else}}longer-height{{/if}}">
+      {{#if favicon_url}}
+      <img src="{{favicon_url}}" class="embedded-favicon" alt="{{description}}">
+      {{else}}
+      <img src="{{thumbnail_url}}" class="embedded-thumbnail" alt="{{description}}">
+      {{/if}}
+    </div>
+    {{/if}}
+    <div class="detail">
+      {{#unless hasPhoto}}
+      <i class="fa fa-link"></i>
+      {{/unless}}
+      <span class="embedded-title">{{title}}</span>
+      <div class="origin-link">{{formattedUrl}}</div>
+    </div>
+  </a>
+</div>
+</Template>
+
+
+
+<Template name="knote_embed_inline_link">
+<a href="{{original_url}}" title="{{original_url}}" class="embedded-link inline-embed">
+  <i contenteditable="false" class="fa fa-link"></i>
+  <span class="embedded-link-title">
+    {{title}}
+  </span>
+</a>
+</Template>

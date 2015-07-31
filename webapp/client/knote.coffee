@@ -1,3 +1,13 @@
+Template.knote.onRendered ->
+  template = @
+  knote = @data
+  knoteId = @data._id
+  if knote.requiresPostProcessing
+    Meteor.setTimeout ->
+      KnoteHelper.formatAndSave template
+    , 1000
+
+
 Template.knote.events
 
   'mouseenter .knote': (e, template) ->
@@ -71,11 +81,7 @@ Template.knote.events
     knoteTitle = template.data.title
     knoteBody = template.data.htmlBody
     if title isnt knoteTitle or body isnt knoteBody
-      updateOptions =
-        $set:
-          title: title
-          htmlBody: body
-      Knotes.update knoteId, updateOptions
+      KnoteHelper.formatAndSave(template)
 
 
   'keydown .knote-title': (event, template) ->

@@ -59,7 +59,7 @@ Template.padsList.onRendered ->
 
   latestPad = @data.latestPad
   if latestPad
-    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(latestPad._id)
+    $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
   previousScroll = 0
   scrollAction = ->
@@ -89,7 +89,7 @@ Template.padsList.onRendered ->
       id = $('#header .title').data('latest-id')
     $('#header .subject').text subject
     $('#header .share-part').attr 'data-id', id
-    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(id)
+    $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(id)
     previousScroll = currentScroll
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
@@ -203,6 +203,8 @@ Template.padsList.events
         title: title
         replys: []
         pinned: false
+        requiresPostProcessing: true
+        order: PadsListHelper.getNewKnoteOrder()
 
       addKnote = ->
         Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
@@ -233,10 +235,10 @@ Template.padsList.events
 
 Template.padItem.helpers
   knotableLink: ->
-    AppHelper.getPadUrlFromId(@_id)
+    UrlHelper.getPadUrlFromId(@_id)
 
   knotes: ->
-    knotes = Knotes.find {topic_id: @_id}, sort: archived: 1, order: 1
+    knotes = Knotes.find {topic_id: @_id}, {sort: archived: 1, order: 1}
     PadsListHelper.sortKnotesOrder knotes.fetch()
 
 
@@ -249,7 +251,7 @@ Template.padItem.onRendered ->
 Template.sharePadDropdown.onRendered ->
   isTopHeader = $(@find '.share-part').parents('#header').length
   if isTopHeader
-    $('#header .redirect-to-knotable').attr 'href', AppHelper.getPadUrlFromId(@data._id)
+    $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(@data._id)
 
 
 
@@ -270,7 +272,7 @@ Template.sharePadDropdown.events
   'click .share-slack': (e) ->
     topicId = $(e.currentTarget).parents('.share-part').attr('data-id')
     pad = Pads.findOne _id: topicId
-    padUrl = AppHelper.getPadUrlFromId topicId
+    padUrl = UrlHelper.getPadUrlFromId topicId
     knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()
     text = ''
     for knote, i in knotes

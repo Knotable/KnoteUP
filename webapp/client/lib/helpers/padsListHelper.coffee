@@ -119,3 +119,14 @@
       text = $(jQueryEvent.currentTarget).text()
       templateInstance.$('.new-knote-body,.knote-body').show().focus() unless _.isEmpty(text)
       return false
+
+
+
+  getNewKnoteOrder: () =>
+    messages = $('.latest-knotes .knote')
+    if messages.length
+      messages.sort (message1, message2) ->
+        return $(message1).data('order') - $(message2).data('order')
+      $(messages[0]).data('order') - 1
+    else
+      -1

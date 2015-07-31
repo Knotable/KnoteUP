@@ -18,3 +18,4 @@ acemtp:accounts-slack
 reactive-var
 peerlibrary:async
 http
+language-tools

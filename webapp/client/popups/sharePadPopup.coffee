@@ -9,7 +9,7 @@ class @SharePadPopup
     removeInstanceIfExists $ SharePadPopup.id
     data.SharePadPopup = @
     if data.shareLink
-      data.url = AppHelper.getPadUrlFromId data.padId
+      data.url = UrlHelper.getPadUrlFromId data.padId
     UI.renderWithData Template.sharePadPopup, data, $(SharePadPopup.parent)[0]
     SharePadPopup.activeInstance = @
     @$popup = $ SharePadPopup.id
