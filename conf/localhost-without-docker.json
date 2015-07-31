@@ -1,6 +1,6 @@
 {
   "public": {
-    "remoteHost": "localhost:7000"
+    "remoteHost": "localhost:3000"
   },
   "slack": {
     "clientId": "2154116941.6717959525",
