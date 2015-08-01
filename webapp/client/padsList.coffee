@@ -116,6 +116,10 @@ Template.padsList.helpers
     return new Spacebars.SafeString html
 
 
+  hasKnotableLoginToken: ->
+    hasKnotableLoginToken.get()
+
+
 
 Template.padsList.events
   'click .user': (e) ->

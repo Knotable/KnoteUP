@@ -4,6 +4,8 @@
 
 @loggedInLocally = new ReactiveVar false
 @loggedInKnotable = new ReactiveVar false
+@hasKnotableLoginToken = new ReactiveVar false
+
 
 Meteor.startup ->
   Tracker.autorun -> loggedInLocally.set Boolean knoteupConnection.userId()
@@ -16,10 +18,12 @@ loginTokenExpiresKey = ".loginTokenExpires"
 userIdKey = ".userId"
 
 
+
 unstoreLoginToken = ->
   Meteor._localStorage.removeItem 'Meteor' + userIdKey
   Meteor._localStorage.removeItem 'Meteor' + loginTokenKey
   Meteor._localStorage.removeItem 'Meteor' + loginTokenExpiresKey
+
 
 
 makeClientLoggedOut = ->
@@ -28,10 +32,25 @@ makeClientLoggedOut = ->
   knoteupConnection.onReconnect = null
 
 
+
 Meteor.startup ->
   knoteupConnection.logout = ->
     knoteupConnection.apply 'logout', [], {wait: true}, ->
       makeClientLoggedOut()
+
+
+
+do ->
+  key = amplify.store 'Knotable' + loginTokenKey
+  hasKnotableLoginToken.set Boolean key?
+  Meteor.startup ->
+    return unless key
+    Accounts.callLoginMethod methodArguments: [{resume: key}]
+
+  Accounts.onLoginFailure ->
+    hasKnotableLoginToken.set false
+    for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
+      amplify.store 'Knotable' + key, null
 
 
 
@@ -98,6 +117,3 @@ Tracker.autorun ->
   if loggedInKnotable.get()
     for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
       amplify.store 'Knotable' + key, localStorage['Meteor' + key] if localStorage['Meteor' + key]
-  else
-    for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
-      ensureSetLocalStorage 'Meteor' + key, amplify.store 'Knotable' + key

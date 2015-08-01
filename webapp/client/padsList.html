@@ -9,7 +9,11 @@
         </div>
         {{> settingDropdown}}
       {{else}}
-        <button class="btn login-button">Login</button>
+        {{#if hasKnotableLoginToken}}
+          <button class="btn login-button" disabled="disabled">Logging in...</button>
+        {{else}}
+          <button class="btn login-button">Login</button>
+        {{/if}}
       {{/if}}
       <div class="left-header">
         <a href="#" target="_blank" class="btn redirect-to-knotable" tabindex='5'>
