@@ -1,5 +1,5 @@
 <template name="knote">
-  <div class="knote message likeable files_holder {{#if archived}} gray {{/if}}" data-order="{{order}}" data-id="{{_id}}">
+  <div class="knote message knote-reply-cn likeable files_holder {{#if archived}} gray {{/if}}" data-order="{{order}}" data-id="{{_id}}">
     <div class="knote-wrapper">
       {{#with contact}}
         <div class="contact">
@@ -11,7 +11,7 @@
         {{{contenteditableBody}}}
       </div>
       <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
-        <!-- <i class="icon icon-chat"></i> -->
+        <i class="icon icon-chat"></i>
         {{#if archived}}
           <i class="icon icon-reply-1 restore"></i>
         {{else}}
@@ -30,6 +30,8 @@
         </span>
       </div>
     </div>
+    {{> knote_replies}}
+    {{> knote_reply_compose}}
   </div>
 </template>
 

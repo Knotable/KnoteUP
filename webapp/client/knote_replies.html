@@ -1,0 +1,55 @@
+<Template name="knote_replies">
+<div class="knote-reply-wrapper" data-knote-id="{{_id}}" data-total-reply='{{replys.totalReplys}}' data-reply-displaying='{{replys.replyDisplay}}'>
+  <!-- to be re-added when reply-hiding is working properly
+  {{#if replys}}
+    <div class="knote-reply-actions">
+        {{#if replys.showCommentActions}}
+            {{#if replys.remainingReply}}
+              <button class="btn see-replies ">{{replys.text}}</button>
+            {{else}}
+              <button class="btn shrink-replies pull-right">&nbsp;</button>
+            {{/if}}
+        {{/if}}
+    </div>
+  {{/if}}
+  -->
+  {{#if replys}}
+  <ul class="knote-replys">
+    {{#each replys.replys}}
+    <li data-id="{{this.replyId}}">
+    {{#with replyContact}}
+    {{> avatar}}
+    <!-- to be re-added when timestamps are working <div class="timestamp" data-dt='{{this.date}}'>{{replyedTime}}</div>-->
+    {{/with}}
+    {{#if isEditingReply}}
+    {{{editBody}}}
+    {{else}}
+    <div contenteditable="false"  class="reply-body reply {{styleClass}}">
+      {{{body}}}
+    </div>
+    {{/if}}
+    <div class="readmore-tip no-print" rel="tooltip" title="Click to read more"><div>...</div></div>
+    <a href="javascript:;" class="btn-close">delete</a>
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</div>
+</Template>
+
+
+
+<Template name="knote_reply_compose">
+<div class="knote-compose-popup-cn" data-id="{{_id}}">
+  <input type="hidden" class="knote-order" value="{{order}}">
+  <div class="error-message"></div>
+  <div class="contenteditable-wrapper">
+    <div data-txtarea="{{order}}" contentEditable="true" placeholder="What would you like to reply?" class="message-textarea reply-message-textarea file-container" spellcheck="false" tabindex="22"></div>
+  </div>
+  <div class="buttons pull-right">
+    <input type="button" class="btn btn-small reply-cancel" value="Cancel" tabindex="23">
+    <input data-repbtn="{{order}}" type="button" class="btn btn-small my-btn reply-new-message" value="Reply" tabindex="24">
+  </div>
+  <div class="clear"></div>
+</div>
+</Template>

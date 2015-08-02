@@ -308,6 +308,35 @@ displayEmbedLinks = (links, options = {}, callback) ->
   getFilesIds: (template) ->
     fileInputs = $.makeArray($(template.findAll(".message input[name='file_ids']")))
     return _.map fileInputs, (fi) -> $(fi).val()
+
+
+  postReplyMessage: ($target) ->
+    btnText = $target.val()
+    el = $target.parents('.knote-compose-popup-cn').find(".reply-message-textarea").clone()[0]
+    knote_id = $target.parents('.knote-compose-popup-cn').prev('.knote-reply-cn').attr('data-id')
+    knote_id = $target.parents('.knote-compose-popup-cn').attr('data-id') unless knote_id
+    replyDisplaying = $target.parents('.knote-compose-popup-cn').prev('.knote-reply-cn').find('.knote-reply-wraper').attr('data-reply-displaying')
+    replyDisplaying = 0 if replyDisplaying is undefined
+    options=
+      replyDisplay: parseInt(replyDisplaying) + 1
+      knoteId: knote_id
+
+    contentHelper.linkifyDOM el
+
+    KnoteHelper.embedLink el, {inlineLinks: true}, (err) =>
+      body = $(el).html()
+
+      $(".reply-message-textarea").html("")
+
+      knotableConnection.call 'add_reply_message', knote_id, body, (e) ->
+        console.log e if e
+        ###
+        unless e
+          Meteor.defer ->
+            KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.knoteCommented, knoteId: knote_id, relevantPadId: TopicsHelper.currentTopicId()
+        ###
+        Session.set "reply-option",options unless e
+    
   
   
 

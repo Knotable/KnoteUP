@@ -97,6 +97,15 @@ Template.knote.events
     PadsListHelper.listenToTitleInput event, template
 
 
+  'click .icon-chat': (e) ->
+    knote = $(e.currentTarget).closest('.knote')
+    composePopup = knote.find('.knote-compose-popup-cn')
+    composePopup.slideToggle()
+    setTimeout ->
+      composePopup.find('.reply-message-textarea').focus()
+    , 500
+
+
 
 Template.knote.helpers
   contact: ->
