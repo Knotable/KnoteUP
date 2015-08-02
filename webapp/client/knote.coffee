@@ -9,6 +9,11 @@ Template.knote.onRendered ->
 
 
 Template.knote.events
+  'click .thumb': (e, t) ->
+    e.preventDefault()
+    e.stopPropagation()
+    imgUrl = $(e.currentTarget).parents('.embedded-link').attr 'href'
+    showImagePopup(url: imgUrl) if imgUrl
 
   'mouseenter .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').show()
