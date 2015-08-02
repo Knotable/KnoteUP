@@ -12,6 +12,7 @@ Accounts.connection = knotableConnection
 Meteor.users = new Mongo.Collection 'users', connection: knotableConnection
 @UserAccounts = new Meteor.Collection "user_accounts", connection: knotableConnection
 @Pads = new Meteor.Collection "topics", connection: knotableConnection
+@Files = new Meteor.Collection "files", connection: knotableConnection
 
 
 @Knotes = new Meteor.Collection "knotes",

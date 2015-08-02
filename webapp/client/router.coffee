@@ -2,6 +2,8 @@ Router.route '/(.*)',
   name: 'pads'
   template: 'padsList'
   data: ->
+    S3Credentials.requestCredentials()
+
     option = sort: created_time: -1
 
     latestPad = Pads.findOne {}, option

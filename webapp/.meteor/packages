@@ -19,3 +19,5 @@ reactive-var
 peerlibrary:async
 http
 language-tools
+mrt:jquery-ui@1.9.2
+edgee:slingshot

@@ -1,5 +1,5 @@
 <template name="knote">
-  <div class="knote {{#if archived}} gray {{/if}}" data-order="{{order}}">
+  <div class="knote message likeable files_holder {{#if archived}} gray {{/if}}" data-order="{{order}}" data-id="{{_id}}">
     <div class="knote-wrapper">
       {{#with contact}}
         <div class="contact">

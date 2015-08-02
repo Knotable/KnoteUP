@@ -32,3 +32,22 @@
     Contacts.findOne
       account_id: AppHelper.currentAccount()?._id
       type: 'me'
+
+
+  setCursorOnContentEditable : (element) ->
+    element.focus()
+    if (typeof window.getSelection != "undefined") && (typeof document.createRange != "undefined")
+      # IE 9 and non-IE
+      range = document.createRange()
+      range.selectNodeContents(element)
+      range.collapse(false)
+      sel = window.getSelection()
+      sel.removeAllRanges()
+      sel.addRange(range)
+    else if (typeof document.body.createTextRange != "undefined")
+      # IE < 9
+      textRange = document.body.createTextRange()
+      textRange.moveToElementText(element)
+      textRange.collapse(false)
+      textRange.select()
+    return false

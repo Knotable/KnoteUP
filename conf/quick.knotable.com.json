@@ -1,6 +1,17 @@
 {
   "public": {
-    "remoteHost": "beta.knotable.com"
+    "remoteHost": "beta.knotable.com",
+    "embed_key": "daa2ece3ae3443b9ae786534f1b0d468",
+    "aws": {
+      "cdnUrl": "http://d1wubs3nxxxkxo.cloudfront.net/static/public",
+      "cloudFrontDomain": "d1wubs3nxxxkxo.cloudfront.net"
+  },
+  "AWS": {
+    "accessKeyId": "AKIAJMNEFA3F7BS2EOWA",
+    "secretAccessKey": "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",
+    "username": "knotable-alpha",
+    "bucket": "knotable-assets-alpha",
+    "cloudFrontDomain": "d1wubs3nxxxkxo.cloudfront.net"
   },
   "slack": {
     "clientId": "2154116941.6714603873",

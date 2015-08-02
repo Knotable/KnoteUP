@@ -9,7 +9,7 @@ Template.knote.onRendered ->
 
 
 Template.knote.events
-  'click .thumb': (e, t) ->
+  'click img.thumb': (e, t) ->
     e.preventDefault()
     e.stopPropagation()
     imgUrl = $(e.currentTarget).parents('.embedded-link').attr 'href'
