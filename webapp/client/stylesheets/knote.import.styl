@@ -211,6 +211,7 @@
     & .knote-reply-wrapper
         overflow: hidden
         width: 100%
+        margin-top: 10px
         .knote-reply-actions
           width: 100%
           .see-replies
@@ -988,3 +989,59 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .embed-original-link a
   background-color: #e6e6e6
   padding: 3px
+
+// highlights
+div.highlight-warp
+  padding-bottom: 0
+
+ul.highlight-words li
+  font-style: normal
+  font-weight: normal
+
+ul.highlight-words li
+.highlight
+  background: #FAFA7E
+
+.sel-arrow-down:after
+.sel-arrow-over:before
+  content: ""
+  display: block
+  position: absolute
+  left: 50%
+  margin-left: -8px
+  width: 0
+  height: 0
+  border-style: solid
+
+.sel-arrow-down:after
+  border-width: 8px 8px 0 8px
+  border-color: $gray-light transparent transparent transparent
+
+.sel-arrow-over:before
+  top: -8px
+  border-width: 0 8px 8px 8px
+  border-color: transparent transparent $gray-light transparent
+
+#sel-text-menu
+  @extend .shadow-dropdown
+  @extend .round-corner-sm
+  position: absolute
+  z-index: 110
+  display: none
+  background: $gray-light
+  ul
+    margin: 0
+  li
+    float: left
+    button
+      padding: 10px 15px
+      color: black
+      border: none
+      background-color: transparent
+      cursor: pointer
+      span.highlight
+        color: #293038
+        padding: 0 5px
+    button:hover
+      background-color: rgba(40, 172, 232, 0.5)
+      color: white

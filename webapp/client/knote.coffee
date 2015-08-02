@@ -8,6 +8,7 @@ Template.knote.onRendered ->
     , 1000
 
 
+
 Template.knote.events
   'click img.thumb': (e, t) ->
     e.preventDefault()
@@ -45,6 +46,7 @@ Template.knote.events
     template.$('.buttons').removeClass("hidden")
     template.$(".knote-actions").removeClass("invisible")
     template.$(".knote-title").prop('contenteditable', true).focus()
+    template.$('.knote').addClass 'in-edit'
     if template.$(".knote-body").text().length
       template.$(".knote-body").prop('contenteditable', true)
 
@@ -67,11 +69,13 @@ Template.knote.events
     template.$(".knote-actions").addClass("invisible")
     template.$(".knote-title").prop('contenteditable', false).html(@title or '')
     template.$(".knote-body").prop('contenteditable', false).html(@htmlBody or @body or '')
+    template.$('.knote').removeClass 'in-edit'
 
 
   "click .btn-save": (e, template) ->
     template.$(".buttons").addClass("hidden")
     template.$(".knote-actions").addClass("invisible")
+    template.$('.knote').removeClass 'in-edit'
 
     $title = template.$(".knote-title")
     title =$title.html()
@@ -104,6 +108,21 @@ Template.knote.events
     setTimeout ->
       composePopup.find('.reply-message-textarea').focus()
     , 500
+
+
+  'dblclick .knote-body,.knote-title': (e, t) ->
+    t.$('.edit-knote').click()
+
+
+  'mouseup .knote-body, mouseup .knote-title': (e) ->
+    if $(e.currentTarget).parents('.knote').hasClass('in-edit') and HighLighter.hasSelection()
+      HighLighter.init()
+      HighLighter.togglePopupHighlightMenu(e)
+
+
+  'mousedown .knote-body, mousedown .knote-title': (e) ->
+    $(document).data('isHighLighting',true)
+    
 
 
 

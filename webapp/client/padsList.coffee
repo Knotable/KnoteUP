@@ -122,6 +122,16 @@ Template.padsList.helpers
 
 
 Template.padsList.events
+  'mouseup #container' :(e)->
+    elem = $(document)
+    if elem.data('isHighLighting')
+      elem.data('isHighLighting',false)
+      ###
+      HighLighter.init()
+      HighLighter.togglePopupHighlightMenu(e)
+      ###
+
+
   'click .user': (e) ->
     e.stopPropagation()
     hidePadShareDropdown()
@@ -166,8 +176,6 @@ Template.padsList.events
     else
       $postButton.attr('disabled', true)
     PadsListHelper.resetEditedContent()
-
-
 
 
   'click .post-button': (e, template) ->
@@ -234,6 +242,37 @@ Template.padsList.events
             topicId = result
             requiredKnoteParameters.topic_id = topicId
             addKnote()
+
+
+  'click #sel-text-menu button': ->
+    return false
+
+
+  'mousedown #sel-text-menu button': (e) ->
+    #keep menu opened after first click on buttons
+    $selTextMenu = $(e.currentTarget).closest('div')
+    status = $selTextMenu.data('status')
+    if status == "trigger"
+      $selTextMenu.data('status', "")
+      $selTextMenu.fadeOut "fast"
+      return false
+    $selTextMenu.data('status', "trigger")
+
+    command = $(e.currentTarget).data("menu")
+    switch command
+      when "bold"
+        HighLighter.applyBoldToSelection(e)
+      when "italic"
+        HighLighter.applyItalicToSelection(e)
+      when "highlight"
+        HighLighter.applyToSelection(e)
+      when "tx"
+        HighLighter.clearFormatToSelection(e)
+      else
+        console.log "can't hold these."
+
+    $selTextMenu.fadeOut "fast"
+    return false
 
 
 

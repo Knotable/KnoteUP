@@ -1,6 +1,6 @@
 Template.avatar.helpers
   'currentUserClass': ->
-    currentContactId = AppHelper.currentContact()._id
+    currentContactId = AppHelper.currentContact()?._id
     if currentContactId and currentContactId is @_id
       "account-avatar-current"
 
