@@ -21,3 +21,14 @@
   escapeRegexpPattern: (pattern) ->
     return '' unless pattern
     pattern.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&")
+
+
+  currentAccount: () ->
+    user = Meteor.user()
+    UserAccounts.findOne user_ids: user?._id
+
+
+  currentContact: () ->
+    Contacts.findOne
+      account_id: AppHelper.currentAccount()?._id
+      type: 'me'

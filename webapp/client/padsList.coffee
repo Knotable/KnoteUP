@@ -9,7 +9,7 @@ showLoginForm = ->
 
 
 todaySubject = ->
-  user = Contacts.findOne()
+  user = AppHelper.currentContact()
   date = moment().format "MMM Do"
   if user
     user.username + '\'s Knoteup for ' + date
@@ -101,7 +101,7 @@ Template.padsList.onRendered ->
 
 Template.padsList.helpers
   currentContact: ->
-    Contacts.findOne()
+    AppHelper.currentContact()
 
   username: ->
     Meteor.user()?.username

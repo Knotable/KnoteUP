@@ -4,6 +4,6 @@ Meteor.startup ->
     Meteor.subscribe 'sharingData'
 
   Tracker.autorun ->
-    user = Contacts.findOne()
+    user = AppHelper.currentContact()
     if user
       $('title').text('Knoteup - ' + user.username)
