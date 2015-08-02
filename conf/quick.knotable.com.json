@@ -5,6 +5,7 @@
     "aws": {
       "cdnUrl": "http://d1wubs3nxxxkxo.cloudfront.net/static/public",
       "cloudFrontDomain": "d1wubs3nxxxkxo.cloudfront.net"
+    }
   },
   "AWS": {
     "accessKeyId": "AKIAJMNEFA3F7BS2EOWA",
