@@ -196,6 +196,7 @@
           span
             font-size: 10px
         .archive
+        .restore
           float: left
           width: 18px
           height: 18px
@@ -408,6 +409,16 @@
         .contenteditable-wrapper
           padding-bottom: 5px
 
+  .archived-knotes
+    .knote
+      .knote-header
+        &:hover
+          background-color: initial
+          cursor: initial
+        .knote-header-right
+          cursor: initial
+          .restore
+            cursor: pointer
 
 .pull-right
   float: right

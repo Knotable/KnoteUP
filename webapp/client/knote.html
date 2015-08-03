@@ -3,24 +3,22 @@
   {{#if isEditing}} in-edit {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}">
-    <div class="knote-header" title="Click and hold to move">
+    <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
       {{#with contact}}
         <div class="contact">
           {{> contactAvatar}}
         </div>
       {{/with}}
-      {{#unless archived}}
-        <div class="knote-header-right">
-          <div class="knote-date">
-            <span data-date="{{date}}">{{dateNewFormat}}</span>
-          </div>
-          {{#if archived}}
-            <i class="icon icon-reply-1 restore"></i>
-          {{else}}
-            <i class="icon icon-check archive"></i>
-          {{/if}}
+      <div class="knote-header-right">
+        <div class="knote-date">
+          <span data-date="{{date}}">{{dateNewFormat}}</span>
         </div>
-      {{/unless}}
+        {{#if archived}}
+          <i class="icon icon-reply-1 restore"></i>
+        {{else}}
+          <i class="icon icon-check archive"></i>
+        {{/if}}
+      </div>
     </div>
     <div class="knote-content">
       {{knoteTitleEditableContainer}}
