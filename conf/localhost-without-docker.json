@@ -1,6 +1,6 @@
 {
   "public": {
-    "remoteHost": "localhost:7000",
+    "remoteHost": "dev.knotable.com",
     "embed_key": "daa2ece3ae3443b9ae786534f1b0d468",
     "aws": {
       "cdnUrl": "http://d3vdux5f57dq4b.cloudfront.net/static/public",
