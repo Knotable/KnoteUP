@@ -82,6 +82,14 @@ Template.knote.events
 
 
 
+  'paste .knote-title': PadsListHelper.listenToTitlePaste
+
+
+
+  'paste .knote-body': AppHelper.pasteAsPlainTextEventHandler
+
+
+
   'keydown .knote-title': (event, template) ->
     PadsListHelper.moveFocusToBodyIfNecessary(event, template)
 

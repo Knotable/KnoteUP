@@ -29,6 +29,16 @@
 
 
 
+  listenToTitlePaste: (jQueryEvent, templateInstance) ->
+    AppHelper.pasteAsPlainTextEventHandler(jQueryEvent)
+    currentText = $(jQueryEvent.currentTarget).text()
+    content = PadsListHelper.splitKnoteTitle(currentText)
+    if content.bodyText
+      body = templateInstance.find('.knote-body')
+      PadsListHelper.insertContentIntoTitleAndBody(jQueryEvent.currentTarget, body, content)
+
+
+
   listenToTitleInput: (jQueryEvent, templateInstance) ->
     unless jQueryEvent.metaKey or jQueryEvent.ctrlKey
       titleText = $(jQueryEvent.currentTarget).text()

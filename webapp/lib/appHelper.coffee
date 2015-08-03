@@ -1,21 +1,31 @@
 @AppHelper =
   USERNAME_REGEX: /^[a-zA-Z0-9\._\-]+$/
 
+
+
   isValidUsername: (username) ->
     AppHelper.USERNAME_REGEX.test(username)
 
+
+
   EMAIL_REGEX: /^[a-zA-Z0-9\._\-\+]+@[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,6}$/
+
+
 
   isCorrectEmail: (address) ->
     AppHelper.EMAIL_REGEX.test(address)
+
+
 
   # password length should be more than 6 characters
   isValidPassword : (val) ->
     val.length >= 6 ? true : false
 
 
+
   getTextFromHtml: (html) ->
     $('<div>').append(html).text()
+
 
 
   escapeRegexpPattern: (pattern) ->
@@ -23,15 +33,18 @@
     pattern.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&")
 
 
+
   currentAccount: () ->
     user = Meteor.user()
     UserAccounts.findOne user_ids: user?._id
+
 
 
   currentContact: () ->
     Contacts.findOne
       account_id: AppHelper.currentAccount()?._id
       type: 'me'
+
 
 
   setCursorOnContentEditable : (element) ->
@@ -51,6 +64,7 @@
       textRange.collapse(false)
       textRange.select()
     return false
+
 
 
   pasteAsPlainTextEventHandler: (jEvent) ->
@@ -89,6 +103,7 @@
        document.selection.createRange().pasteHTML(content)
 
 
+
   getAvatarUrlOfContact: (contact, type) ->
     return false unless contact
     type = 'path' unless type is 'mini'
@@ -99,6 +114,7 @@
     return false
 
 
+
   render_user_name : (contact, default_render) ->
     if contact?.fullname
       return contact.nickname || contact.fullname
@@ -106,6 +122,7 @@
       return default_render if typeof default_render is "string"
       return default_render.name if default_render?.name
       return default_render.email if default_render?.email
+
 
 
   initialName: (name) ->
@@ -120,6 +137,7 @@
       return gravatarName
     else
       split_name[0][0].toUpperCase()
+
 
 
   getDefaultUserBgColor: ->
