@@ -32,22 +32,27 @@ Template.knote.events
     template.$(".knote-actions").removeClass("invisible")
 
 
+
   'mouseleave .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').hide()
     unless @archived or template.controller.isEditing.get()
       template.$(".knote-actions").addClass("invisible")
 
 
+
   'click i.archive': ->
     Knotes.update @_id, $set: archived: true
+
 
 
   'click i.restore': ->
     Knotes.update @_id, $set: archived: false
 
 
+
   'click i.edit-knote': (e, template) ->
     template.controller.isEditing.set(true)
+
 
 
   'click i.share-knote': (e, template) ->
@@ -61,8 +66,10 @@ Template.knote.events
     ).show()
 
 
+
   'click .btn-cancel': (e, template) ->
     template.controller?.isEditing.set(false)
+
 
 
   "click .btn-save": (e, template) ->
@@ -74,12 +81,15 @@ Template.knote.events
       template.controller.isEditing.set(false)
 
 
+
   'keydown .knote-title': (event, template) ->
     PadsListHelper.moveFocusToBodyIfNecessary(event, template)
 
 
+
   'keyup .knote-title': (event, template) ->
     PadsListHelper.listenToTitleInput event, template
+
 
 
   'click .icon-chat': (e) ->
@@ -91,8 +101,10 @@ Template.knote.events
     , 500
 
 
+
   'dblclick .knote-content': (e, template) ->
     template.controller?.isEditing.set(true)
+
 
 
   'mouseup .knote-body, mouseup .knote-title': (e, template) ->
@@ -101,9 +113,9 @@ Template.knote.events
       HighLighter.togglePopupHighlightMenu(e)
 
 
+
   'mousedown .knote-body, mousedown .knote-title': (e) ->
     $(document).data('isHighLighting',true)
-    
 
 
 
@@ -118,7 +130,8 @@ Template.knote.helpers
     if nowDate.isSame(knoteDate, 'day')
       return knoteDate.format('[today at] ha')
     return knoteDate.format('MMM DD [at] ha')
-    
+
+
 
   contact: ->
     Contacts.findOne({emails: @from})
