@@ -1,5 +1,7 @@
 @CHAR_LIMITATION_IN_KNOTE_TITLE = 150
 
+
+
 @PadsListHelper =
   storeEditedContent: (editKnote) ->
     amplify.store "knote", editKnote
@@ -110,6 +112,7 @@
       .sortable(options)
 
 
+
   updateOrder: (card) ->
     knote = Knotes.findOne card.data('id')
     $messages = card.parents('.unarchived-knotes').find('.knote')
@@ -133,3 +136,8 @@
           Knotes.update({_id: c.id}, {$set: updateOption})
         when 'date_events'
           DateEvents.update({_id: c.id}, {$set: updateOption})
+
+
+
+  getTextFromHtml: (html) ->
+    $('<div>').append(html).text()

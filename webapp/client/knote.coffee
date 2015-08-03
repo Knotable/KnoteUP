@@ -1,7 +1,16 @@
+Template.knote.onCreated ->
+  @controller =
+    isEditing: new ReactiveVar(false)
+
+
+
 Template.knote.onRendered ->
   template = @
   knote = @data
-  knoteId = @data._id
+  @autorun =>
+    if @controller.isEditing.get()
+      $(@find '.knote-title').focus()
+
   if knote.requiresPostProcessing
     Meteor.setTimeout ->
       KnoteHelper.formatAndSave template
@@ -16,6 +25,8 @@ Template.knote.events
     imgUrl = $(e.currentTarget).parents('.embedded-link').attr 'href'
     showImagePopup(url: imgUrl) if imgUrl
 
+
+
   'mouseenter .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').show()
     template.$(".knote-actions").removeClass("invisible")
@@ -23,71 +34,44 @@ Template.knote.events
 
   'mouseleave .knote': (e, template) ->
     $(e.currentTarget).find('.knote-date').hide()
-    console.log(template.$(".knote-body").prop('contenteditable'))
-    unless template.$(".buttons").is(':visible') or template.data.archived
+    unless @archived or template.controller.isEditing.get()
       template.$(".knote-actions").addClass("invisible")
 
 
-  'click i.archive': (e, template) ->
-    knoteId = template.data._id
-    topicId = template.data.topic_id
-    Knotes.update knoteId, $set: archived: true
+  'click i.archive': ->
+    Knotes.update @_id, $set: archived: true
 
 
-  'click i.restore': (e, template) ->
-    knoteId = template.data._id
-    topicId = template.data.topic_id
-    Knotes.update knoteId, $set: archived: false
+  'click i.restore': ->
+    Knotes.update @_id, $set: archived: false
 
 
   'click i.edit-knote': (e, template) ->
-    template.$('.buttons').removeClass("hidden")
-    template.$(".knote-actions").removeClass("invisible")
-    template.$(".knote-title").prop('contenteditable', true).focus()
-    template.$('.knote').addClass 'in-edit'
-    template.$(".knote-body").prop('contenteditable', true)
+    template.controller.isEditing.set(true)
 
 
   'click i.share-knote': (e, template) ->
     e.stopPropagation()
-    knoteId = template.data._id
-    topicId = template.data.topic_id
     title = template.$(".knote-title").val()
     text = template.$(".knote-body").text()
     new SharePopup(
-      knoteId: knoteId
+      knoteId: @_id
       title: title
       text: text
     ).show()
 
 
   'click .btn-cancel': (e, template) ->
-    template.$(".buttons").addClass("hidden")
-    template.$(".knote-actions").addClass("invisible")
-    template.$(".knote-title").prop('contenteditable', false).html(@title or '')
-    template.$(".knote-body").prop('contenteditable', false).html(@htmlBody or @body or '')
-    template.$('.knote').removeClass 'in-edit'
+    template.controller?.isEditing.set(false)
 
 
   "click .btn-save": (e, template) ->
-    template.$(".buttons").addClass("hidden")
-    template.$(".knote-actions").addClass("invisible")
-    template.$('.knote').removeClass 'in-edit'
-
-    $title = template.$(".knote-title")
-    title =$title.html()
-    $title.prop('contenteditable', false)
-
-    $body = template.$(".knote-body")
-    body = $body.html()
-    $body.prop('contenteditable', false)
-
-    knoteId = template.data._id
-
-    knoteTitle = template.data.title
-    knoteBody = template.data.htmlBody
-    if title isnt knoteTitle or body isnt knoteBody
+    title = template.$(".knote-title").html()
+    body = template.$(".knote-body").html()
+    if title isnt @title or body isnt @htmlBody
       KnoteHelper.formatAndSave(template)
+    else
+      template.controller.isEditing.set(false)
 
 
   'keydown .knote-title': (event, template) ->
@@ -107,12 +91,12 @@ Template.knote.events
     , 500
 
 
-  'dblclick .knote-body,.knote-title': (e, t) ->
-    t.$('.edit-knote').click()
+  'dblclick .knote-content': (e, template) ->
+    template.controller?.isEditing.set(true)
 
 
-  'mouseup .knote-body, mouseup .knote-title': (e) ->
-    if $(e.currentTarget).parents('.knote').hasClass('in-edit') and HighLighter.hasSelection()
+  'mouseup .knote-body, mouseup .knote-title': (e, template) ->
+    if template.controller.isEditing.get() and HighLighter.hasSelection()
       HighLighter.init()
       HighLighter.togglePopupHighlightMenu(e)
 
@@ -140,9 +124,47 @@ Template.knote.helpers
     Contacts.findOne({emails: @from})
 
 
-  contenteditableBody: ->
+
+  isEditing: ->
+    Template.instance()?.controller?.isEditing.get()
+
+
+
+  invisibleClass: ->
+    'invisible' unless @archived or Template.instance()?.controller?.isEditing.get()
+
+
+
+  # This implementation prevents contentEditable duplicating text issue
+  # https://github.com/meteor/meteor/issues/1964
+  knoteTitleEditableContainer: ->
+    controller = Template.instance()?.controller
+    data =
+      value: @title
+      class: 'knote-title editKnote'
+      contentEditable: controller?.isEditing.get()
+      maxlength: CHAR_LIMITATION_IN_KNOTE_TITLE
+      placeholder: 'Take knote'
+      tabindex: 16
+    data.class += ' hidden' if not controller?.isEditing.get() and _.isEmpty(PadsListHelper.getTextFromHtml(@title))
+    container = Blaze.toHTMLWithData(Template.contentEditable, data)
+    new Spacebars.SafeString(container)
+
+
+
+  # This implementation prevents contentEditable duplicating text issue
+  # https://github.com/meteor/meteor/issues/1964
+  knoteBodyEditableContainer: ->
+    controller = Template.instance()?.controller
     body = @htmlBody or @body or ''
-    "<div class='knote-body compose-area file-container highlight-color-link-color message_text'>#{body}</div>"
+    htmlClasses = 'knote-body compose-area file-container highlight-color-link-color message_text'
+    htmlClasses += " hidden" if _.isEmpty(PadsListHelper.getTextFromHtml(body))
+    data =
+      class: htmlClasses
+      value: body
+      contentEditable: controller?.isEditing.get()
+    container = Blaze.toHTMLWithData(Template.contentEditable, data)
+    new Spacebars.SafeString(container)
 
 
 

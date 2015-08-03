@@ -349,3 +349,16 @@ Template.sharePadDropdown.events
       text: text
       textLink: '<' + padUrl + '|track my progress>'
     ).show()
+
+
+
+Template.contentEditable.helpers
+  attributes: ->
+    unless _.has(@, 'contentEditable') or _.has(@, 'contenteditable')
+      @['contentEditable'] = false
+    return _.omit @, 'value'
+
+
+
+  encodedValue: ->
+    new Spacebars.SafeString(@value or "")

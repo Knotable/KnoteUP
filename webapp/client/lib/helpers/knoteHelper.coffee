@@ -230,6 +230,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
             return after?(error) if error
             #KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.textKnoteEdited, knoteId: knote._id, relevantPadId: TopicsHelper.currentTopicId()
             after?()
+            template.controller?.isEditing?.set(false)
             knotableConnection.call 'update_knote_metadata', knote._id, {}, 'webapp:KnoteController.save'
             #@updateKnoteEditors(knote)
             knotableConnection.call 'remove_other_topic_viewers', knote.topic_id

@@ -1,5 +1,8 @@
 <template name="knote">
-  <div class="knote message knote-reply-cn likeable files_holder {{#if archived}} gray {{/if}}" data-order="{{order}}" data-id="{{_id}}">
+  <div class="knote message knote-reply-cn likeable files_holder
+  {{#if isEditing}} in-edit {{/if}}
+  {{#if archived}} gray {{/if}}"
+   data-order="{{order}}" data-id="{{_id}}">
     {{#unless archived}}
     <div class="knote-header" title="Click and hold to move">
       <div class="knote-header-right">
@@ -16,10 +19,10 @@
         </div>
       {{/with}}
       <div class="knote-content">
-        <div class="knote-title editKnote" tabindex="16">{{{title}}}</div>
-        {{{contenteditableBody}}}
+        {{knoteTitleEditableContainer}}
+        {{knoteBodyEditableContainer}}
       </div>
-      <div class="knote-actions {{#unless archived}}invisible{{/unless}}">
+      <div class="knote-actions {{invisibleClass}}">
         <i class="icon icon-chat"></i>
         {{#if archived}}
           <i class="icon icon-reply-1 restore"></i>
@@ -30,13 +33,15 @@
           <i class="icon icon-share share-knote"></i>
           -->
         {{/if}}
-        <span class="buttons hidden pull-right">
+        {{#if isEditing}}
+        <span class="buttons pull-right">
           <div class="attachment">
             {{> file_upload}}
           </div>
           <input type="button" class="btn btn-small my-btn btn-save" value="Save">
           <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
         </span>
+        {{/if}}
       </div>
     </div>
     {{> knote_replies}}
