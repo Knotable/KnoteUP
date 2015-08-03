@@ -131,6 +131,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
     callback err, formattedLinks if _.isFunction callback
 
 
+
 @KnoteHelper =
   TYPE_LINK: 'link'
   TYPE_PHOTO: 'photo'
@@ -171,7 +172,6 @@ displayEmbedLinks = (links, options = {}, callback) ->
     unless root
       callback null if _.isFunction callback
       return
-
     filter = new EmbeddableLinksFilter root
     links = filter.getLinks()
     displayEmbedLinks links, options, (err, formattedLinks) ->
@@ -179,7 +179,6 @@ displayEmbedLinks = (links, options = {}, callback) ->
       $root = $(root)
       rootHtml = $root.html().replace(/&amp;/g, '&').replace(/[\r\n]+/g, '')
       $root.html(rootHtml)
-
       callback?(err, formattedLinks)
 
 
@@ -200,18 +199,15 @@ displayEmbedLinks = (links, options = {}, callback) ->
     return unless title.length
     @getFormattedHtmlContentAsync title, {inlineLinks: true}, (error, contentInfo) =>
       title.html contentInfo.content.trim()
-
       after?(error)
+
 
 
   formatBody: (template, after) ->
     knote = template.data
     bodyEditor = $(template.find('.knote-body'))
     @getFormattedHtmlContentAsync bodyEditor, (error, contentInfo) =>
-      if error
-        after?(error)
-        return
-
+      return after?(error) if error
       bodyEditor.html contentInfo.content.trim()
       after?()
 
@@ -258,15 +254,18 @@ displayEmbedLinks = (links, options = {}, callback) ->
       return true
     return false
 
+
     
   shouldLeaveArchived: (knote, content, filesIds) ->
     # Card#1217: If an archived knote is edited can it be moved back to the thread?
     return knote.htmlBody.trim() == content.trim() and filesIds.length == 0
 
 
+
   getFilesIds: (template) ->
     fileInputs = $.makeArray($(template.findAll(".message input[name='file_ids']")))
     return _.map fileInputs, (fi) -> $(fi).val()
+
 
 
   postReplyMessage: ($target) ->
@@ -284,9 +283,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
     KnoteHelper.embedLink el, {inlineLinks: true}, (err) =>
       body = $(el).html()
-
       $(".reply-message-textarea").html("")
-
       knotableConnection.call 'add_reply_message', knote_id, body, (e) ->
         console.log e if e
         ###
@@ -347,9 +344,11 @@ class EmbeddableLinksFilter
   DIRECTION = NEXT: 1, PREV: 0
 
 
+
   constructor: (root) ->
     #throw new Meteor.Error '"root" cannot be undefined' unless root
     @_root = root
+
 
 
   getLinks: ->
@@ -364,6 +363,7 @@ class EmbeddableLinksFilter
     catch e
       console.log '[Error][getEmbeddableLinks]', e
     links
+
 
 
   isInlineLink: (link) ->
@@ -382,12 +382,15 @@ class EmbeddableLinksFilter
     true
 
 
+
   contentPrecedeThe = (link) ->
     checkSiblingNodeOf link, DIRECTION.PREV
 
 
+
   contentFollowThe = (link) ->
     checkSiblingNodeOf link, DIRECTION.NEXT
+
 
 
   checkSiblingNodeOf = (link, direction) ->
@@ -397,6 +400,7 @@ class EmbeddableLinksFilter
       return Boolean(node.textContent?.trim()) or checkSiblingNodeOf node, direction
     return true if node.nodeType is NODE_TYPE.ELEMENT and not TAG_BR_RGX.test node.tagName
     return false
+
 
 
   isAllowedParent = (link) ->
