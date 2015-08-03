@@ -96,6 +96,9 @@ Template.padsList.onRendered ->
 
   @find('.currentDatePad .knote-list')?._uihooks = moveAnimationHooks
 
+  #unless mobileHelper.isMobile() or SettingsHelper.isReorderingCardsDisabled()
+  unless window.isMobile
+    PadsListHelper.initKnoteDraggable()
 
 
 
@@ -216,7 +219,6 @@ Template.padsList.events
         replys: []
         pinned: false
         requiresPostProcessing: true
-        order: PadsListHelper.getNewKnoteOrder()
 
       addKnote = ->
         Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
@@ -227,7 +229,6 @@ Template.padsList.events
             $newTitle.html('')
             $newBody.html('')
             PadsListHelper.resetEditedContent()
-            PadsListHelper.setNewKnoteRank topicId, knoteId
 
       if template.data?.latestPad?._id
         topicId = template.data.latestPad._id
@@ -281,8 +282,7 @@ Template.padItem.helpers
     UrlHelper.getPadUrlFromId(@_id)
 
   knotes: ->
-    knotes = Knotes.find {topic_id: @_id}, {sort: archived: 1, order: 1}
-    PadsListHelper.sortKnotesOrder knotes.fetch()
+    PadsListHelper.getSortedKnotes @_id
 
 
 

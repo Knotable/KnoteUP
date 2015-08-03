@@ -1,5 +1,14 @@
 <template name="knote">
   <div class="knote message knote-reply-cn likeable files_holder {{#if archived}} gray {{/if}}" data-order="{{order}}" data-id="{{_id}}">
+    {{#unless archived}}
+    <div class="knote-header" title="Click and hold to move">
+      <div class="knote-header-right">
+        <div class="knote-date">
+          <span data-date="{{date}}">{{dateNewFormat}}</span>
+        </div>
+      </div>
+    </div>
+    {{/unless}}
     <div class="knote-wrapper">
       {{#with contact}}
         <div class="contact">

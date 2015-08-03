@@ -50,9 +50,16 @@
         </div>
         {{#with latestPad}}
           <div class="knote-list latest-knotes">
-            {{#each knotes}}
-              {{> knote}}
-            {{/each}}
+            <div class="unarchived-knotes">
+              {{#each knotes.unarchived}}
+                {{> knote}}
+              {{/each}}
+            </div>
+            <div class="archived-knotes">
+              {{#each knotes.archived}}
+                {{> knote}}
+              {{/each}}
+            </div>
           </div>
         {{/with}}
       </div>
@@ -80,9 +87,16 @@
 
   <div class="pad">
     <div class="knote-list">
-      {{#each knotes}}
-        {{> knote}}
-      {{/each}}
+      <div class="unarchived-knotes">
+        {{#each knotes.unarchived}}
+          {{> knote}}
+        {{/each}}
+      </div>
+      <div class="archived-knotes">
+        {{#each knotes.archived}}
+          {{> knote}}
+        {{/each}}
+      </div>
     </div>
   </div>
 </template>

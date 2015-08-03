@@ -134,6 +134,11 @@
 
 .pad
   width: 100%
+  .knote-placeholder
+    width: 580px
+    margin: auto
+    background-color: #fff
+    @extend .round-corner-m
   .compose
     min-height: 70px
   .knote:hover
@@ -155,6 +160,51 @@
     textarea
       background-color: transparent
 
+    &.sorting
+      background: white
+
+    .knote-header
+      z-index: 1
+      border-radius: 4px 4px 0 0
+      position: absolute
+      top: 0
+      right: 0
+      width: 100%
+      height: 15px
+      cursor: pointer
+      &:hover
+        background-color: #e9e9e9
+      .action-edit.disabled:hover
+        color: #b4b4b4
+      .knote-header-right
+        position: absolute
+        right: 0px
+        top: 3px
+        .knote-date
+          float: left
+          padding-right: 7px
+          span
+            font-size: 10px
+        .icon-archive
+          float: left
+          width: 18px
+          height: 18px
+          border-radius: 0 4px 0 50%
+          border-left: 1px solid #e9e9e9
+          border-bottom: 1px solid #e9e9e9
+          background-color: white
+          color: $gray
+          display: block
+          &:before
+            vertical-align: top
+            font-size: 15px
+            margin: 1px
+          &:hover
+            background-color: $brand-primary
+            color: white !important
+          &.archived
+            color: $text-dark
+            border: none      
     .new-knote-title
       padding: 0
       width: 100%
@@ -389,6 +439,7 @@
   top: -17px
   text-align: center
   margin: 0
+  z-index: 10
 
 
 .bgcolor1

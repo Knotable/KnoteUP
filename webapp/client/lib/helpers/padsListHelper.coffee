@@ -5,78 +5,25 @@
     amplify.store "knote", editKnote
 
 
+
   restoreEditedContent: ->
     storedKnote = amplify.store("knote")
     return if _.isEmpty storedKnote
     $(".new-knote-title").val(storedKnote.title)
     $(".new-knote-body").html(storedKnote.body)
 
+
+
   resetEditedContent: ->
     amplify.store 'knote', null
 
 
-  sortKnotesOrder: (knotes) ->
-    return knotes if _.isEmpty knotes
-    quickRank = QuickKnotesRank.findOne padId: knotes[0].topic_id
-    if quickRank
-      _.each knotes, (knote) ->
-        knoteId = knote._id
-        knote.quickRank = if knote.archived
-          quickRank.knoteIds.archived?.indexOf knoteId
-        else
-          quickRank.knoteIds.unarchived?.indexOf knoteId
-      knotes = _.sortBy knotes, (knote) -> [knote.archived, knote.quickRank, knote.order]
-    return knotes
 
-
-
-  setNewKnoteRank: (padId, knoteId) ->
-    knotesRank = QuickKnotesRank.findOne(padId: padId)
-    if knotesRank
-      knoteIds = knotesRank.knoteIds
-      knoteIds.unarchived.unshift knoteId
-      QuickKnotesRank.update knotesRank._id, $set: knoteIds: knoteIds
-    else
-      knoteIds =
-        archived: []
-        unarchived: [knoteId]
-      QuickKnotesRank.insert padId: padId, knoteIds: knoteIds
-
-
-
-  setKnotesRankForPad: (padId, knoteId, isArchived) ->
-    knotesRank = QuickKnotesRank.findOne(padId: padId)
-    if knotesRank
-      knoteIds = knotesRank.knoteIds
-      if isArchived
-        knoteIds.archived.push knoteId
-        knoteIds.unarchived = _.reject knoteIds.unarchived, (id) -> id is knoteId
-      else
-        knoteIds.unarchived.push knoteId
-        knoteIds.archived = _.reject knoteIds.archived, (id) -> id is knoteId
-      knoteIds.archived = _.uniq knoteIds.archived
-      knoteIds.unarchived = _.uniq knoteIds.unarchived
-      QuickKnotesRank.update knotesRank._id, $set: knoteIds: knoteIds
-    else
-      knoteIds =
-        archived: []
-        unarchived: []
-      knotes = Knotes.find(topic_id: padId,
-        sort: archived: 1, order: 1
-        fields: archived: 1
-      ).fetch()
-      if knotes.length
-        _.each knotes, (knote) ->
-          return if knote._id is knoteId
-          if knote.archived
-            knoteIds.archived.push knote._id
-          else
-            knoteIds.unarchived.push knote._id
-      if isArchived
-        knoteIds.archived.push knoteId
-      else
-        knoteIds.unarchived.push knoteId
-      QuickKnotesRank.insert padId: padId, knoteIds: knoteIds
+  getSortedKnotes: (padId) ->
+    {
+      unarchived: Knotes.find({topic_id: padId, archived: false}, {sort: {order: 1, timestamp: -1} }).fetch()
+      archived: Knotes.find({topic_id: padId, archived: true}, {sort: {order: 1, timestamp: -1} }).fetch()
+    }
 
 
 
@@ -130,3 +77,59 @@
       $(messages[0]).data('order') - 1
     else
       -1
+
+
+
+  initKnoteDraggable: ->
+    options =
+      items: '.knote'
+      cancel: '.in-edit'
+      cursorAt:
+        top: 18
+        left: 18
+      scrollSensitivity: 100
+      handle: '.knote-header'
+      placeholder: 'knote-placeholder'
+      forcePlaceholderSize: true
+      helper: 'clone'
+      appendTo: '.pad'
+      update: (e, ui) ->
+        PadsListHelper.updateOrder(ui.item)
+        #TopicsHelper.trackKnoteDraggingEvent(entityId)
+      start: (e, ui) ->
+        console.log 'drag start'
+        ui.item.addClass('sorting')
+        Session.set('isKnoteDroppabe', true)
+      stop: (e, ui) ->
+        ui.item.removeClass('sorting')
+        console.log 'drag stop'
+        Session.set('isKnoteDroppabe', false)
+
+    $container = $(".unarchived-knotes")
+    $container
+      .sortable(options)
+
+
+  updateOrder: (card) ->
+    knote = Knotes.findOne card.data('id')
+    $messages = card.parents('.unarchived-knotes').find('.knote')
+    cards = _.map $messages, (ele)-> id: $(ele).data('id'), collection: 'knotes'
+    PadsListHelper.updateOrderForManualSortEx(knote.topic_id, cards, knote._id)
+
+
+
+  updateOrderForManualSortEx: (topic_id, cards, targetId, container = 'main') ->
+    topic = Pads.findOne topic_id
+    throw new Meteor.Error 500, "Topic not exist with " + topic_id  unless topic?
+    return if cards.length is 0
+    order = -cards.length
+    _.each cards, (c)->
+      updateOption =
+        order: order++
+      if c.id is targetId
+        updateOption.containerName = container
+      switch c.collection
+        when 'knotes'
+          Knotes.update({_id: c.id}, {$set: updateOption})
+        when 'date_events'
+          DateEvents.update({_id: c.id}, {$set: updateOption})

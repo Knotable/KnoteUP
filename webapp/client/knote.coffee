@@ -31,14 +31,12 @@ Template.knote.events
   'click i.archive': (e, template) ->
     knoteId = template.data._id
     topicId = template.data.topic_id
-    PadsListHelper.setKnotesRankForPad topicId, knoteId, true
     Knotes.update knoteId, $set: archived: true
 
 
   'click i.restore': (e, template) ->
     knoteId = template.data._id
     topicId = template.data.topic_id
-    PadsListHelper.setKnotesRankForPad topicId, knoteId, false
     Knotes.update knoteId, $set: archived: false
 
 
@@ -47,8 +45,7 @@ Template.knote.events
     template.$(".knote-actions").removeClass("invisible")
     template.$(".knote-title").prop('contenteditable', true).focus()
     template.$('.knote').addClass 'in-edit'
-    if template.$(".knote-body").text().length
-      template.$(".knote-body").prop('contenteditable', true)
+    template.$(".knote-body").prop('contenteditable', true)
 
 
   'click i.share-knote': (e, template) ->
@@ -127,6 +124,18 @@ Template.knote.events
 
 
 Template.knote.helpers
+  dateNewFormat: ->
+    return '' unless @date
+    nowDate = moment()
+    knoteDate = moment(@date)
+    if nowDate.year() isnt knoteDate.year()
+      format = 'MMM DD, YYYY [at] ha'
+      return knoteDate.format(format)
+    if nowDate.isSame(knoteDate, 'day')
+      return knoteDate.format('[today at] ha')
+    return knoteDate.format('MMM DD [at] ha')
+    
+
   contact: ->
     Contacts.findOne({emails: @from})
 
