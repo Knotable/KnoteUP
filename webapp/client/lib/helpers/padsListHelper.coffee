@@ -62,17 +62,18 @@
 
   insertContentIntoTitleAndBody: (titleElement, bodyElement, content) ->
     cursor = SelectionTextHelper.getSelectionData()
-    $(titleElement).text content.titleText
-    if content.bodyText
+    $(titleElement).text(content.titleText)
+    SelectionTextHelper.setCursorAt(cursor.pos, titleElement)
+    if bodyElement
       $(bodyElement).prepend(content.bodyText).show()
-      $(bodyElement).focus()
-      SelectionTextHelper.setCursorAt(content.bodyText.length, bodyElement)
-    else
-      SelectionTextHelper.setCursorAt(cursor.pos, titleElement)
+      if cursor.pos > content.titleText.length
+        $(bodyElement).focus()
+        SelectionTextHelper.setCursorAt(content.bodyText.length, bodyElement)
 
 
 
   moveFocusToBodyIfNecessary: (jQueryEvent, templateInstance) ->
+    return false if jQueryEvent.shiftKey and jQueryEvent.keyCode is 13
     if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
       jQueryEvent.preventDefault()
       text = $(jQueryEvent.currentTarget).text()
