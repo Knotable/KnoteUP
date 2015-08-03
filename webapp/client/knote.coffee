@@ -210,3 +210,55 @@ Template.addContactPopupBox.events
           console.log 'ERROR: addContactsToThread', error
         else
           template.$('a.btn-close').click()
+
+
+
+
+Template.pomodoro.onRendered ->
+  if pomodoro = @data.pomodoro
+    pomodoroTime = moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds()
+    if pomodoroTime > 0
+      startPomodoro(@.$('.pomodoro'), @data._id, @.$('.pomodoro-time'), pomodoroTime)
+    else
+      Knotes.update {_id: @data._id}, {$unset: pomodoro: '' }
+
+
+
+Template.pomodoro.helpers
+  isYourPomodoro: ->
+    @pomodoro?.userId is Meteor.userId()
+
+
+
+Template.pomodoro.events
+  'click .pomodoro': (e, t)->
+    return if @pomodoro
+    knoteId = t.data._id
+    pomodoro =
+      userId: Meteor.userId()
+      date: new Date()
+    Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
+    startPomodoro($(e.target), knoteId, t.$('.pomodoro-time'))
+
+
+
+s2Str = (seconds) ->
+   sec = seconds % 60
+   min = Math.floor(seconds / 60)
+   sec = '0' + sec if sec < 10
+   return min + ':' + sec
+
+
+
+startPomodoro = ($btnStart, knoteId, $pomodoroTime, pomodoroTime = 25*60) ->
+  $btnStart.stopTime(knoteId)
+  $pomodoroTime?.html(s2Str(pomodoroTime))
+  $btnStart.everyTime "1s", knoteId, (timeOut)=>
+    $pomodoroTime?.html(s2Str(pomodoroTime - timeOut))
+    if timeOut >= pomodoroTime
+      $btnStart.stopTime()
+      Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
+
+
+
+
