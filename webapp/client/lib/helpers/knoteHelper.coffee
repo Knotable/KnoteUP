@@ -183,58 +183,17 @@ displayEmbedLinks = (links, options = {}, callback) ->
       callback?(err, formattedLinks)
 
 
-  formatAndSave: (template, after) ->
-    knote = template.data
-    knoteId = template.data._id
-    @formatTitle template, (err) =>
-      if err
-        console.log 'Error when formatting knote title'
-      else
-        @formatBody template, (err) =>
-          if err
-            console.log 'Error when formatting knote body'
-            return
 
-          newTitle = $(template.find('.knote-title')).html()
-          newBody = $(template.find('.knote-body')).html()
-          # TODO
-          #isKnoteTitleEnable = SettingsHelper.isEnableKnoteTitle()
-          isKnoteTitleEnable = true
-          if knote.htmlBody is newBody
-            if !isKnoteTitleEnable or (isKnoteTitleEnable and knote.title is newTitle)
-              console.log "save knote: nothing changed. Won't update database and send alert."
-              return
+  formatAndSave: (template, callback) ->
+    async.waterfall [
+      (next) -> KnoteHelper.formatTitle template, next
+      (next) -> KnoteHelper.formatBody template, next
+      (next) -> KnoteHelper._saveKnote template, next
+    ], (err) ->
+      console.error(err) if err
+      callback(err) if _.isFunction(callback)
 
-          toSetData = { htmlBody: newBody, lastHtmlBody: knote.htmlBody, requiresPostProcessing: false}
 
-          if knote.title isnt newTitle
-            newTitle = null if _.isEmpty(AppHelper.getTextFromHtml(newTitle).trim())
-            toSetData.title = newTitle
-            $(template.find('.knote-title')).html('')
-
-          fileIds = KnoteHelper.getFilesIds(template)
-          if knote.archived
-            isArchived = KnoteHelper.shouldLeaveArchived(knote, newBody, fileIds)
-            toSetData.archived = isArchived
-
-          ###
-          if SettingsHelper.isEnableKnoteHashtagsParsing() and contentInfo.hashtags
-            toSetData.hashtags = contentInfo.hashtags
-          ###
-
-          query = $set: toSetData
-          unless _.isEmpty(fileIds)
-            query.$addToSet = { file_ids: $each: fileIds }
-
-          Knotes.update knote._id, query, (error) =>
-            return after?(error) if error
-            #KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.textKnoteEdited, knoteId: knote._id, relevantPadId: TopicsHelper.currentTopicId()
-            after?()
-            template.controller?.isEditing?.set(false)
-            knotableConnection.call 'update_knote_metadata', knote._id, {}, 'webapp:KnoteController.save'
-            #@updateKnoteEditors(knote)
-            knotableConnection.call 'remove_other_topic_viewers', knote.topic_id
- 
 
   formatTitle: (template, after) ->
     title = $(template.find('.knote-title'))
@@ -256,8 +215,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
       bodyEditor.html contentInfo.content.trim()
       after?()
 
-    
-      
+
 
   getFormattedHtmlContentAsync: ($editor, options, callback) ->
     if _.isFunction options
@@ -337,9 +295,48 @@ displayEmbedLinks = (links, options = {}, callback) ->
             KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.knoteCommented, knoteId: knote_id, relevantPadId: TopicsHelper.currentTopicId()
         ###
         Session.set "reply-option",options unless e
-    
-  
-  
+
+
+
+  _saveKnote: (template, callback) ->
+    knote = template.data
+    newTitle = $(template.find('.knote-title')).html()
+    newBody = $(template.find('.knote-body')).html()
+    # TODO
+    #isKnoteTitleEnable = SettingsHelper.isEnableKnoteTitle()
+    isKnoteTitleEnable = true
+    if knote.htmlBody is newBody
+      return callback() if !isKnoteTitleEnable or (isKnoteTitleEnable and knote.title is newTitle)
+
+    toSetData = { htmlBody: newBody, lastHtmlBody: knote.htmlBody, requiresPostProcessing: false}
+    if knote.title isnt newTitle
+      newTitle = null if _.isEmpty(AppHelper.getTextFromHtml(newTitle).trim())
+      toSetData.title = newTitle
+      $(template.find('.knote-title')).html('')
+
+    fileIds = KnoteHelper.getFilesIds(template)
+    if knote.archived
+      isArchived = KnoteHelper.shouldLeaveArchived(knote, newBody, fileIds)
+      toSetData.archived = isArchived
+
+    ###
+    if SettingsHelper.isEnableKnoteHashtagsParsing() and contentInfo.hashtags
+      toSetData.hashtags = contentInfo.hashtags
+    ###
+
+    query = $set: toSetData
+    unless _.isEmpty(fileIds)
+      query.$addToSet = { file_ids: $each: fileIds }
+
+    Knotes.update knote._id, query, (error) =>
+      return callback(error) if error
+      #KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.textKnoteEdited, knoteId: knote._id, relevantPadId: TopicsHelper.currentTopicId()
+      callback()
+      template.controller?.isEditing?.set(false)
+      knotableConnection.call 'update_knote_metadata', knote._id, {}, 'webapp:knoteup:KnoteController.save'
+      #@updateKnoteEditors(knote)
+      knotableConnection.call 'remove_other_topic_viewers', knote.topic_id
+
 
 
 class EmbeddableLinksFilter
