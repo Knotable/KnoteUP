@@ -67,6 +67,7 @@ class SlackWorks
       $select = @template.$('#channels-list')
       $select.append "<option value='#{channel.id}'>#{channel.name}</option>" for channel in result.channels
       $select.selectric()
+      $select.on 'change', @saveSelectricChoice
       done()
 
 
@@ -81,6 +82,7 @@ class SlackWorks
 
 
   waitForChannelToBeSelected: (done) =>
+    return done() if @restoreSelectricChoice $ '#channels-list'
     @template.$('#channels-list').on 'change', -> done()
 
 
@@ -130,6 +132,27 @@ class SlackWorks
     @template.$('#share-cancel').prop('disabled', false)
     @template.$('#share-cancel .share-popup-button-content').text('Close')
 
+
+  saveSelectricChoice: (event) =>
+    $selectric = $(event.target)
+    $wrapper = $selectric.closest('.selectric-wrapper')
+    index = $wrapper.find('.selectric-items ul li.selected').data('index')
+    $selectedOption = $($wrapper.find('#channels-list option')[index])
+    channelId = $selectedOption.prop 'value'
+    amplify.store 'lastUsedSlackChannelId', channelId
+
+
+  restoreSelectricChoice: ($selectric) ->
+    channelId = amplify.store 'lastUsedSlackChannelId'
+    return unless channelId
+    $options = $selectric.find 'option'
+    optionIndex = -1
+    $options.each (index) ->
+      value = $(this).prop 'value'
+      optionIndex = index if  value == channelId
+    return if optionIndex <= 0
+    $selectric.prop('selectedIndex', optionIndex).selectric('refresh')
+    return true
 
 
 
