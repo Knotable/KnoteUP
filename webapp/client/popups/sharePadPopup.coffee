@@ -43,7 +43,7 @@ Template.sharePadPopup.events
     SharePadPopup.activeInstance.close()
 
   'click .icon-docs': ->
-    document.execCommand 'copy' 
+    document.execCommand 'copy'
 
   'click .shared-url': (e) ->
     e.currentTarget.select()
@@ -62,4 +62,4 @@ Template.sharePadPopup.events
           console.log 'ERROR: addContactsToThread', error
         else
           SharePadPopup.activeInstance.close()
-          showSuccessMessage 'Added success.'
+          showSuccessMessage 'Shared in Knotable.'
