@@ -195,10 +195,10 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
 
   formatTitle: (template, after) ->
-    title = $(template.find('.knote-title'))
-    return unless title.length
-    @getFormattedHtmlContentAsync title, {inlineLinks: true}, (error, contentInfo) =>
-      title.html contentInfo.content.trim()
+    $title = $(template.find('.knote-title'))
+    return after?(new Meteor.Error "validationError", "Title is required") if _.isEmpty($title.text().trim())
+    @getFormattedHtmlContentAsync $title, {inlineLinks: true}, (error, contentInfo) =>
+      $title.html contentInfo.content.trim()
       after?(error)
 
 

@@ -64,7 +64,8 @@ Template.knote.events
     body = template.$(".knote-body").html()
     template.$('.knote-actions').show()
     if title isnt @title or body isnt @htmlBody
-      KnoteHelper.formatAndSave(template)
+      KnoteHelper.formatAndSave template, (err) ->
+        showErrorBootstrapGrowl(err.reason) if err?.error is "validationError"
     else
       template.controller.isEditing.set(false)
 
