@@ -41,16 +41,19 @@ Meteor.startup ->
 
 
 do ->
+  #log in knotable automatically when there are login cookies
   key = amplify.store 'Knotable' + loginTokenKey
   hasKnotableLoginToken.set Boolean key?
+
   Meteor.startup ->
     return unless key
     Accounts.callLoginMethod methodArguments: [{resume: key}]
-
-  Accounts.onLoginFailure ->
-    hasKnotableLoginToken.set false
-    for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
-      amplify.store 'Knotable' + key, null
+    checkKnotableLogin = (callback) -> knotableConnection.call 'updateLastSeen', (error, result) -> callback result
+    checkKnotableLogin (knotableLoginSuccessful) ->
+      preventHidingLoginButton = -> hasKnotableLoginToken.set false
+      return Meteor.setTimeout preventHidingLoginButton, 2000 if knotableLoginSuccessful
+      Meteor.setTimeout preventHidingLoginButton, 0
+      amplify.store 'Knotable' + key, null for key in [loginTokenKey, loginTokenExpiresKey, userIdKey]
 
 
 
