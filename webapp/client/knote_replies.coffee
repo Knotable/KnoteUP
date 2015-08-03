@@ -159,7 +159,7 @@ Template.knote_reply_compose.events
   'keyup .reply-message-textarea': (e) ->
     TopicsHelper.autoSaveEditingTopic({type: "commentsDraft", id: @_id , body: $(e.target).html()})
     KnotesHelper.listenToMentions(e)
-    
+
 
 
   'keydown .reply-message-textarea': (e) ->
@@ -187,7 +187,8 @@ Template.knote_reply_compose.events
     replyCompose = $knote.find('.knote-compose-popup-cn')
     #TopicsHelper.removeAutoSaveEditingTopic({type: 'commentsDraft', id: @_id})
     KnoteHelper.postReplyMessage $ele
-    replyCompose.slideToggle()
+    replyCompose.slideToggle ->
+      $knote.find('.knote-actions').show()
 
 
 
@@ -196,4 +197,5 @@ Template.knote_reply_compose.events
     replyCompose = $knote.find('.knote-compose-popup-cn')
     replyText = $knote.find('.reply-message-textarea')
     replyText.html('')
-    replyCompose.slideToggle()
+    replyCompose.slideToggle ->
+      $knote.find('.knote-actions').show()

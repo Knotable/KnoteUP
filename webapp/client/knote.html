@@ -3,46 +3,50 @@
   {{#if isEditing}} in-edit {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}">
-    {{#unless archived}}
     <div class="knote-header" title="Click and hold to move">
-      <div class="knote-header-right">
-        <div class="knote-date">
-          <span data-date="{{date}}">{{dateNewFormat}}</span>
-        </div>
-      </div>
-    </div>
-    {{/unless}}
-    <div class="knote-wrapper">
       {{#with contact}}
         <div class="contact">
           {{> contactAvatar}}
         </div>
       {{/with}}
-      <div class="knote-content">
-        {{knoteTitleEditableContainer}}
-        {{knoteBodyEditableContainer}}
-      </div>
-      <div class="knote-actions {{invisibleClass}}">
-        <i class="icon icon-chat"></i>
-        {{#if archived}}
-          <i class="icon icon-reply-1 restore"></i>
-        {{else}}
-          <i class="icon icon-pencil edit-knote"></i>
-          <i class="icon icon-check archive"></i>
-          <!--
-          <i class="icon icon-share share-knote"></i>
-          -->
-        {{/if}}
-        {{#if isEditing}}
-        <span class="buttons pull-right">
-          <div class="attachment">
-            {{> file_upload}}
+      {{#unless archived}}
+        <div class="knote-header-right">
+          <div class="knote-date">
+            <span data-date="{{date}}">{{dateNewFormat}}</span>
           </div>
-          <input type="button" class="btn btn-small my-btn btn-save" value="Save">
-          <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
-        </span>
-        {{/if}}
+          {{#if archived}}
+            <i class="icon icon-reply-1 restore"></i>
+          {{else}}
+            <i class="icon icon-check archive"></i>
+          {{/if}}
+        </div>
+      {{/unless}}
+    </div>
+    <div class="knote-content">
+      {{knoteTitleEditableContainer}}
+      {{knoteBodyEditableContainer}}
+      <div class="knote-gutter">
+        {{#unless archived}}
+          <i class="icon icon-pencil edit-knote"></i>
+          {{#if isEditing}}
+          <span class="buttons pull-right">
+            <div class="attachment">
+              {{> file_upload}}
+            </div>
+            <input type="button" class="btn btn-small my-btn btn-save" value="Save">
+            <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
+          </span>
+          {{/if}}
+        {{/unless}}
       </div>
+    </div>
+    <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
+      {{#unless archived}}
+        <i class="icon icon-chat"></i>
+        <!--
+          <i class="icon icon-share share-knote"></i>
+        -->
+      {{/unless}}
     </div>
     {{> knote_replies}}
     {{> knote_reply_compose}}

@@ -26,20 +26,6 @@ Template.knote.events
     showImagePopup(url: imgUrl) if imgUrl
 
 
-
-  'mouseenter .knote': (e, template) ->
-    $(e.currentTarget).find('.knote-date').show()
-    template.$(".knote-actions").removeClass("invisible")
-
-
-
-  'mouseleave .knote': (e, template) ->
-    $(e.currentTarget).find('.knote-date').hide()
-    unless @archived or template.controller.isEditing.get()
-      template.$(".knote-actions").addClass("invisible")
-
-
-
   'click i.archive': ->
     Knotes.update @_id, $set: archived: true
 
@@ -69,12 +55,14 @@ Template.knote.events
 
   'click .btn-cancel': (e, template) ->
     template.controller?.isEditing.set(false)
+    template.$('.knote-actions').show()
 
 
 
   "click .btn-save": (e, template) ->
     title = template.$(".knote-title").html()
     body = template.$(".knote-body").html()
+    template.$('.knote-actions').show()
     if title isnt @title or body isnt @htmlBody
       KnoteHelper.formatAndSave(template)
     else
@@ -103,6 +91,8 @@ Template.knote.events
   'click .icon-chat': (e) ->
     knote = $(e.currentTarget).closest('.knote')
     composePopup = knote.find('.knote-compose-popup-cn')
+    actions = knote.find('.knote-actions')
+    actions.hide()
     composePopup.slideToggle()
     setTimeout ->
       composePopup.find('.reply-message-textarea').focus()

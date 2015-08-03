@@ -139,11 +139,13 @@
     margin: auto
     background-color: #fff
     @extend .round-corner-m
-  .compose
-    min-height: 70px
   .knote:hover
   .compose:hover
     box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
+    .knote-header
+      .knote-header-right
+        .knote-date
+          display: block
   .knote.animate
     transition:all 300ms 0ms ease-in
   .knote
@@ -176,16 +178,24 @@
         background-color: #e9e9e9
       .action-edit.disabled:hover
         color: #b4b4b4
+      .contact
+        left: -17px
+        position: absolute
+        top: -17px
+        text-align: center
+        margin: 0
+        z-index: 10
       .knote-header-right
         position: absolute
         right: 0px
-        top: 3px
+        top: 0
         .knote-date
           float: left
           padding-right: 7px
+          display: none
           span
             font-size: 10px
-        .icon-archive
+        .archive
           float: left
           width: 18px
           height: 18px
@@ -204,7 +214,7 @@
             color: white !important
           &.archived
             color: $text-dark
-            border: none      
+            border: none
     .new-knote-title
       padding: 0
       width: 100%
@@ -227,9 +237,6 @@
       word-wrap: break-word
       resize: none
 
-    .knote-date
-      font-size: 12px
-      display: none
     .new-knote-body
     .knote-body
       cursor: text
@@ -243,10 +250,53 @@
       height: 30px
       .post-button
         float: right
+    .knote-content
+      &:hover
+        .knote-gutter
+          .edit-knote
+            display: block
+      .knote-gutter
+        width: 100%
+        min-height: 15px
+        line-height: 15px
+        position: relative
+        z-index: 100
+        .edit-knote
+          color: $gray
+          cursor: pointer
+          font-weight: 400
+          display: none
+          float: right
+          margin-top: -17px
+          position: relative
+        .wrap-edit-knote
+          float: right
+          display: none
+          height: 100%
+          .attachment
+            font-size: 16px
+            cursor: pointer
+            height: 20px
+            width: 30px
+            float: right
+            line-height: 20px
+          .attachment i
+            color: $gray
+          .attachment i:hover
+            color: $gray-dark
+        .contributors
+          .contributor
+            display: inline-block
+            margin-left: 3px
     .knote-actions
-      height: 20px
-      position: relative
-      margin-top: 5px
+      height: 30px
+      position: absolute
+      bottom: 0
+      left: 0
+      z-index: 100
+      margin-left: 55px
+      &.no-replies
+        margin-left: 15px
       .icon
         font-size: 18px
         color: #b4b4b4
@@ -258,105 +308,106 @@
       .icon
         color: #b4b4b4
 
-    & .knote-reply-wrapper
-        overflow: hidden
+    .knote-reply-wrapper
+      overflow: hidden
+      width: 100%
+      .knote-reply-actions
         width: 100%
-        margin-top: 10px
-        .knote-reply-actions
+        .see-replies
           width: 100%
-          .see-replies
-            width: 100%
-            height: 20px
-            line-height: 10px
-          .btn
-            background-color: $gray-lighter
-            color: #696E73
-        .knote-replys
-          margin: 0
-          li
-            padding-bottom: 10px
-            position: relative
-            &:hover
-              .btn-close
-                display: block
-            &.need-readmore .reply-body
-              margin-bottom: 5px
-              overflow: hidden
-            &.need-readmore .readmore-tip
-              display: block
-            &.viewing .reply-body
-              max-height: none !important
-              opacity: 1
-            &:last-of-type
-              padding-bottom: 20px
-            .account-avatar
-              cursor: initial
-            .readmore-tip
-              display: none
-              line-height: 12px
-              padding-left: 39px
-              margin-top: -10px
+          height: 20px
+          line-height: 10px
+        .btn
+          background-color: $gray-lighter
+          color: #696E73
+      .knote-replys
+        margin: 0
+        margin-top: 10px
+        li
+          padding-bottom: 10px
+          position: relative
+          &:hover
             .btn-close
-              top: 0
-              right: 0
-              display: none
-              font-size: 10px
-              color: $gray-light
-              background: none
-              line-height: 9px
-              width: initial
-              &:hover
-                color: $gray
-            .fa-refresh
-              top: 6px
-              right: 6px
-              font-size: 12px
-              position: absolute
-              color: #888
-              display: none
-            .viewing .reply-body
-              max-height: none !important
-          .is-new
-            background: $gray-light
-            background-clip: content-box
-            @extend .round-corner-m
-          .timestamp
-            position: absolute
-            top: 0
-            visibility: hidden
-            font-size: 10px
-            line-height: 10px
-          .contributors
-            margin-right: -8px
+              display: block
+          &.need-readmore .reply-body
             margin-bottom: 5px
-          .reply-body
-            padding-left: 40px
-            padding-top: 10px
-            box-sizing: content-box
-            word-wrap: break-word
-          .account-avatar
-            position: absolute
-            font-size: 18px
-            line-height: 28px
-            width: 28px
-            height: 28px
-            box-shadow: none
-          .username
-            position: absolute
-            left: 40px
-            line-height: 9px
+            overflow: hidden
+          &.need-readmore .readmore-tip
             display: block
+          &.viewing .reply-body
+            max-height: none !important
+            opacity: 1
+          &:last-of-type
+            padding-bottom: 20px
+          .account-avatar
+            cursor: initial
+          .readmore-tip
+            display: none
+            line-height: 12px
+            padding-left: 39px
+            margin-top: -10px
+          .btn-close
+            top: 0
+            right: 0
+            display: none
             font-size: 10px
-          .account-avatar.small
-            width: 20px
-            height: 20px
+            color: $gray-light
+            background: none
+            line-height: 9px
+            width: initial
+            &:hover
+              color: $gray
+          .fa-refresh
+            top: 6px
+            right: 6px
+            font-size: 12px
+            position: absolute
+            color: #888
+            display: none
+          .viewing .reply-body
+            max-height: none !important
+        .is-new
+          background: $gray-light
+          background-clip: content-box
+          @extend .round-corner-m
+        .timestamp
+          position: absolute
+          top: 0
+          visibility: hidden
+          font-size: 10px
+          line-height: 10px
+        .contributors
+          margin-right: -8px
+          margin-bottom: 5px
+        .reply-body
+          padding-left: 40px
+          padding-top: 10px
+          box-sizing: content-box
+          word-wrap: break-word
+        .account-avatar
+          position: absolute
+          font-size: 18px
+          line-height: 28px
+          width: 28px
+          height: 28px
+          box-shadow: none
+        .username
+          position: absolute
+          left: 40px
+          line-height: 9px
+          display: block
+          font-size: 10px
+        .account-avatar.small
+          width: 20px
+          height: 20px
 
     & .knote-compose-popup-cn
         display: none
         width: 100%
+        margin-top: 10px
         .contenteditable-wrapper
           padding-bottom: 5px
-    
+
 
 .pull-right
   float: right
@@ -401,8 +452,10 @@
 .btn-small
   padding: 2px 10px
 
-.btn-cancel
-  background: #737a82
+.btn-cancel, .reply-cancel
+  background: $gray-blue
+  &:hover
+    background: $gray-blue-dark
 
 .clearfix:after
   clear: both
@@ -432,15 +485,6 @@
   &:hover
     -webkit-box-shadow: 0 0 2px 2px #78c5e8
     box-shadow: 0 0 2px 2px #78c5e8
-
-.contact
-  left: -17px
-  position: absolute
-  top: -17px
-  text-align: center
-  margin: 0
-  z-index: 10
-
 
 .bgcolor1
   background: #ebe18c
@@ -587,7 +631,7 @@ a.btn-close
 
 #share-pad-popup
   background: white
-  padding: 25px
+  padding: 20px
   border-radius: 2px
   width: 500px
   .popup-title
@@ -596,13 +640,13 @@ a.btn-close
   .share-to, .share-message, .shared-url
     width: 486px
     font-size: 12px
+  .shared-url
+    margin-bottom: 5px
+  .share-description
+    color: $gray
+    margin-top: 0
   .share-message
     height: 90px
-  .btn-cancel-share
-    color: #999
-    font-size: 12px
-    margin-left: 10px
-    text-decoration: none
 
 #sys-message-popup
   display: none
