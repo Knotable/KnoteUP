@@ -98,8 +98,8 @@
       items: '.knote'
       cancel: '.in-edit'
       cursorAt:
-        top: 18
-        left: 18
+        top: 0
+        left: -300
       scrollSensitivity: 100
       handle: '.knote-header'
       placeholder: 'knote-placeholder'
