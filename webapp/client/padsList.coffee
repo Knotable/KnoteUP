@@ -220,54 +220,23 @@ Template.padsList.events
       PadsListHelper.storeEditedContent editKnote
       showLoginForm()
     else
-      user = Meteor.user()
-      requiredTopicParams =
-        userId: Meteor.userId()
-        participator_account_ids: []
-        subject: subject
-        permissions: ["read", "write", "upload"]
-
-      $postButton = $(e.currentTarget)
-      $postButton.val('...')
-
+      $postButton = $(e.currentTarget).val('...')
       requiredKnoteParameters =
         subject: subject
         body: body
-        topic_id: topicId
-        userId: user._id
-        name: user.username
-        from: user.emails[0].address
-        isMailgun: false
-
-      optionalKnoteParameters =
-        title: title
-        replys: []
-        pinned: false
-        requiresPostProcessing: true
-
-      addKnote = ->
-        Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
-          $postButton.val('Post')
-          if error
-            console.log 'add_knote', error
-          else
-            $newTitle.html('')
-            $newBody.html('')
-            PadsListHelper.resetEditedContent()
-
-      if template.data?.latestPad?._id
-        topicId = template.data.latestPad._id
-        requiredKnoteParameters.topic_id = topicId
-        addKnote()
-      else
-        Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
-          if error
-            console.log 'create_topic', error
-            $postButton.val('Post')
-          else
-            topicId = result
-            requiredKnoteParameters.topic_id = topicId
-            addKnote()
+        topic_id: template.data?.latestPad?._id
+      optionalKnoteParameters = title: title
+      promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
+      promise
+      .always ->
+        $postButton.val('Post')
+      .fail (error) ->
+        console.log 'Cannot post new knote', error
+      .done (newKnoteId) ->
+        $newBody.html('')
+        $newTitle.html('').focus()
+        $postButton.attr('disabled', true)
+        PadsListHelper.resetEditedContent()
 
 
 

@@ -295,6 +295,45 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
 
 
+  postNewKnote: (requiredKnoteParameters, optionalKnoteParameters = {}) ->
+    deferred = $.Deferred()
+    user = Meteor.user()
+    unless user
+      _.defer -> deferred.reject(new Meteor.Error "User not found")
+      return deferred.promise()
+    requiredTopicParams =
+      userId: requiredKnoteParameters.userId or user._id
+      participator_account_ids: []
+      subject: requiredKnoteParameters.subject
+      permissions: ["read", "write", "upload"]
+
+    requiredKnoteParameters = _.defaults requiredKnoteParameters,
+      userId: user._id
+      name: user.username
+      from: user.emails[0].address
+      isMailgun: false
+
+    optionalKnoteParameters = _.defaults optionalKnoteParameters,
+      replys: []
+      pinned: false
+      requiresPostProcessing: true
+
+    addKnote = ->
+      Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
+        return deferred.reject(error) if error
+        deferred.resolve(knoteId)
+
+    if requiredKnoteParameters.topic_id
+      addKnote()
+    else
+      Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, topicId) ->
+        return deferred.reject(error) if error
+        requiredKnoteParameters.topic_id = topicId
+        addKnote()
+    deferred.promise()
+
+
+
   _saveKnote: (template, callback) ->
     knote = template.data
     newTitle = $(template.find('.knote-title')).html()
