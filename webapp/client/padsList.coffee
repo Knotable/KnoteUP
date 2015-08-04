@@ -104,6 +104,7 @@ Template.padsList.onRendered ->
   #unless mobileHelper.isMobile() or SettingsHelper.isReorderingCardsDisabled()
   unless window.isMobile
     PadsListHelper.initKnoteDraggable()
+  $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
 
 
 

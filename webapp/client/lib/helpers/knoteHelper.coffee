@@ -334,6 +334,14 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
 
 
+  processSavingOnCtrlEnterAction: ($action, jEvent)->
+    return unless $(jEvent.target).is('div[contenteditable]')
+    if (jEvent.keyCode is 13 or jEvent.keyCode is 10) and (jEvent.shiftKey or jEvent.ctrlKey)
+      jEvent.preventDefault()
+      $action.click()
+
+
+
   _saveKnote: (template, callback) ->
     knote = template.data
     newTitle = $(template.find('.knote-title')).html()
