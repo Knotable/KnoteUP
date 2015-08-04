@@ -37,6 +37,21 @@ Template.sharePadPopup.helpers
 Template.sharePadPopup.onRendered ->
   @find('.shared-url')?.select()
 
+  ZeroClipboard.prototype._singleton = null
+  ZeroClipboard.setDefaults( { moviePath: '/swf/ZeroClipboard.swf' } )
+  clip = new ZeroClipboard()
+  clip.glue($(@findAll '.icon-docs'))
+  $shareUrl = $(@findAll ".shared-url")
+  clip.on "dataRequested", (client, args) ->
+    $shareUrl.select()
+    client.setText $shareUrl.val()
+    $shareUrl.parent().prepend("<span class='copied'>#{$shareUrl.val()}</span>")
+    $shareUrl.parent().find('.copied').animate
+      opacity: 0
+      top: -10
+    , 500 , ->
+      $(this).remove()
+
 
 Template.sharePadPopup.events
   'click .btn-cancel-share': ->
