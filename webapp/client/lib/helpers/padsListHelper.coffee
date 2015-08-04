@@ -12,7 +12,7 @@
     storedKnote = amplify.store("knote")
     return if _.isEmpty storedKnote
     $(".new-knote-title").val(storedKnote.title)
-    $(".new-knote-body").html(storedKnote.body)
+    $(".new-knote-body").html(storedKnote.body).show() unless _.isEmpty(storedKnote.body)
 
 
 

@@ -233,7 +233,7 @@ Template.padsList.events
       .fail (error) ->
         console.log 'Cannot post new knote', error
       .done (newKnoteId) ->
-        $newBody.html('')
+        $newBody.html('').hide()
         $newTitle.html('').focus()
         $postButton.attr('disabled', true)
         PadsListHelper.resetEditedContent()
