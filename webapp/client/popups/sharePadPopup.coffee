@@ -29,9 +29,15 @@ class @SharePadPopup
     @$popup.trigger 'close'
 
 
+
 Template.sharePadPopup.helpers
   copySupported: ->
     !document.queryCommandSupported?('copy')
+
+
+  url: ->
+    UrlHelper.getPadUrlFromId @padId
+
 
 
 Template.sharePadPopup.onRendered ->
