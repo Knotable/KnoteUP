@@ -1,18 +1,3 @@
-
-/* Chrome, Safari, Opera */
-@-webkit-keyframes pomodoro-animate {
-  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
-  40% {-webkit-transform: translateY(-10px);}
-  60% {-webkit-transform: translateY(-5px);}
-}
-
-/* Standard syntax */
-@keyframes pomodoro-animate {
-  0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
-  40% {-webkit-transform: translateY(-10px);}
-  60% {-webkit-transform: translateY(-5px);}
-}
-
 .pomodoro-container
   position: absolute
   right: 0
@@ -34,9 +19,6 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     animation-iteration-count:infinite
-
-
-
 
 #container
   width: 100%
@@ -776,10 +758,6 @@ div[contenteditable=true] span.img-wrapper .btn-close
 div[contenteditable=true] span.img-wrapper:hover .btn-close
   opacity: 1
 
-.file-list .thumb.thumb-loading
-.file.thumb-loading
-  background: url("cdn_url_variable/images/loading.gif") no-repeat center center
-
 .thumbnail-wrapper .embed
   padding: 0
 
@@ -824,6 +802,50 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .transparent
   opacity: 0
 
+.upload-progress
+  width: 100%
+  height: 12px
+  position: relative
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.57) inset
+  min-width: 80px
+  margin:0 auto
+  .bar
+    width: 0%
+    height: 100%
+    background: $brand-primary
+    position: absolute
+    transition: width .2s, background .4s
+    
+
+.thumbnail-wrapper 
+  max-width: 100px
+  .file
+    border: 1px solid $gray-lighter !important
+    &:hover
+      border: 1px solid $gray-light !important
+    .file-name
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      margin-top: 92px
+      white-space: nowrap
+      color: $gray
+
+  .thumb + .file
+    display: none
+    
+  &.loading-thumb    
+  &.process-thumb 
+    .img-wrapper 
+      padding: 4px
+      background: #eee
+      .thumb
+        min-height: 92px
+  &.process-thumb .bar
+    animation: color-toggle-success .6s infinite alternate
+  &.loading-error .bar
+    background: $brand-error
+
 
 .file > a
 .thumb .file
@@ -836,20 +858,6 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
   width: 95px
   height: 95px
 
-.thumbnail-wrapper .file
-  border: 1px solid $gray-lighter !important
-  &:hover
-    border: 1px solid $gray-light !important
-  & .file-name
-    display: block
-    overflow: hidden
-    text-overflow: ellipsis
-    margin-top: 92px
-    white-space: nowrap
-    color: $gray
-
-.thumbnail-wrapper .thumb + .file
-  display: none
 
 .file .delete_file_ico
   display: none
@@ -1016,13 +1024,7 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
 .file-box .file
   position: relative
-
-.thumb-box .thumb
-  background-color: #FFFFFF
-
-.thumb-box .thumb.thumb-loading
-  background: none
-
+  
 .loading-status
   animation: flash 1s infinite
 
