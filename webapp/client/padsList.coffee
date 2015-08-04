@@ -324,12 +324,6 @@ Template.sharePadDropdown.events
 
   'click .share-invite': (e) ->
     padId = $(e.currentTarget).parents('.share-part').attr('data-id')
-    new SharePadPopup({shareLink: false, padId: padId}).show()
-
-
-
-  'click .share-link': (e) ->
-    padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: true, padId: padId}).show()
 
 

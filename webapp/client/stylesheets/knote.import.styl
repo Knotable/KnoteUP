@@ -675,6 +675,16 @@ a.btn-close
   .popup-title
     margin-bottom: 10px
     font-size: 14px
+  .popup-content
+    position: relative
+    .icon-docs
+      position: absolute
+      top: 6px
+      right: 5px
+      cursor: pointer
+      color: #555
+      &.zeroclipboard-is-hover
+        color: #000
   .share-to, .share-message, .shared-url
     width: 486px
     font-size: 12px
@@ -685,6 +695,10 @@ a.btn-close
     margin-top: 0
   .share-message
     height: 90px
+  .copied
+    position: absolute
+    top: 0
+    left: 6px
 
 #sys-message-popup
   display: none
