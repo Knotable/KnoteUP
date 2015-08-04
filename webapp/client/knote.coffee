@@ -118,6 +118,11 @@ Template.knote.events
 
 
 
+  'keydown .knote': (e, template) ->
+    KnoteHelper.processSavingOnCtrlEnterAction(template.$('.btn-save'), e)
+
+
+
 Template.knote.helpers
   dateNewFormat: ->
     return '' unless @date

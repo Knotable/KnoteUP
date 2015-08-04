@@ -73,11 +73,11 @@
 
 
   moveFocusToBodyIfNecessary: (jQueryEvent, templateInstance) ->
-    return false if jQueryEvent.shiftKey and jQueryEvent.keyCode is 13
+    return if (jQueryEvent.shiftKey or jQueryEvent.ctrlKey) and jQueryEvent.keyCode is 13
     if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
       jQueryEvent.preventDefault()
       text = $(jQueryEvent.currentTarget).text()
-      templateInstance.$('.new-knote-body,.knote-body').show().focus() unless _.isEmpty(text)
+      templateInstance.$('.new-knote-body, .knote-body').removeClass('hidden').show().focus() unless _.isEmpty(text)
       return false
 
 
