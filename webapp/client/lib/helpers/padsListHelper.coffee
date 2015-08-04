@@ -110,12 +110,10 @@
         PadsListHelper.updateOrder(ui.item)
         #TopicsHelper.trackKnoteDraggingEvent(entityId)
       start: (e, ui) ->
-        console.log 'drag start'
         ui.item.addClass('sorting')
         Session.set('isKnoteDroppabe', true)
       stop: (e, ui) ->
         ui.item.removeClass('sorting')
-        console.log 'drag stop'
         Session.set('isKnoteDroppabe', false)
 
     $container = $(".unarchived-knotes")
