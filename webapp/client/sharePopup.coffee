@@ -147,9 +147,7 @@ class SlackWorks
     return unless channelId
     $options = $selectric.find 'option'
     optionIndex = -1
-    $options.each (index) ->
-      value = $(this).prop 'value'
-      optionIndex = index if  value == channelId
+    $options.each (index) -> optionIndex = index if $(this).prop('value') == channelId
     return if optionIndex <= 0
     $selectric.prop('selectedIndex', optionIndex).selectric('refresh')
     return true
