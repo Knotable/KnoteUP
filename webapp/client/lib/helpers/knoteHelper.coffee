@@ -189,7 +189,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
       (next) -> KnoteHelper.formatBody template, next
       (next) -> KnoteHelper._saveKnote template, next
     ], (err) ->
-      console.error(err) if err
+      console.log(err.stack or err) if err
       callback(err) if _.isFunction(callback)
 
 
