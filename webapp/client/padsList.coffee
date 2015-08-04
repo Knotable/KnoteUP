@@ -106,6 +106,7 @@ Template.padsList.onRendered ->
     PadsListHelper.initKnoteDraggable()
 
 
+
 Template.padsList.helpers
   currentContact: ->
     AppHelper.currentContact()
@@ -126,6 +127,7 @@ Template.padsList.helpers
     return new Spacebars.SafeString html
 
 
+
   hasKnotableLoginToken: ->
     hasKnotableLoginToken.get()
 
@@ -140,6 +142,7 @@ Template.padsList.events
       HighLighter.init()
       HighLighter.togglePopupHighlightMenu(e)
       ###
+
 
 
   'click .user': (e) ->
@@ -192,6 +195,14 @@ Template.padsList.events
     else
       $postButton.attr('disabled', true)
     PadsListHelper.resetEditedContent()
+
+
+
+  'paste .new-knote-title': PadsListHelper.listenToTitlePaste
+
+
+
+  'paste #message-textarea': AppHelper.pasteAsPlainTextEventHandler
 
 
 
@@ -259,8 +270,10 @@ Template.padsList.events
             addKnote()
 
 
+
   'click #sel-text-menu button': ->
     return false
+
 
 
   'mousedown #sel-text-menu button': (e) ->
