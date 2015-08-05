@@ -104,6 +104,8 @@ Template.padsList.onRendered ->
   #unless mobileHelper.isMobile() or SettingsHelper.isReorderingCardsDisabled()
   unless window.isMobile
     PadsListHelper.initKnoteDraggable()
+  $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
+
 
 
 Template.padsList.helpers
@@ -126,6 +128,7 @@ Template.padsList.helpers
     return new Spacebars.SafeString html
 
 
+
   hasKnotableLoginToken: ->
     hasKnotableLoginToken.get()
 
@@ -140,6 +143,7 @@ Template.padsList.events
       HighLighter.init()
       HighLighter.togglePopupHighlightMenu(e)
       ###
+
 
 
   'click .user': (e) ->
@@ -195,6 +199,14 @@ Template.padsList.events
 
 
 
+  'paste .new-knote-title': PadsListHelper.listenToTitlePaste
+
+
+
+  'paste #message-textarea': AppHelper.pasteAsPlainTextEventHandler
+
+
+
   'click .post-button': (e, template) ->
     subject = $("#header .subject").text()
     $newTitle = template.$(".new-knote-title")
@@ -209,58 +221,29 @@ Template.padsList.events
       PadsListHelper.storeEditedContent editKnote
       showLoginForm()
     else
-      user = Meteor.user()
-      requiredTopicParams =
-        userId: Meteor.userId()
-        participator_account_ids: []
-        subject: subject
-        permissions: ["read", "write", "upload"]
-
-      $postButton = $(e.currentTarget)
-      $postButton.val('...')
-
+      $postButton = $(e.currentTarget).val('...')
       requiredKnoteParameters =
         subject: subject
         body: body
-        topic_id: topicId
-        userId: user._id
-        name: user.username
-        from: user.emails[0].address
-        isMailgun: false
+        topic_id: template.data?.latestPad?._id
+      optionalKnoteParameters = title: title
+      promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
+      promise
+      .always ->
+        $postButton.val('Post')
+      .fail (error) ->
+        console.log 'Cannot post new knote', error
+      .done (newKnoteId) ->
+        $newBody.html('').hide()
+        $newTitle.html('').focus()
+        $postButton.attr('disabled', true)
+        PadsListHelper.resetEditedContent()
 
-      optionalKnoteParameters =
-        title: title
-        replys: []
-        pinned: false
-        requiresPostProcessing: true
-
-      addKnote = ->
-        Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
-          $postButton.val('Post')
-          if error
-            console.log 'add_knote', error
-          else
-            $newTitle.html('')
-            $newBody.html('')
-            PadsListHelper.resetEditedContent()
-
-      if template.data?.latestPad?._id
-        topicId = template.data.latestPad._id
-        requiredKnoteParameters.topic_id = topicId
-        addKnote()
-      else
-        Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, result) ->
-          if error
-            console.log 'create_topic', error
-            $postButton.val('Post')
-          else
-            topicId = result
-            requiredKnoteParameters.topic_id = topicId
-            addKnote()
 
 
   'click #sel-text-menu button': ->
     return false
+
 
 
   'mousedown #sel-text-menu button': (e) ->
@@ -323,12 +306,6 @@ Template.sharePadDropdown.events
 
 
   'click .share-invite': (e) ->
-    padId = $(e.currentTarget).parents('.share-part').attr('data-id')
-    new SharePadPopup({shareLink: false, padId: padId}).show()
-
-
-
-  'click .share-link': (e) ->
     padId = $(e.currentTarget).parents('.share-part').attr('data-id')
     new SharePadPopup({shareLink: true, padId: padId}).show()
 

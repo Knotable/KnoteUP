@@ -189,7 +189,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
       (next) -> KnoteHelper.formatBody template, next
       (next) -> KnoteHelper._saveKnote template, next
     ], (err) ->
-      console.error(err) if err
+      console.log(err.stack or err) if err
       callback(err) if _.isFunction(callback)
 
 
@@ -292,6 +292,53 @@ displayEmbedLinks = (links, options = {}, callback) ->
             KnotableAnalytics.trackEvent eventName: KnotableAnalytics.events.knoteCommented, knoteId: knote_id, relevantPadId: TopicsHelper.currentTopicId()
         ###
         Session.set "reply-option",options unless e
+
+
+
+  postNewKnote: (requiredKnoteParameters, optionalKnoteParameters = {}) ->
+    deferred = $.Deferred()
+    user = Meteor.user()
+    unless user
+      _.defer -> deferred.reject(new Meteor.Error "User not found")
+      return deferred.promise()
+    requiredTopicParams =
+      userId: requiredKnoteParameters.userId or user._id
+      participator_account_ids: []
+      subject: requiredKnoteParameters.subject
+      permissions: ["read", "write", "upload"]
+
+    requiredKnoteParameters = _.defaults requiredKnoteParameters,
+      userId: user._id
+      name: user.username
+      from: user.emails[0].address
+      isMailgun: false
+
+    optionalKnoteParameters = _.defaults optionalKnoteParameters,
+      replys: []
+      pinned: false
+      requiresPostProcessing: true
+
+    addKnote = ->
+      Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
+        return deferred.reject(error) if error
+        deferred.resolve(knoteId)
+
+    if requiredKnoteParameters.topic_id
+      addKnote()
+    else
+      Meteor.remoteConnection.call "create_topic", requiredTopicParams,  {source: 'quick'}, (error, topicId) ->
+        return deferred.reject(error) if error
+        requiredKnoteParameters.topic_id = topicId
+        addKnote()
+    deferred.promise()
+
+
+
+  processSavingOnCtrlEnterAction: ($action, jEvent)->
+    return unless $(jEvent.target).is('div[contenteditable]')
+    if (jEvent.keyCode is 13 or jEvent.keyCode is 10) and (jEvent.shiftKey or jEvent.ctrlKey)
+      jEvent.preventDefault()
+      $action.click()
 
 
 

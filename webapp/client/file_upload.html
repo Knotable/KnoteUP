@@ -24,21 +24,14 @@
 
 
 <Template name="file_thumb_loading">
-  <div contenteditable='false' class='loading-thumb thumbnail-wrapper thumb uploading-thumb thumb-box-{{index}}'>
-    <p class='thumb-box-status-{{index}}'></p>
+  <div contenteditable='false' class='loading-thumb thumbnail-wrapper thumb uploading-thumb thumb-box' data-id="{{fileId}}">
     <div class='thumb img-wrapper'>
       <span class='delete_file_ico' contenteditable='false'>&nbsp;</span>
-        <div class="thumb">
-          <div class="loading-wrapper">
-            {{#if isImage}}
-              <img class='bar-loader' src="{{baseUrl '/images/bar-loader.gif'}}">
-            {{else}}
-              <a class='file loading-status' href="{{name}}"></a>
-            {{/if}}
-          </div>
-        </div>
+        <div class="thumb"></div>
+        <div class="upload-progress"><div class="bar"></div></div>
     </div>
     <div>{{name}}</div>
     <input type="hidden" name="file_ids"/>
+
   </div>
 </Template>

@@ -29,13 +29,34 @@ class @SharePadPopup
     @$popup.trigger 'close'
 
 
+
 Template.sharePadPopup.helpers
   copySupported: ->
     !document.queryCommandSupported?('copy')
 
 
+  url: ->
+    UrlHelper.getPadUrlFromId @padId
+
+
+
 Template.sharePadPopup.onRendered ->
   @find('.shared-url')?.select()
+
+  ZeroClipboard.prototype._singleton = null
+  ZeroClipboard.setDefaults( { moviePath: '/swf/ZeroClipboard.swf' } )
+  clip = new ZeroClipboard()
+  clip.glue($(@findAll '.icon-docs'))
+  $shareUrl = $(@findAll ".shared-url")
+  clip.on "dataRequested", (client, args) ->
+    $shareUrl.select()
+    client.setText $shareUrl.val()
+    $shareUrl.parent().prepend("<span class='copied'>#{$shareUrl.val()}</span>")
+    $shareUrl.parent().find('.copied').animate
+      opacity: 0
+      top: -10
+    , 500 , ->
+      $(this).remove()
 
 
 Template.sharePadPopup.events
@@ -43,7 +64,7 @@ Template.sharePadPopup.events
     SharePadPopup.activeInstance.close()
 
   'click .icon-docs': ->
-    document.execCommand 'copy' 
+    document.execCommand 'copy'
 
   'click .shared-url': (e) ->
     e.currentTarget.select()
@@ -62,4 +83,4 @@ Template.sharePadPopup.events
           console.log 'ERROR: addContactsToThread', error
         else
           SharePadPopup.activeInstance.close()
-          showSuccessMessage 'Added success.'
+          showSuccessMessage 'Shared in Knotable.'

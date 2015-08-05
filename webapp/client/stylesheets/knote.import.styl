@@ -25,20 +25,17 @@
     .hide
       display :none
 
-
-
-
 #container
   width: 100%
   height: 100%
   overflow: hidden
 
 .padList
-  top: 60px
+  top: 50px
   position: relative
   overflow-y: auto
   overflow-x: hidden
-  height: calc(100% - 60px)
+  height: calc(100% - 50px)
 
   .min-k-btn
     display: inline-block
@@ -269,6 +266,7 @@
       resize: none
 
     .new-knote-body
+      display: none
     .knote-body
       cursor: text
       line-height: 1.3
@@ -653,14 +651,18 @@ a.btn-close
   background: white
   cursor: pointer
   font-size: 12px
-
+  width: 120px
   li
     padding: 4px
-
-  li a
-    display: block
-    text-decoration: none
-
+    a
+      display: block
+      text-decoration: none
+    .icon-k
+      float: left
+      font-size: 15px
+      line-height: 3px
+      padding: 4px
+      font-weight: 600
   li
   li a
     color: #555
@@ -679,6 +681,16 @@ a.btn-close
   .popup-title
     margin-bottom: 10px
     font-size: 14px
+  .popup-content
+    position: relative
+    .icon-docs
+      position: absolute
+      top: 6px
+      right: 5px
+      cursor: pointer
+      color: #555
+      &.zeroclipboard-is-hover
+        color: #000
   .share-to, .share-message, .shared-url
     width: 486px
     font-size: 12px
@@ -689,6 +701,10 @@ a.btn-close
     margin-top: 0
   .share-message
     height: 90px
+  .copied
+    position: absolute
+    top: 0
+    left: 6px
 
 #sys-message-popup
   display: none
@@ -762,10 +778,6 @@ div[contenteditable=true] span.img-wrapper .btn-close
 div[contenteditable=true] span.img-wrapper:hover .btn-close
   opacity: 1
 
-.file-list .thumb.thumb-loading
-.file.thumb-loading
-  background: url("cdn_url_variable/images/loading.gif") no-repeat center center
-
 .thumbnail-wrapper .embed
   padding: 0
 
@@ -810,6 +822,50 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .transparent
   opacity: 0
 
+.upload-progress
+  width: 100%
+  height: 12px
+  position: relative
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.57) inset
+  min-width: 80px
+  margin:0 auto
+  .bar
+    width: 0%
+    height: 100%
+    background: $brand-primary
+    position: absolute
+    transition: width .2s, background .4s
+    
+
+.thumbnail-wrapper 
+  max-width: 100px
+  .file
+    border: 1px solid $gray-lighter !important
+    &:hover
+      border: 1px solid $gray-light !important
+    .file-name
+      display: block
+      overflow: hidden
+      text-overflow: ellipsis
+      margin-top: 92px
+      white-space: nowrap
+      color: $gray
+
+  .thumb + .file
+    display: none
+    
+  &.loading-thumb    
+  &.process-thumb 
+    .img-wrapper 
+      padding: 4px
+      background: #eee
+      .thumb
+        min-height: 92px
+  &.process-thumb .bar
+    animation: color-toggle-success .6s infinite alternate
+  &.loading-error .bar
+    background: $brand-error
+
 
 .file > a
 .thumb .file
@@ -822,20 +878,6 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
   width: 95px
   height: 95px
 
-.thumbnail-wrapper .file
-  border: 1px solid $gray-lighter !important
-  &:hover
-    border: 1px solid $gray-light !important
-  & .file-name
-    display: block
-    overflow: hidden
-    text-overflow: ellipsis
-    margin-top: 92px
-    white-space: nowrap
-    color: $gray
-
-.thumbnail-wrapper .thumb + .file
-  display: none
 
 .file .delete_file_ico
   display: none
@@ -1002,13 +1044,7 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
 .file-box .file
   position: relative
-
-.thumb-box .thumb
-  background-color: #FFFFFF
-
-.thumb-box .thumb.thumb-loading
-  background: none
-
+  
 .loading-status
   animation: flash 1s infinite
 

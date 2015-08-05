@@ -119,6 +119,11 @@ Template.knote.events
 
 
 
+  'keydown .knote': (e, template) ->
+    KnoteHelper.processSavingOnCtrlEnterAction(template.$('.btn-save'), e)
+
+
+
 Template.knote.helpers
   dateNewFormat: ->
     return '' unless @date
@@ -157,7 +162,7 @@ Template.knote.helpers
       class: 'knote-title editKnote'
       contentEditable: controller?.isEditing.get()
       maxlength: CHAR_LIMITATION_IN_KNOTE_TITLE
-      placeholder: 'Take knote'
+      placeholder: 'What needs to be done?'
       tabindex: 16
     data.class += ' hidden' if not controller?.isEditing.get() and _.isEmpty(PadsListHelper.getTextFromHtml(@title))
     container = Blaze.toHTMLWithData(Template.contentEditable, data)
@@ -259,7 +264,3 @@ startPomodoro = ($btnStart, knoteId, $pomodoroTime, pomodoroTime = 25*60) ->
     if timeOut >= pomodoroTime
       $btnStart.stopTime()
       Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
-
-
-
-

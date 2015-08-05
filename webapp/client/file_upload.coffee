@@ -1,5 +1,16 @@
 uploaderVar = new ReactiveVar()
 
+
+
+popUploadVar = (fileId) ->
+  Tracker.nonreactive =>
+    fileUploading = uploaderVar
+    if fileUploading[fileId]
+      delete fileUploading[fileId]
+      uploaderVar.set(fileUploading)
+
+
+
 KnoteAttachmentUploadHelper =
   afterUploadFileStatus: (status, index) ->
     if status and index and status != 'success'
@@ -27,7 +38,6 @@ KnoteAttachmentUploadHelper =
             .attr("file_id", fileId)
             .attr("img_src", fileUrl)
             .removeClass("loading")
-            #.wrap("<a href='#{fileUrl}' target='_blank'></a>")
           thumbBox.removeClass("loading-thumb")
           parent.find('.compose-area').focus()
       else
@@ -231,14 +241,9 @@ initFileuploader = ($form, options) ->
       $form = $('.file_upload_s3')
       if $form.parents('.key-note, .message, #compose-popup, .knote').length
         ############################################
-        index = Math.floor((Math.random()*10000000))
         file = data.files[0]
         parent = $(event.target).closest(".files_holder")
-
-        isImage = file.type.indexOf("image") >= 0
-
-        $file = $(UI.toHTMLWithData Template.file_thumb_loading, {index: index, name: file.name, isImage:isImage})
-
+        $file = $(UI.toHTMLWithData Template.file_thumb_loading, {fileId: file_id, name: file.name})
 
         $fileContainer = parent.find('.file-container')
         if not $fileContainer.text().trim() and $fileContainer.find('.thumb').length is 0
@@ -256,14 +261,11 @@ initFileuploader = ($form, options) ->
         metaContext = {'file_id':file_id}
         uploader = new (Slingshot.Upload)('myFileUploads',metaContext)
         uploader.send file, (error, downloadUrl) ->
+          $thumbBoxes = $(".thumb-box[data-id=#{file_id}]")
           if error
-            # Log service detailed response
-            #console.error 'Error uploading', uploader.xhr.response
-            fileUploading = uploaderVar
-            if fileUploading[file_id]
-              delete fileUploading[file_id]
-            uploaderVar.set(fileUploading)
-            console.log error
+            popUploadVar file_id
+            $thumbBoxes.addClass "loading-error" if $thumbBoxes.length
+            console.log 'File sending error', error.stack or error
           else
             url = "http:" + FileHelper.cdnUrl(file_id, file.name)
             url = encodeURI url
@@ -275,54 +277,31 @@ initFileuploader = ($form, options) ->
             fileId = file_id
             fileName = file.name
             fileURL = url
-            $thumbBoxes = $(".thumb-box-#{index}")
-            console.log $thumbBoxes,$(".thumb-box-#{index}")
-
-
+            
             if $thumbBoxes.length
-              knoteId = $thumbBoxes.closest('.message[data-id]').data('id')
-              if true
-              #if knoteId
-                isPhoto = FileHelper.isGraphic(fileName)
-                if isPhoto
-                  knotableConnection.call "processThumbnailAsync", fileId, fileName, fileURL, (e, thumbUrl)->
-                    $thumbBoxes.find("img.bar-loader")
-                    .attr("src", thumbUrl || fileURL)
-                    .removeClass("loading")
-                    .addClass('thumb')
-                    .wrap("<a href='#{fileURL}' onclick='javascript:;' class='embedded-link'></a>")
-                    $thumbBoxes.removeClass("loading-thumb")
-                    fileUploading = uploaderVar
-                    if fileUploading[file_id]
-                      delete fileUploading[file_id]
-                    uploaderVar.set(fileUploading)
-                    $('.post-new-knote').removeAttr('disabled')
-                else
-                  $file = $thumbBoxes.find(".img-wrapper .thumb")
-                  $file.find("img.bar-loader").remove()
-                  fileImage = "<img src='#{CdnHelper.getCdnUrlOrAbsoluteUrl()}images/file_type_icon/archive.png' />"
-                  $file.append("<a href='#{fileURL}' class='file embedded-link' title='#{fileName}' target='_blank' file_id='#{fileId}'>#{fileImage}</a>")
-                  $thumbBoxes.removeClass("loading-thumb")
-                  $thumbBoxes.find(".loading-wrapper").remove()
-                  fileUploading = uploaderVar
-                  if fileUploading[file_id]
-                    delete fileUploading[file_id]
-                  uploaderVar.set(fileUploading)
+              $thumbBoxes.removeClass("loading-thumb")
+              isPhoto = FileHelper.isGraphic(fileName)
+              if isPhoto
+                $thumbBoxes.addClass "process-thumb"
+                Meteor.call "processThumbnailAsync", fileId, fileName, fileURL, (e, thumbUrl)->
+                  imgSrc = thumbUrl || fileURL
+                  $thumbBoxes.find(".img-wrapper .thumb").append("<a href='#{fileURL}' class='embedded-link' title='#{fileName}' target='_blank' file_id='#{file_id}'><img src='#{imgSrc}'/></a>")
+                  popUploadVar file_id
+                  $thumbBoxes.removeClass "process-thumb"
+                  $thumbBoxes.find('.upload-progress').remove()
                   $('.post-new-knote').removeAttr('disabled')
-                $thumbBoxes.find('input[name=file_ids]').val(fileId)
               else
-                parent = $(event.target).closest(".files_holder")
-                KnoteAttachmentUploadHelper.afterComposeUploadFile(parent, fileName, fileId, data.index, fileURL)
-                #KnoteAttachmentUploadHelper.afterUploadFileStatus(data.textStatus, data.index)
-
-            #knotableConnection.call('update_short_photo_url', Session.get('subject_id'), fileId) if fileId
-            #TopicsHelper.updatePostingAccessibility()
+                $thumbBoxes.find('.upload-progress').remove()
+                $file = $thumbBoxes.find(".img-wrapper .thumb")
+                fileImage = "<img src='#{CdnHelper.getCdnUrlOrAbsoluteUrl()}images/file_type_icon/archive.png' />"
+                $file.append("<a href='#{fileURL}' class='file embedded-link' title='#{fileName}' target='_blank' file_id='#{fileId}'>#{fileImage}</a>")
+                popUploadVar file_id
+                $('.post-new-knote').removeAttr('disabled')
+              $thumbBoxes.find('input[name=file_ids]').val(fileId)
+              
             knotableConnection.subscribe 'fileById', fileId
-            #fileUploading = uploaderVar
-            #if fileUploading[file_id]
-            #  delete fileUploading[file_id]
-            #uploaderVar.set(fileUploading)
           return
+        
         fileUploading = uploaderVar or {}
         fileUploading[file_id] = {
           'uploader' : uploader,
@@ -361,7 +340,6 @@ initFileuploader = ($form, options) ->
           areS3SignaturesEqual: errorData.S3Credentials?.s3_signature == errorData.formData.s3_signature
 
       knotableConnection.call 'fileUploadFailed', errorData
-      #LoggingHelper.trace('Error: file upload failed - errorData:', errorData)
       options.failed(event, data)
 
       if fileUploading = Session.get('fileUploading')
@@ -387,3 +365,15 @@ initFileuploader = ($form, options) ->
         if fileUploading[data.file_id]
           delete fileUploading[data.file_id]
           Session.set('fileUploading' , fileUploading)
+
+
+
+# Updating file upload progress bar reactivly
+Tracker.autorun =>
+  fileUploading = uploaderVar.get('fileUploading')
+  for i of fileUploading
+    if typeof fileUploading[i] == 'object' and i != 'curValue' and i != 'dep' and i != 'equalsFunc'
+      $thumb = $(".thumb-box.loading-thumb[data-id=#{i}]")
+      if $thumb.length
+        width = Math.round(fileUploading[i].uploader?.progress() * 100)
+        $thumb.find(".upload-progress .bar").css("width","#{width}%")
