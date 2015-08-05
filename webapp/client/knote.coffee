@@ -94,6 +94,7 @@ Template.knote.events
     composePopup = knote.find('.knote-compose-popup-cn')
     actions = knote.find('.knote-actions')
     actions.hide()
+    knote.find('.pomodoro-container')?.hide()
     composePopup.slideToggle()
     setTimeout ->
       composePopup.find('.reply-message-textarea').focus()
@@ -232,7 +233,7 @@ Template.pomodoro.helpers
 
 Template.pomodoro.events
   'click .pomodoro': (e, t)->
-    return if @pomodoro
+    return if Knotes.find({pomodoro: {$exists: true}}).count()
     knoteId = t.data._id
     pomodoro =
       userId: Meteor.userId()

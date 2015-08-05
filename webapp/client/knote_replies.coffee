@@ -189,6 +189,7 @@ Template.knote_reply_compose.events
     KnoteHelper.postReplyMessage $ele
     replyCompose.slideToggle ->
       $knote.find('.knote-actions').show()
+      $knote.find('.pomodoro-container')?.show()
 
 
 
@@ -199,3 +200,4 @@ Template.knote_reply_compose.events
     replyText.html('')
     replyCompose.slideToggle ->
       $knote.find('.knote-actions').show()
+      $knote.find('.pomodoro-container')?.show()

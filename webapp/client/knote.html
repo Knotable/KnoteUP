@@ -161,8 +161,8 @@
 
 
 <Template name="pomodoro">
-    <div class="pomodoro-container ">
-       <div class="pomodoro-time" style="display: {{#if isYourPomodoro}} block {{else}} none {{/if}}"></div>
-       <div class="pomodoro {{#if pomodoro}} animate {{/if}}" style="display: {{#if isYourPomodoro}} none {{else}} block {{/if}}" title="pomodoro"></div>
+    <div class="pomodoro-container" style="display: {{#if archived}} none {{else}} block {{/if}}">
+       <div class="pomodoro {{#if pomodoro}} animate {{/if}}" title="pomodoro"></div>
+       <div class="pomodoro-time {{#if pomodoro}} show {{else}} hide {{/if}}"></div>
     </div>
 </Template>
