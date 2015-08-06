@@ -13,12 +13,24 @@ init_aws = ->
       secretAccessKey: Meteor.settings.AWS.secretAccessKey
     ###
 
+logAnError = ->
+  interval = 12
+  log = ->
+    console.error 'This message is logged intentionally. Do not consider this as a real error'
+
+  log()
+
+  Meteor.setInterval ->
+    log()
+  , interval * 60 * 60 * 1000
 
 
 Meteor.startup ->
   startDate = new Date
   Meteor.settings.public.startedAt = startDate
   console.log 'METEOR SETTINGS: ', Meteor.settings
+
+  logAnError()
 
   init_aws()
 
