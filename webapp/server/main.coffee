@@ -1,5 +1,4 @@
 init_aws = ->
-  logger.info 'init aws'
   Meteor.settings.AWS = {} unless Meteor.settings.AWS
 
   if Meteor.settings.AWS
@@ -13,12 +12,16 @@ init_aws = ->
       accessKeyId: Meteor.settings.AWS.accessKeyId
       secretAccessKey: Meteor.settings.AWS.secretAccessKey
     ###
-  else
-    logger.error "init_aws - AWS settings missing"
 
 
 
 Meteor.startup ->
+  startDate = new Date
+  Meteor.settings.public.startedAt = startDate
+  console.log 'METEOR SETTINGS: ', Meteor.settings
+
+  init_aws()
+
   Slingshot.fileRestrictions 'myFileUploads',
     allowedFileTypes: null
     maxSize: 10 * 1024 * 1024
