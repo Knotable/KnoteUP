@@ -1,3 +1,40 @@
+Template.pomodoro.onRendered ->
+  if pomodoro = @data.pomodoro
+    if moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds() > 0
+      pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'), pomodoro.date)
+    else
+      pomodoroHelper.stopPomodoro(@data._id)
+      Knotes.update {_id: @data._id}, {$unset: pomodoro: '' }
+
+
+
+Template.pomodoro.onDestroyed ->
+  pomodoroHelper.stopPomodoro(@data._id)
+
+
+
+Template.pomodoro.helpers
+  isYourPomodoro: ->
+    @pomodoro?.userId is Meteor.userId()
+
+
+
+Template.pomodoro.events
+  'click .pomodoro': (e, t)->
+    knoteId = t.data._id
+    if t.data.pomodoro
+      pomodoroHelper.stopPomodoro(knoteId)
+      return Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
+    else
+      return if Knotes.find({pomodoro: {$exists: true}}).count()
+    pomodoro =
+      userId: Meteor.userId()
+      date: new Date()
+    Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
+    pomodoroHelper.startPomodoro(knoteId, t.$('.pomodoro-time'), pomodoro.date)
+
+
+
 Template.knote.onCreated ->
   @controller =
     isEditing: new ReactiveVar(false)
@@ -27,7 +64,7 @@ Template.knote.events
 
 
   'click i.archive': ->
-    Knotes.update @_id, $set: archived: true
+    Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
 
 
 
@@ -220,47 +257,3 @@ Template.addContactPopupBox.events
 
 
 
-Template.pomodoro.onRendered ->
-  if pomodoro = @data.pomodoro
-    pomodoroTime = moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds()
-    if pomodoroTime > 0
-      startPomodoro(@.$('.pomodoro'), @data._id, @.$('.pomodoro-time'), pomodoroTime)
-    else
-      Knotes.update {_id: @data._id}, {$unset: pomodoro: '' }
-
-
-
-Template.pomodoro.helpers
-  isYourPomodoro: ->
-    @pomodoro?.userId is Meteor.userId()
-
-
-
-Template.pomodoro.events
-  'click .pomodoro': (e, t)->
-    return if Knotes.find({pomodoro: {$exists: true}}).count()
-    knoteId = t.data._id
-    pomodoro =
-      userId: Meteor.userId()
-      date: new Date()
-    Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
-    startPomodoro($(e.target), knoteId, t.$('.pomodoro-time'))
-
-
-
-s2Str = (seconds) ->
-   sec = seconds % 60
-   min = Math.floor(seconds / 60)
-   sec = '0' + sec if sec < 10
-   return min + ':' + sec
-
-
-
-startPomodoro = ($btnStart, knoteId, $pomodoroTime, pomodoroTime = 25*60) ->
-  $btnStart.stopTime(knoteId)
-  $pomodoroTime?.html(s2Str(pomodoroTime))
-  $btnStart.everyTime "1s", knoteId, (timeOut)=>
-    $pomodoroTime?.html(s2Str(pomodoroTime - timeOut))
-    if timeOut >= pomodoroTime
-      $btnStart.stopTime()
-      Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }

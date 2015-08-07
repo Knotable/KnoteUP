@@ -46,7 +46,9 @@
         -->
       {{/unless}}
     </div>
-    {{> pomodoro this}}
+    {{#unless archived}}
+        {{> pomodoro this}}
+    {{/unless}}
     {{> knote_replies}}
     {{> knote_reply_compose}}
   </div>
@@ -161,7 +163,7 @@
 
 
 <Template name="pomodoro">
-    <div class="pomodoro-container" style="display: {{#if archived}} none {{else}} block {{/if}}">
+    <div class="pomodoro-container">
        <div class="pomodoro {{#if pomodoro}} animate {{/if}}" title="pomodoro"></div>
        <div class="pomodoro-time {{#if pomodoro}} show {{else}} hide {{/if}}"></div>
     </div>
