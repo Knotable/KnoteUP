@@ -1,21 +1,7 @@
 {
   "meteor": {},
   "dependencies": {
-    "basePackages": {
-      "owl-carousel": {},
-      "cookies": {}
-    },
-    "packages": {
-      "owl-carousel": {
-        "git": "https://github.com/richsilv/meteor-owl-carousel.git",
-        "tag": "v0.1.0",
-        "commit": "cdf148b3ff3b4c715127c7c7497dcee159b37e18"
-      },
-      "cookies": {
-        "git": "https://github.com/subhog/meteor-cookies.git",
-        "tag": "v0.3.0",
-        "commit": "c3d2684cd97dd611652833169b5f628ad23c57f6"
-      }
-    }
+    "basePackages": {},
+    "packages": {}
   }
 }
