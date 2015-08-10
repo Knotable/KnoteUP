@@ -1,6 +1,8 @@
 <template name="knote">
   <div class="knote message knote-reply-cn likeable files_holder
   {{#if isEditing}} in-edit {{/if}}
+  {{#if isPosting}} posting {{/if}}
+  {{#if isFailed}} failed {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}">
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
@@ -23,31 +25,47 @@
     <div class="knote-content">
       {{knoteTitleEditableContainer}}
       {{knoteBodyEditableContainer}}
-      <div class="knote-gutter">
-        {{#unless archived}}
-          <i class="icon icon-pencil edit-knote"></i>
-          {{#if isEditing}}
-          <span class="buttons pull-right">
-            <div class="attachment">
-              {{> file_upload}}
-            </div>
-            <input type="button" class="btn btn-small my-btn btn-save" value="Save">
-            <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
-          </span>
-          {{/if}}
-        {{/unless}}
-      </div>
-    </div>
-    <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
-      {{#unless archived}}
-        <i class="icon icon-chat"></i>
-        <!--
-          <i class="icon icon-share share-knote"></i>
-        -->
+      {{#unless isPostingOrFailed}}
+        <div class="knote-gutter">
+          {{#unless archived}}
+            <i class="icon icon-pencil edit-knote"></i>
+            {{#if isEditing}}
+            <span class="buttons pull-right">
+              <div class="attachment">
+                {{> file_upload}}
+              </div>
+              <input type="button" class="btn btn-small my-btn btn-save" value="Save">
+              <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
+            </span>
+            {{/if}}
+          {{/unless}}
+        </div>
       {{/unless}}
     </div>
-    {{> knote_replies}}
-    {{> knote_reply_compose}}
+    {{#unless isPostingOrFailed}}
+      <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
+        {{#unless archived}}
+          <i class="icon icon-chat"></i>
+          {{! <i class="icon icon-share share-knote"></i> }}
+        {{/unless}}
+      </div>
+      {{> knote_replies}}
+      {{> knote_reply_compose}}
+    {{else}}
+      <div class="knote-posting-status text-right">
+        {{#if isPosting}}Posting...{{/if}}
+        {{#if isFailed}}
+          {{#unless isReposting}}
+            <i class="icon icon-attention-1"></i>
+            <span>
+            There's was a problem connecting to the server!<br>
+            The knote you just posted may not be saved.
+            </span>
+          {{/unless}}
+          <input type="button" class="btn btn-small my-btn re-post-knote" value="Retry">
+        {{/if}}
+      </div>
+    {{/unless}}
   </div>
 </template>
 

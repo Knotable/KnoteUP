@@ -23,8 +23,8 @@
 
   getSortedKnotes: (padId) ->
     {
-      unarchived: Knotes.find({topic_id: padId, archived: false}, {sort: {order: 1, timestamp: -1} }).fetch()
-      archived: Knotes.find({topic_id: padId, archived: true}, {sort: {order: 1, timestamp: -1} }).fetch()
+      unarchived: knotesRepository.find({topic_id: padId, archived: false}, {sort: {order: 1, timestamp: -1} }).fetch()
+      archived: knotesRepository.find({topic_id: padId, archived: true, is_fake: $ne: true}, {sort: {order: 1, timestamp: -1} }).fetch()
     }
 
 
