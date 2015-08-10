@@ -45,3 +45,51 @@ Meteor.users = new Mongo.Collection 'users', connection: knotableConnection
 
 
 @SharingKeys = new Meteor.Collection "sharing_keys", connection: knoteupConnection
+
+
+
+
+
+class KnotesRepository
+  _repository = null
+
+
+
+  constructor: ->
+    _repository = _repository or new Mongo.Collection null
+    Knotes.find().observe
+      added: (document) ->
+        _repository.insert(document)
+
+      changed: (newDocument) ->
+        _repository.upsert(newDocument._id, newDocument)
+
+      removed: (oldDocument) ->
+        _repository.remove(oldDocument._id)
+
+    ['find', 'findOne'].forEach (methodName) =>
+      @[methodName] = ->
+        _repository[methodName]?.apply(_repository, arguments)
+
+
+
+  insertKnote: (requiredKnoteParameters, optionalKnoteParameters) ->
+    promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
+    draftKnote = _.extend _.clone(requiredKnoteParameters), optionalKnoteParameters,
+      isPosting: true
+      archived: false
+      requiredKnoteParameters: requiredKnoteParameters
+      optionalKnoteParameters: optionalKnoteParameters
+    console.log 'draft knote', draftKnote
+    draftKnoteId = _repository.insert draftKnote, (e, r) -> console.log '_repository insert', e, r
+    promise.done (knoteId) ->
+      console.log 'done', knoteId
+      _repository.remove(draftKnoteId)
+    promise.fail (err) ->
+      console.log 'fail', err
+      _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false)
+    promise
+
+
+
+@knotesRepository = new KnotesRepository()

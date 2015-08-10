@@ -64,7 +64,8 @@ Template.knote.events
 
 
   'click i.archive': ->
-    Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
+    if not @isPosting and not @isFailed
+      Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
 
 
 
@@ -74,7 +75,8 @@ Template.knote.events
 
 
   'click i.edit-knote': (e, template) ->
-    template.controller.isEditing.set(true)
+    if not @isPosting and not @isFailed
+      template.controller.isEditing.set(true)
 
 
 
@@ -140,7 +142,8 @@ Template.knote.events
 
 
   'dblclick .knote-content': (e, template) ->
-    template.controller?.isEditing.set(true)
+    if not @isPosting and not @isFailed
+      template.controller?.isEditing.set(true)
 
 
 
@@ -220,6 +223,11 @@ Template.knote.helpers
       contentEditable: controller?.isEditing.get()
     container = Blaze.toHTMLWithData(Template.contentEditable, data)
     new Spacebars.SafeString(container)
+
+
+
+  isPostingOrFailed: ->
+    @isPosting or @isFailed
 
 
 

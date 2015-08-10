@@ -215,6 +215,7 @@ Template.padsList.events
 
 
   'click .post-button': (e, template) ->
+    $postButton = $(e.currentTarget).attr('disabled', true)
     subject = $("#header .subject").text()
     $newTitle = template.$(".new-knote-title")
     $newBody = template.$(".new-knote-body")
@@ -228,23 +229,16 @@ Template.padsList.events
       PadsListHelper.storeEditedContent editKnote
       showUserModal('login')
     else
-      $postButton = $(e.currentTarget).val('...')
       requiredKnoteParameters =
         subject: subject
         body: body
         topic_id: template.data?.latestPad?._id
       optionalKnoteParameters = title: title
-      promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
-      promise
-      .always ->
-        $postButton.val('Post')
-      .fail (error) ->
-        console.log 'Cannot post new knote', error
-      .done (newKnoteId) ->
-        $newBody.html('').hide()
-        $newTitle.html('').focus()
-        $postButton.attr('disabled', true)
-        PadsListHelper.resetEditedContent()
+      knotesRepository.insertKnote(requiredKnoteParameters, optionalKnoteParameters)
+      $newBody.html('').hide()
+      $newTitle.html('').focus()
+      PadsListHelper.resetEditedContent()
+    $postButton.attr('disabled', false)
 
 
 

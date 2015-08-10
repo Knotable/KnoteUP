@@ -1,6 +1,8 @@
 <template name="knote">
   <div class="knote message knote-reply-cn likeable files_holder
   {{#if isEditing}} in-edit {{/if}}
+  {{#if isPosting}} posting {{/if}}
+  {{#if isFailed}} failed {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}">
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
@@ -38,19 +40,26 @@
         {{/unless}}
       </div>
     </div>
-    <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
+    {{#unless isPosting}}
+      <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
+        {{#unless archived}}
+          <i class="icon icon-chat"></i>
+          <!--
+            <i class="icon icon-share share-knote"></i>
+          -->
+        {{/unless}}
+      </div>
       {{#unless archived}}
-        <i class="icon icon-chat"></i>
-        <!--
-          <i class="icon icon-share share-knote"></i>
-        -->
+          {{> pomodoro this}}
       {{/unless}}
-    </div>
-    {{#unless archived}}
-        {{> pomodoro this}}
+      {{> knote_replies}}
+      {{> knote_reply_compose}}
+    {{else}}
+      <div class="knote-posting-status">
+        {{#if isPosting}}Posting...{{/if}}
+        {{#if isFailed}}Failed{{/if}}
+      </div>
     {{/unless}}
-    {{> knote_replies}}
-    {{> knote_reply_compose}}
   </div>
 </template>
 
