@@ -123,14 +123,6 @@ Template.user_modal.events
 
 
 
-Template.welcome_carousel.onRendered ->
-  if Cookie.get('welcome')
-    Cookie.clear('welcome')
-  else
-    CarouselHelper.init()
-    Cookie.set('welcome', { expires: 7 })
-
-
 
 Template.login_box.events
   'click #register-link': ->

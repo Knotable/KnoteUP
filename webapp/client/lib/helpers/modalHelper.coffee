@@ -1,6 +1,17 @@
-@CarouselHelper =
+@ModalHelper =
 
-  init: ->
+  showModal: (type) ->
+    $modal = $('.user-modal')
+    $modal.addClass('is-visible')
+    Session.set 'modalType', type
+    if type == 'welcome'
+      Session.set 'welcome', true
+    else
+      Session.set 'welcome', false
+      $modal.find('#login-username').focus()
+
+
+  initWelcome: ->
     carousel = $(".owl-carousel")
     carousel.owlCarousel(
       margin: 50,
