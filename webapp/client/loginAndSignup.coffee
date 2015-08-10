@@ -80,59 +80,11 @@ regist = (username, email, password) ->
 
 
 
-Template.user_modal.onRendered  ->
-  # close modal when clicking the esc keyboard button
-  $userModal = $('.user-modal')
-  $(document).keyup (event) ->
-    $userModal.removeClass('is-visible') if event.which is 27
-
-  resetWidth()
-
-  verticallyCenterBox = ->
-    windowHeight = $(window).height()
-    $(".user-modal-container").each ->
-      marginValue = 15
-      boxHeight = $(this).outerHeight(false)
-      if($(this).find('.header').length > 0)
-        marginValue += $(this).find('.header').outerHeight(false) + 20
-      if (windowHeight > boxHeight)
-        marginValue = Math.max((windowHeight - boxHeight)/2, marginValue)
-      marginValue += 'px'
-      $(this).css
-        "margin-top": marginValue
-        "margin-bottom": marginValue
-
-  verticallyCenterBox()
-  $(window).off('resize', verticallyCenterBox).resize verticallyCenterBox
-
-
-Template.user_modal.helpers
-
-  welcome: ->
-    Session.get 'welcome'
-
-  type: ->
-    Session.get 'modalType'
-
-
-
-Template.user_modal.events
+Template.loginAndSignup.events
   'click .user-modal': (event) ->
     $userModal = $('.user-modal')
     $userModal.removeClass("is-visible") if $(event.target).is($userModal)
 
-
-
-Template.welcome_carousel.onRendered ->
-  if Cookie.get('welcome')
-    Cookie.clear('welcome')
-  else
-    CarouselHelper.init()
-    Cookie.set('welcome', { expires: 7 })
-
-
-
-Template.login_box.events
   'click #register-link': ->
     $("#login-box").addClass('hidden')
     $("#register").removeClass('hidden')
@@ -199,3 +151,29 @@ resetWidth = ->
   $('.user-modal input').each (index, $input) ->
     if $(this).width() > width
       $(this).width(width-23)
+
+
+Template.loginAndSignup.onRendered  ->
+  # close modal when clicking the esc keyboard button
+  $userModal = $('.user-modal')
+  $(document).keyup (event) ->
+    $userModal.removeClass('is-visible') if event.which is 27
+
+  resetWidth()
+
+  verticallyCenterBox = ->
+    windowHeight = $(window).height()
+    $(".user-modal-container").each ->
+      marginValue = 15
+      boxHeight = $(this).outerHeight(false)
+      if($(this).find('.header').length > 0)
+        marginValue += $(this).find('.header').outerHeight(false) + 20
+      if (windowHeight > boxHeight)
+        marginValue = Math.max((windowHeight - boxHeight)/2, marginValue)
+      marginValue += 'px'
+      $(this).css
+        "margin-top": marginValue
+        "margin-bottom": marginValue
+
+  verticallyCenterBox()
+  $(window).off('resize', verticallyCenterBox).resize verticallyCenterBox

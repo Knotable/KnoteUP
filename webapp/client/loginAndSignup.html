@@ -1,0 +1,83 @@
+<template name="loginAndSignup">
+<div class="user-modal"> <!-- this is the entire modal form, including the background -->
+  <div class="user-modal-container"> <!-- this is the container wrapper -->
+    <div class="box" id="login-box">
+      <div class="body">
+        <form id="login-form" class="login-form" autocomplete="off">
+          <h4 class="title">Login to post or comment</h4>
+          <div class="form-message invisible">.</div>
+          <div class="control-group">
+            <div class="controls for-user">
+              <i class="icon icon-user"></i>
+              <input id="login-username" class="form-control" type="text" value="" name="email" placeholder="Username or email" tabindex="11" autocomplete="off" spellcheck="off">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls for-password">
+              <i class="icon icon-lock-filled"></i>
+              <input type="password" value="" name="password" id="login-password" placeholder="Password" tabindex="12">
+            </div>
+          </div>
+          <div class="control-group">
+            <button type="submit" class="btn btn-blue btn-full my-btn login-button" id="login-button" tabindex="13">Log in</button>
+          </div>
+
+          <div class="control-group">
+            <a id="register-link" class="signup-link" tabindex="6"><b>Sign up</b></a>
+          </div>
+        </form>
+        <form class="hidden" id="confirm-form" autocomplete="off">
+          <div class="title">Confirmation</div>
+          <div class="form-message hidden"></div>
+          <div class="control-group">
+            <div class="controls for-user">
+              <i class="icon icon-user"></i>
+              <input type="text" class="cofirm_email" disabled="disabled" value="" name="email" tabindex="21">
+            </div>
+          </div>
+          <div class="control-group">
+            <a href="javascript:;" id="confirm-button" tabindex="5" class="btn btn-blue btn-full my-btn">Resend email confirmation</a>
+          </div>
+        </form>
+        <div class="loading-circle hidden"></div>
+      </div>
+    </div>
+
+    <div class="box hidden" id="register">
+      <div class="body">
+        <form id="register-form" autocomplete="off">
+          <div class="title">Sign up for our beta</div>
+          <div class="form-message invisible">.</div>
+          <div class="control-group">
+            <div class="controls for-user">
+              <i class="icon icon-user"></i>
+              <input type="text" value="" name="username" id="account-username" placeholder="Please choose a username">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls for-email">
+              <i class="icon icon-mail-alt"></i>
+              <input type="text" value="" name="eid" id="account-email" placeholder="Type your email">
+            </div>
+            <div class="text-desc control-group">Your correct email is super important.</div>
+          </div>
+
+          <div class="control-group">
+            <div class="controls for-password">
+              <i class="icon icon-lock-filled"></i>
+              <input type="password" name="passwd" id="account-password" placeholder="And set a password">
+            </div>
+          </div>
+          <div class="control-group">
+            <i class="icon icon-spin2 animate-spin"></i>
+            <button type="submit" class="btn btn-blue btn-full my-btn" id="create-account">Sign up</button>
+          </div>
+          <div class="control-group">
+            <a href="javascript:;" id="go-login"><b>I already have an account</b></a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> <!-- user-modal-container -->
+</div> <!-- user-modal -->
+</template>

@@ -4,76 +4,47 @@
   left: 0
   width: 100%
   height: 100%
+  background: rgba(52, 54, 66, 0.9)
   z-index: 300
+  cursor: pointer
   overflow: hidden
   visibility: hidden
   opacity: 0
   -webkit-transition: opacity 0.3s 0, visibility 0 0.3s
   -moz-transition: opacity 0.3s 0, visibility 0 0.3s
   transition: opacity 0.3s 0, visibility 0 0.3s
-  &.is-visible
-    visibility: visible
-    opacity: 1
-    -webkit-transition: opacity 0.3s 0, visibility 0 0
-    -moz-transition: opacity 0.3s 0, visibility 0 0
-    transition: opacity 0.3s 0, visibility 0 0
-  .user-modal-container
-    background: #28ace8
-    -webkit-border-radius: 4px
-    border-radius: 4px
-    box-shadow: -1px 5px 10px -2px rgba(0,0,0,0.4)
-    color: #fff
-  &.login
-    .user-modal-container
-      max-width: 400px
-      padding: 0 15px
-      margin: 0 auto
-      position: relative
-      .header
-        left: 15px
-        position: absolute
-        right: 15px
-        top: -90px
-      a
-        outline: none
-        cursor: pointer
-        text-decoration: none
-        &:hover
-          color: #204d74
-  &.welcome
-    .user-modal-container
-      padding: 0 15px
-      margin: 0 auto
-      max-width: 400px
-      position: relative
-      .item
-        background: $brand-primary
-        width: 400px
-        height: 100%
+
+.user-modal.is-visible
+  visibility: visible
+  opacity: 1
+  -webkit-transition: opacity 0.3s 0, visibility 0 0
+  -moz-transition: opacity 0.3s 0, visibility 0 0
+  transition: opacity 0.3s 0, visibility 0 0
+
+
+.user-modal-container
+  max-width: 380px
+  padding: 0 15px
+  margin: 0 auto
+  width: 100%
+  position: relative
+  .header
+    left: 15px
+    position: absolute
+    right: 15px
+    top: -90px
+  a
+    outline: none
+    cursor: pointer
+    text-decoration: none
+    &:hover
+      color: #204d74
 
 form
   margin: 0 0 20px
   .form-message
     margin: 7px 0
     font-size: 12px
-
-.owl-theme
-  .owl-controls
-    .owl-nav
-      [class*='owl-']
-        background: $brand-primary
-        border: 2px solid #fff
-        box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
-        &:hover
-          background-color: #248fbe
-      .owl-prev
-        display: none
-  .owl-dots .owl-dot
-    span
-      background: white
-    &.active
-      span
-        background-color: #248fbe
 
 .logo
   position: relative
@@ -91,12 +62,17 @@ form
   top: 44px
 
 .box
+  background: #28ace8
+  -webkit-border-radius: 4px
+  border-radius: 4px
+  color: #fff
   position: relative
   cursor: initial
   .body
     padding: 6%
     .login-form
     #register-form
+      margin-bottom: 10px
       .title
         margin: 5px 0 0 0
         text-align: center
@@ -157,7 +133,6 @@ form
   height: auto
   padding: 10px 6px
   width: 100%
-  box-sizing: border-box
   margin: 0
   background-color: white
   -webkit-border-radius: 5px
