@@ -3,10 +3,16 @@ hidePadShareDropdown = ->
 
 
 
-showLoginForm = ->
-  $form_modal = $('.user-modal')
-  $form_modal.addClass('is-visible')
-  $form_modal.find('#login-username').focus()
+showUserModal = (type) ->
+  $modal = $('.user-modal')
+  $modal.addClass('is-visible')
+  console.log(type)
+  Session.set 'modalType', type
+  if type == 'welcome'
+    Session.set 'welcome', true
+  else
+    Session.set 'welcome', false
+    $modal.find('#login-username').focus()
 
 
 
@@ -106,6 +112,7 @@ Template.padsList.onRendered ->
     PadsListHelper.initKnoteDraggable()
   $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
 
+  showUserModal('welcome')
 
 
 Template.padsList.helpers
@@ -177,7 +184,7 @@ Template.padsList.events
       title: title
       body: body
     PadsListHelper.storeEditedContent editKnote
-    showLoginForm()
+    showUserModal('login')
 
 
 
@@ -219,7 +226,7 @@ Template.padsList.events
         title: title
         body: body
       PadsListHelper.storeEditedContent editKnote
-      showLoginForm()
+      showUserModal('login')
     else
       $postButton = $(e.currentTarget).val('...')
       requiredKnoteParameters =
