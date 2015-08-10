@@ -19,6 +19,7 @@ class KnotesRepository
       isPosting: true
       archived: false
       isLocalKnote: true
+      timestamp: Date.now()
       requiredKnoteParameters: requiredKnoteParameters
       optionalKnoteParameters: optionalKnoteParameters
     draftKnoteId = _repository.insert draftKnote
