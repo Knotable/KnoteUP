@@ -78,17 +78,35 @@ class KnotesRepository
     draftKnote = _.extend _.clone(requiredKnoteParameters), optionalKnoteParameters,
       isPosting: true
       archived: false
+      isLocalKnote: true
       requiredKnoteParameters: requiredKnoteParameters
       optionalKnoteParameters: optionalKnoteParameters
-    console.log 'draft knote', draftKnote
-    draftKnoteId = _repository.insert draftKnote, (e, r) -> console.log '_repository insert', e, r
-    promise.done (knoteId) ->
-      console.log 'done', knoteId
+    draftKnoteId = _repository.insert draftKnote
+    @_listenToPostCompletion(draftKnoteId, promise)
+    return promise
+
+
+
+  repostKnote: (knoteId) ->
+    draftKnote = _repository.findOne(_id: knoteId, isLocalKnote: true)
+    unless draftKnote
+      deferred = $.Deferred()
+      _.defer -> deferred.reject new Meteor.Error 'Knote not found'
+      return deferred.promise()
+    _repository.update knoteId, $set: isReposting: true
+    promise = KnoteHelper.postNewKnote(draftKnote.requiredKnoteParameters, draftKnote.optionalKnoteParameters)
+    @_listenToPostCompletion(draftKnote._id, promise)
+    return promise
+
+
+
+  _listenToPostCompletion: (draftKnoteId, promise) ->
+    promise.done ->
       _repository.remove(draftKnoteId)
     promise.fail (err) ->
-      console.log 'fail', err
-      _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false)
-    promise
+      _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false, isReposting: false)
+      console.log err
+    return promise
 
 
 

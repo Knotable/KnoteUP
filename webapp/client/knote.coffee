@@ -164,6 +164,16 @@ Template.knote.events
 
 
 
+  'click .re-post-knote': (e) ->
+    $button = $(e.currentTarget).prop('disabled', true)
+    originalText = $button.val()
+    $button.val('Retrying...')
+    promise = knotesRepository.repostKnote(@_id)
+    promise.always ->
+      $button.prop('disabled', false).val(originalText)
+
+
+
 Template.knote.helpers
   dateNewFormat: ->
     return '' unless @date
