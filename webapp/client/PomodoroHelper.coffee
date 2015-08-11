@@ -3,32 +3,33 @@ class PomodoroHelper
 
 
   stopPomodoro: (knoteId)->
-    return unless Meteor.userId()
+    return unless Meteor.userId() and knoteId
     if pomodoroTimers[knoteId]
       clearTimeout(pomodoroTimers[knoteId])
       delete pomodoroTimers[knoteId]
-    user = AppHelper.currentContact()
-    if user
-      $('title').text('Knoteup - ' + user.username)
-    else
-      $('title').text('Knoteup')
-    $('#favicon').attr('href', '/favicon.ico')
+      user = AppHelper.currentContact()
+      if user
+        $('title').text('Knoteup - ' + user.username)
+      else
+        $('title').text('Knoteup')
+      $('#favicon').attr('href', '/favicon.ico')
 
 
 
-  startPomodoro: (knoteId, $pomodoroTime, pomodoroDate) ->
-    return unless Meteor.userId()
+  startPomodoro: (knoteId, $pomodoroTime) ->
+    return unless Meteor.userId() and knoteId
     @stopPomodoro(knoteId)
-    pomodoroDate = moment(pomodoroDate).add(25, 'minutes')
+    return unless pomorodo = Knotes.findOne({_id: knoteId})?.pomodoro
+    pomodoroDate = moment(pomorodo.date).add(25, 'minutes')
     updateView($pomodoroTime, moment.duration(moment(pomodoroDate).subtract(new Date())).asSeconds())
     $('#favicon').attr('href', '/tomato-red.ico')
-    func = ->
-      pomodoroTime = moment.duration(moment(pomodoroDate).subtract(new Date())).asSeconds()
-      if pomodoroTime <= 0
+    func = =>
+      time = moment.duration(moment(pomodoroDate).subtract(new Date())).asSeconds()
+      if time <= 0
         Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
-        stopPomodoro(knoteId)
+        @stopPomodoro(knoteId)
       else
-        updateView($pomodoroTime, pomodoroTime)
+        updateView($pomodoroTime, time)
         pomodoroTimers[knoteId] = setTimeout func, 1000
     pomodoroTimers[knoteId] = setTimeout func, 1000
 
@@ -37,7 +38,7 @@ class PomodoroHelper
   updateView = ($pomodoroTime, pomodoroTime) ->
     time = s2Str(pomodoroTime)
     $pomodoroTime?.html(time)
-    $('title').html("Knoteup - #{time}")
+    $('title').text("Knoteup - #{time}")
 
 
 
@@ -50,3 +51,4 @@ class PomodoroHelper
 
 
 @pomodoroHelper = new PomodoroHelper()
+

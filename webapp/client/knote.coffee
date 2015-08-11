@@ -1,15 +1,16 @@
 Template.pomodoro.onRendered ->
-  if pomodoro = @data.pomodoro
-    if moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds() > 0
-      pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'), pomodoro.date)
+  @autorun =>
+    if pomodoro = Knotes.findOne(_id: @data._id)?.pomodoro
+      if moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds() > 0
+        pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'))
     else
-      pomodoroHelper.stopPomodoro(@data._id)
-      Knotes.update {_id: @data._id}, {$unset: pomodoro: '' }
+     pomodoroHelper.stopPomodoro(@data._id, @.$('.pomodoro-time'))
+
 
 
 
 Template.pomodoro.onDestroyed ->
-  pomodoroHelper.stopPomodoro(@data._id)
+  pomodoroHelper.stopPomodoro(@data._id) if @data.pomodoro
 
 
 
@@ -23,7 +24,6 @@ Template.pomodoro.events
   'click .pomodoro': (e, t)->
     knoteId = t.data._id
     if t.data.pomodoro
-      pomodoroHelper.stopPomodoro(knoteId)
       return Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
     else
       return if Knotes.find({pomodoro: {$exists: true}}).count()
@@ -31,7 +31,6 @@ Template.pomodoro.events
       userId: Meteor.userId()
       date: new Date()
     Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
-    pomodoroHelper.startPomodoro(knoteId, t.$('.pomodoro-time'), pomodoro.date)
 
 
 
