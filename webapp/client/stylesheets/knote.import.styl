@@ -1,8 +1,11 @@
+html
+  -webkit-font-smoothing: antialiased
+
 .pomodoro-container
   position: absolute
   right: 0
   bottom: 0
-  padding: 5px
+  padding: 8px 6px
   height: 13px
 
   .pomodoro
@@ -254,7 +257,7 @@
 
     .knote-title
       font-size: 12px
-      color: #000
+      color: #424242
       line-height: 17px
       font-weight: 700
       cursor: text
@@ -298,21 +301,8 @@
           float: right
           margin-top: -17px
           position: relative
-        .wrap-edit-knote
-          float: right
-          display: none
-          height: 100%
-          .attachment
-            font-size: 16px
-            cursor: pointer
-            height: 20px
-            width: 30px
-            float: right
-            line-height: 20px
-          .attachment i
-            color: $gray
-          .attachment i:hover
-            color: $gray-dark
+        .attachment form
+          line-height: 25px
         .contributors
           .contributor
             display: inline-block
@@ -503,7 +493,7 @@
     background: #28ACE8
 
 .btn-small
-  padding: 2px 10px
+  padding: 0px 8px
 
 .btn-cancel, .reply-cancel
   background: $gray-blue
@@ -848,9 +838,9 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
     background: $brand-primary
     position: absolute
     transition: width .2s, background .4s
-    
 
-.thumbnail-wrapper 
+
+.thumbnail-wrapper
   max-width: 100px
   .file
     border: 1px solid $gray-lighter !important
@@ -866,10 +856,10 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
   .thumb + .file
     display: none
-    
-  &.loading-thumb    
-  &.process-thumb 
-    .img-wrapper 
+
+  &.loading-thumb
+  &.process-thumb
+    .img-wrapper
       padding: 4px
       background: #eee
       .thumb
@@ -1057,7 +1047,7 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
 .file-box .file
   position: relative
-  
+
 .loading-status
   animation: flash 1s infinite
 

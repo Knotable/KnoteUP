@@ -49,6 +49,9 @@
           {{! <i class="icon icon-share share-knote"></i> }}
         {{/unless}}
       </div>
+      {{#unless archived}}
+       {{> pomodoro this}}
+      {{/unless}}
       {{> knote_replies}}
       {{> knote_reply_compose}}
     {{else}}
