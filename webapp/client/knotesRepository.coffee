@@ -1,5 +1,6 @@
 class KnotesRepository
   _initialization = false
+  _draftKnoteExpiration = moment.duration(1, 'day')
   _repositoryStoreKey = 'local_draft_knotes_repo'
   _repository = null
 
@@ -54,10 +55,7 @@ class KnotesRepository
 
 
   _bindKnotesStorage: ->
-    draftKnotes = amplify.store(_repositoryStoreKey)
-    unless _.isEmpty(draftKnotes)
-      _.each draftKnotes, (localKnote) ->
-        _repository.insert(localKnote)
+    @_fillRepositoryWithDraftKnotes()
     _repository.find().observe
       added: @_updateStoredDocument
       changed: @_updateStoredDocument
@@ -66,6 +64,19 @@ class KnotesRepository
           draftKnotes = amplify.store(_repositoryStoreKey) or {}
           delete draftKnotes[document._id] if draftKnotes[document._id]
           amplify.store(_repositoryStoreKey, draftKnotes)
+
+
+
+  _fillRepositoryWithDraftKnotes: ->
+    draftKnotes = amplify.store(_repositoryStoreKey)
+    unless _.isEmpty(draftKnotes)
+      now = moment()
+      _.each _.clone(draftKnotes), (localKnote, key) ->
+        if moment(localKnote.timestamp).add(_draftKnoteExpiration).isAfter(now)
+          _repository.insert(localKnote)
+        else
+          delete draftKnotes[key]
+      amplify.store(_repositoryStoreKey, draftKnotes)
 
 
 
