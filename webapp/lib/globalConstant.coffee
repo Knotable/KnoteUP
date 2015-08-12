@@ -22,3 +22,13 @@ class @CommonRegularExpressions
 
 
 @URL_REGEX = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.; ]*[-A-Z0-9+&@#\/%=~_|])/ig
+
+@EXAMPLE_CONTACTS = [
+  "amol@help.knote.com"
+  "sallysallyshoes@gmail.com"
+  "mollymollydress@gmail.com"
+  "caseycaseypants@gmail.com"
+  "amiramirhats@gmail.com"
+  "darbydarbysocks@gmail.com"
+  "ryanryanscarf@gmail.com"
+]

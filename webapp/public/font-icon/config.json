@@ -25,6 +25,12 @@
       "src": "fontawesome"
     },
     {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "cancel",
+      "code": 59409,
+      "src": "fontawesome"
+    },
+    {
       "uid": "0ddd3e8201ccc7d41f7b7c9d27eca6c1",
       "css": "link",
       "code": 59403,
@@ -63,7 +69,7 @@
     {
       "uid": "c76b7947c957c9b78b11741173c8349b",
       "css": "attention-1",
-      "code": 59409,
+      "code": 59410,
       "src": "fontawesome"
     },
     {
