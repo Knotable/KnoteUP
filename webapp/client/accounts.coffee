@@ -8,6 +8,8 @@
 
 
 Meteor.startup ->
+  Tracker.autorun ->
+    $('title').text('Knoteup') unless Meteor.userId()
   Tracker.autorun -> loggedInLocally.set Boolean knoteupConnection.userId()
   Tracker.autorun -> loggedInKnotable.set Boolean knotableConnection.userId()
 
