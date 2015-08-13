@@ -142,3 +142,54 @@
 
   getDefaultUserBgColor: ->
     return 'bgcolor3'
+
+
+
+  makeExplicitlyReactiveFunction : (value) ->
+    dependency =
+      dep: new Tracker.Dependency
+      value: value
+
+    reactiveFunction = (flag, isNonreactiveSet) ->
+      unless arguments.length
+        return dependency.value
+      unless EJSON.equals(dependency.value, flag)
+        dependency.value = flag
+        unless isNonreactiveSet
+          dependency.dep.changed()
+      return undefined
+
+    reactiveFunction.reactiveGet = ->
+      dependency.dep.depend()
+      return dependency.value
+
+    return reactiveFunction
+
+
+
+  getParticipatorEmails: (topic)->
+    participators = []
+    return participators unless topic?.participator_account_ids?.length
+    topic.participator_account_ids.forEach (account_id)->
+      contact = Contacts.findOne($or :[{account_id: account_id , type : 'me'} , {belongs_to_account_id: account_id , type : 'other'}])
+      if contact
+        participators = participators.concat contact.emails
+    return _.uniq participators
+
+
+
+  loadSuggestContacts: (emailPattern, callback) ->
+    Meteor.remoteConnection.call 'loadSuggestContacts', emailPattern, (err, res) ->
+      if err
+        console.log err
+      else
+        if res.length
+          data = _.map res, (c) ->
+            {
+              tokens: [c.emails[0], c.username]
+              value: c.emails[0]
+              email: c.emails[0]
+              contact: c
+            }
+          data = _.uniq data, (d) -> d.email?.toLowerCase()
+      callback(data || []) if _.isFunction callback

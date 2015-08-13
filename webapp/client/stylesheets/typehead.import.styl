@@ -1,0 +1,67 @@
+// CSS for drop down suggestions
+//------------------------------
+
+@import 'nib'
+@import 'variables.styl'
+
+.twitter-typeahead .tt-hint
+  display: none !important
+
+.tt-dropdown-menu
+  @extend .shadow-dropdown
+  @extend .round-corner-sm
+  padding: 2px 0
+  background-color: #fff
+  border: 1px solid #ccc
+  border: 1px solid rgba(0, 0, 0, 0.2)
+  .username
+    display:inline
+    color: #777
+  .show-gmail-oauth
+    text-align: center
+    font-size: 12px
+    color: white
+    background: $knotable-blue
+
+.tt-dropdown-menu p
+  color: #000
+  margin: 0
+  padding: 4px
+  text-align: left
+  font-size: 12px
+  cursor: pointer
+
+.tt-suggestion.tt-is-under-cursor
+.tt-suggestion.tt-cursor
+  background-color: $brand-primary
+
+.tt-suggestion.tt-is-under-cursor *
+.tt-suggestion.tt-cursor *
+  color: #fff
+
+.tt-suggestion p
+  margin: 0
+
+.dropdown
+.tt-dropdown-menu
+  @extend .round-corner-m
+  @extend .shadow-xs
+  overflow: auto
+  display: none
+  position: absolute
+  background-color: white
+  border-top: 1px solid #eee
+  cursor: pointer
+  z-index: 2000
+  text-align: left
+  padding: 3px
+  max-height: 200px
+  li
+    padding: 2px
+    border-bottom: 1px solid #eee
+    fa
+      margin-right: 3px
+  li:hover
+    color: $brand-primary
+  li:last-of-type
+    border-bottom: none

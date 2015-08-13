@@ -13,3 +13,13 @@
     <span class="unactivated account-avatar circle-avatar {{#if showSmallAvatar}}small{{/if}} {{currentUserClass}}"><img src="{{baseUrl '/images/letter.png'}}"></span>
   {{/if}}
 </Template>
+
+<Template name="suggestion_avatar">
+  {{#if avatarPath}}
+    <img class="account-avatar small" src="{{avatarPath}}" height="20" width="20">
+  {{else}}
+    <span class="account-avatar small {{contact.bgcolor}}">
+      {{initialName}}
+    </span>
+  {{/if}}
+</Template>

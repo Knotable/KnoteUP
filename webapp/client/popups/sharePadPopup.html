@@ -1,5 +1,5 @@
 <template name="sharePadPopup">
-  <div id="share-pad-popup">
+  <div id="share-pad-popup" data-pad-id="{{padId}}">
     <div class="popup-title">
       <a href="#" class="btn-close close"></a>
       <span class="share-text">Share a link</span>
@@ -13,7 +13,11 @@
       <div class="share-view">
         <div class="inner-conatiner">
           <div id="shareEmails">
-            <input type="text" placeholder="Emails" class="share-to">
+            {{#if showPlaceholder}}  <span class="placeholder">Email or username</span> {{/if}}
+            {{#each selectedContacts}}
+                {{> contactTab}}
+            {{/each}}
+            {{> search_contacts}}
           </div>
           <div><textarea name="" id="" cols="30" rows="10" placeholder="Message (optional)" class="share-message"></textarea></div>
         </div>
@@ -23,4 +27,16 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="search_contacts">
+  <input class="form-control typeahead newEmail" id="NewEmail"  type="text" autocomplete="off" spellcheck="off" data-source="searchContacts" data-template="contact_suggestion" />
+</template>
+
+<template name="contact_suggestion">
+  <div class="contact-item">{{> suggestion_avatar contact=contact}} {{contact.fullname}} <span class="username">({{contact.username}}) {{#if contact.loadFrom}}<i class="fa fa-mail"></i>{{/if}}</span></div>
+</template>
+
+<template name="contactTab">
+  <div data-email="{{email}}" class="contact-item">{{#if _id}} {{fullname}} {{else}} {{email}} {{/if}} <i class="icon icon-cancel"></i></div>
 </template>

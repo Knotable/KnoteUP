@@ -694,7 +694,7 @@ a.btn-close
       color: #555
       &.zeroclipboard-is-hover
         color: #000
-  .share-to, .share-message, .shared-url
+  .share-message, .shared-url
     width: 486px
     font-size: 12px
   .shared-url
@@ -709,6 +709,40 @@ a.btn-close
     top: 0
     left: 6px
 
+#shareEmails
+  background: white
+  padding: 2px 4px
+  border-radius: 5px
+  margin-bottom: 5px
+  min-height: 26px
+  font-size: 12px
+  cursor: text
+  color: $text-dark
+  word-break: break-all
+  border: 1px solid #EEE
+  .contact-item
+    padding: 2px 4px
+    font-size: 12px
+    margin: 2px 0
+    display: inline-block
+    line-height: 20px
+    cursor: pointer
+  .fa-times
+    cursor: pointer
+  .account-avatar
+    box-shadow: none
+    border-radius: 50%
+  .newEmail
+    padding: 0 4px
+    border: none
+    margin: 2px 0
+    min-width: 250px
+    vertical-align: middle !important
+    line-height: 20px
+  .placeholder
+    color: #aeaeae
+    
+
 #sys-message-popup
   display: none
   position: fixed
@@ -719,7 +753,7 @@ a.btn-close
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 50%)
   background: white
   padding: 0 10px
-  z-index: 101
+  z-index: 10000
   &.success
     border-left: 3px solid green
     .icon
@@ -1246,3 +1280,53 @@ ul.highlight-words li
   border: 1px solid #8ac472
   background-color: $green-pastel
   color: white
+
+.account-avatar
+  width: 30px
+  height: 30px
+  display: inline-block
+  box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
+  vertical-align: top
+  cursor: pointer
+  max-width: none
+
+.account-avatar.small
+  width: 20px
+  height: 20px
+
+.account-avatar.medium
+  width: 24px
+  height: 24px
+
+span.account-avatar img
+  vertical-align: top
+
+span.account-avatar
+  color: rgba(255,255,255,0.6)
+  font-size: 18px
+  font-weight: 400px
+  line-height: 29px
+  margin-right: 5px
+  text-align: center
+
+span.account-avatar.small
+  font-size: 11px
+  line-height: 20px
+
+span.account-avatar.medium
+  font-size: 14px
+  line-height: 24px
+
+span.account-avatar.large
+  font-size: 24px
+  line-height: 34px
+
+span.account-avatar.larger
+  font-size: 120px
+  line-height: 180px
+  font-weight: 400px
+  width: 200px
+  height: 200px
+
+.account-avatar.unactivated
+  border: 1px solid #555

@@ -33,3 +33,7 @@ Template.avatar.helpers
 
   'title': ->
     "We couldn't figure out who sent this message originally." if _.isEmpty(@)
+
+Template.suggestion_avatar.helpers
+  avatarPath: -> AppHelper.getAvatarUrlOfContact @contact, 'mini'
+  initialName: -> AppHelper.initialName(@contact.fullname)
