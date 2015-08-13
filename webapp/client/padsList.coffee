@@ -59,7 +59,6 @@ Template.padsList.onRendered ->
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
-  previousScroll = 0
   scrollAction = ->
     currentScroll = $('.padList').scrollTop()
 
@@ -68,7 +67,7 @@ Template.padsList.onRendered ->
     else
       $('#header').removeClass('scrolling')
 
-    if currentScroll > 180 or (currentScroll is 0 and previousScroll > 180)
+    if currentScroll > 180
       $('.show-compose').removeClass("invisible")
     else
       $('.show-compose').addClass("invisible")
@@ -86,9 +85,8 @@ Template.padsList.onRendered ->
       subject = todaySubject()
       id = $('#header .title').data('latest-id')
     $('#header .subject').text subject
-    $('#header .share-part').attr 'data-id', id
+    $('#header .share-pad').attr 'data-id', id
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(id)
-    previousScroll = currentScroll
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(scrollAction, 200)
 
@@ -287,7 +285,7 @@ Template.padItem.onRendered ->
 
 
 Template.sharePadDropdown.onRendered ->
-  isTopHeader = $(@find '.share-part').parents('#header').length
+  isTopHeader = $(@find '.share-pad').parents('#header').length
   if isTopHeader
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(@data._id)
 
@@ -302,13 +300,13 @@ Template.sharePadDropdown.events
 
 
   'click .share-invite': (e) ->
-    padId = $(e.currentTarget).parents('.share-part').attr('data-id')
+    padId = $(e.currentTarget).parents('.share-pad').attr('data-id')
     new SharePadPopup({shareLink: true, padId: padId}).show()
 
 
 
   'click .share-slack': (e) ->
-    topicId = $(e.currentTarget).parents('.share-part').attr('data-id')
+    topicId = $(e.currentTarget).parents('.share-pad').attr('data-id')
     pad = Pads.findOne _id: topicId
     padUrl = UrlHelper.getPadUrlFromId topicId
     knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()

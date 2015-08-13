@@ -17,7 +17,7 @@
 
     &::-webkit-scrollbar
       display: none
-     
+
     #header
       z-index: 200
       .user
@@ -48,20 +48,33 @@
         margin: 40px auto
         width: 100%
         padding: 15px 0
-        .knote-wrapper
-          margin: 0 15px
-          .knote-title
-            opacity: 1
-            font-size: 14px
-          .contact
-            top: -22px
-            left: 10px
-            .account-avatar
-              width: 30px
-              height: 30px
+        .contact
+          left: 8px
+          top: -17px
+          .account-avatar
+            width: 26px
+            height: 26px
+            line-height: 26px
+        .knote-title
+          opacity: 1
+          font-size: 14px
+        .knote-content
+          padding: 0 10px
+        .knote-actions
+          margin-left: 10px
+          height: 25px
+        .knote-replys
+          padding: 0 10px
+          .account-avatar
+            width: 26px
+            height: 26px
+            line-height: 26px
+        .pomodoro-container
+          right: 3px
       .pad .compose
         width: 100%
-        margin: 10px auto
+        margin-bottom: 10px
+        margin-top: 15px
         padding: 0
         border: 1px solid white
         .compose-wrapper
@@ -88,12 +101,12 @@
         white-space: nowrap
         overflow: hidden
         vertical-align: middle
-      .share-part
+      .share-pad
         margin-left: 2px
     .divider:after
       margin: 0 20px 5px 10px
 
-  #header .share-part .share-pad-dropdown
-  .share-part .share-pad-dropdown
+  #header .share-pad .share-pad-dropdown
+  .share-pad .share-pad-dropdown
     right: 0
     left: auto

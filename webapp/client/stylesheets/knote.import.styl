@@ -47,7 +47,7 @@ html
     font-size: 16px
     text-decoration: none
     height: 26px
-    width: 26px
+    width: 24px
     line-height: 26px
 
 
@@ -84,12 +84,20 @@ html
       cursor: pointer
       line-height: 30px
       text-align: center
+      box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
 
 
   &.padItem
     display: table
     .subject
       display: table-cell
+      font-size: 14px
+    .share-pad
+      display: inline-block
+      margin-left: 10px
+      .share-pad-btn
+        text-decoration: underline
+        cursor: pointer
     .divider
       display: table-cell
       width: 100%
@@ -98,9 +106,9 @@ html
         content: "";
         height: 1px;
         background: #e5e5e5;
-        margin: 0 200px 5px 40px;
+        margin: 0 200px 5px 40px
 
-  &#header .share-part
+  &#header .share-pad
     float: left
 
   &#header .share-pad-btn
@@ -110,9 +118,19 @@ html
     padding-left: 20px
 
   &#header .share-pad-btn
-    font-size: 14px !important
-    height: 30px
+    font-size: 14px
+    height: 24px
     padding: 2px 8px
+    display: inline-block
+    margin-bottom: 0
+    line-height: 23px
+    color: #fff
+    text-align: center
+    cursor: pointer
+    background-color: #28ace8
+    border: 1px solid rgba(0,0,0,0)
+    border-radius: 2px
+    box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
 
   &#header .share-pad-dropdown
     top: 35px
@@ -470,6 +488,7 @@ html
   background-color: #28ACE8
   border: 1px solid rgba(0,0,0,0)
   border-radius: 2px
+  box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4);
   -webkit-appearance: none
   -moz-appearance: none
   &:disabled
@@ -623,16 +642,13 @@ a.btn-close
   filter: none
   cursor: pointer
 
-.share-part
+.share-pad
   display: inline
   position: relative
   margin-left: 10px
 
-  .share-pad-btn
-    padding: 2px 8px
-
   .share-pad-dropdown
-    top: 30px
+    top: 25px
     left: 0
 
 .share-pad-dropdown
@@ -1296,7 +1312,6 @@ span.account-avatar
   font-size: 18px
   font-weight: 400px
   line-height: 29px
-  margin-right: 5px
   text-align: center
 
 span.account-avatar.small
