@@ -1,29 +1,31 @@
 <template name="sharePadPopup">
   <div id="share-pad-popup" data-pad-id="{{padId}}">
-    <div class="popup-title">
-      <a href="#" class="btn-close close"></a>
-      <span class="share-text">Share a link</span>
-    </div>
-    <div class="popup-content">
-      <input type="text" class="shared-url" value="{{url}}" readonly><i class="icon icon-docs"></i>
-      <p class="share-description">This knoteup is visible to anyone with the link</p>
+    <div class="share-pad-wrapper">
       <div class="popup-title">
-        <span class="share-text">Share by email</span>
+        <a href="#" class="btn-close close"></a>
+        <span class="share-text">Share a link</span>
       </div>
-      <div class="share-view">
-        <div class="inner-conatiner">
-          <div id="shareEmails">
-            {{#if showPlaceholder}}  <span class="placeholder">Email or username</span> {{/if}}
-            {{#each selectedContacts}}
-                {{> contactTab}}
-            {{/each}}
-            {{> search_contacts}}
-          </div>
-          <div><textarea name="" id="" cols="30" rows="10" placeholder="Message (optional)" class="share-message"></textarea></div>
+      <div class="popup-content">
+        <input type="text" class="shared-url" value="{{url}}" readonly><i class="icon icon-docs"></i>
+        <p class="share-description">This knoteup is visible to anyone with the link</p>
+        <div class="popup-title">
+          <span class="share-text">Share by email</span>
         </div>
-      </div>
-      <div class="buttons text-right">
-        <input type="button" class="btn my-btn btn-share" value="Share"/>
+        <div class="share-view">
+          <div class="inner-conatiner">
+            <div id="shareEmails">
+              {{#if showPlaceholder}}  <span class="placeholder">Email or username</span> {{/if}}
+              {{#each selectedContacts}}
+                  {{> contactTab}}
+              {{/each}}
+              {{> search_contacts}}
+            </div>
+            <div><textarea name="" id="" cols="30" rows="10" placeholder="Message (optional)" class="share-message"></textarea></div>
+          </div>
+        </div>
+        <div class="buttons text-right">
+          <input type="button" class="btn my-btn btn-share" value="Share"/>
+        </div>
       </div>
     </div>
   </div>

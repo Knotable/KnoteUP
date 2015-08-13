@@ -10,6 +10,17 @@
     font-size: 14px
     line-height: 22px
 
+  #share-pad-popup
+    padding: 0
+    width: 100%
+    left: initial !important
+    margin-left: initial !important
+    .share-pad-wrapper
+      padding: 20px
+      .share-message
+      .shared-url
+        width: 95%
+
   #container
     box-shadow: 10px 0 10px 8px #000
     left: 0
@@ -41,7 +52,9 @@
           width: 45px
           height: 45px
           line-height: 45px
-
+      #setting-dropdown
+        top: 50px
+        right: 10px
     .padList
       overflow-x: hidden
       .pad .knote
@@ -60,6 +73,9 @@
           font-size: 14px
         .knote-content
           padding: 0 10px
+        .knote-gutter
+          .btn
+            padding: 0px 8px
         .knote-actions
           margin-left: 10px
           height: 25px
@@ -71,7 +87,7 @@
             line-height: 26px
         .pomodoro-container
           right: 3px
-          z-index: 2000
+          z-index: 999
         .knote-compose-popup-cn
           .contenteditable-wrapper
             padding: 0 10px 5px 10px
