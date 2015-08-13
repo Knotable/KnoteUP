@@ -2,7 +2,9 @@
   <div class="user-modal {{type}}">
     <div class="user-modal-container">
       {{#if welcome}}
-        {{> welcome_carousel}}
+        {{#unless currentUser}}
+          {{> welcome_carousel}}
+        {{/unless}}
       {{else}}
         {{> login_box}}
       {{/if}}
