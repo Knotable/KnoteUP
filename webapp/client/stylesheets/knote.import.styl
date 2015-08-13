@@ -46,7 +46,6 @@ html
     margin-right: 5px
     font-size: 16px
     text-decoration: none
-    font-weight: bold
     height: 26px
     width: 26px
     line-height: 26px
@@ -172,10 +171,6 @@ html
   .knote:hover
   .compose:hover
     box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
-    .knote-header
-      .knote-header-right
-        .knote-date
-          display: block
   .knote.animate
     transition:all 300ms 0ms ease-in
   .knote
@@ -222,9 +217,9 @@ html
         .knote-date
           float: left
           padding-right: 7px
-          display: none
           span
             font-size: 10px
+            line-height: 1.8
         .archive
         .restore
           float: left
@@ -342,7 +337,6 @@ html
           color: #696E73
       .knote-replys
         margin: 0
-        margin-top: 10px
         li
           padding-bottom: 10px
           position: relative
@@ -525,10 +519,6 @@ html
   max-width: none
   box-shadow: 0 1px 1px #999
 
-  &:hover
-    -webkit-box-shadow: 0 0 2px 2px #78c5e8
-    box-shadow: 0 0 2px 2px #78c5e8
-
 .bgcolor1
   background: #ebe18c
 
@@ -673,8 +663,8 @@ a.btn-close
       color: #28ace8
 
 #setting-dropdown
-  top: 50px
-  right: 20px
+  top: 45px
+  right: 25px
 
 #share-pad-popup
   background: white
@@ -741,7 +731,7 @@ a.btn-close
     line-height: 20px
   .placeholder
     color: #aeaeae
-    
+
 
 #sys-message-popup
   display: none

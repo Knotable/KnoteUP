@@ -80,32 +80,6 @@ regist = (username, email, password) ->
 
 
 
-Template.user_modal.onRendered  ->
-  # close modal when clicking the esc keyboard button
-  $userModal = $('.user-modal')
-  $(document).keyup (event) ->
-    $userModal.removeClass('is-visible') if event.which is 27
-
-  resetWidth()
-
-  verticallyCenterBox = ->
-    windowHeight = $(window).height()
-    $(".user-modal-container").each ->
-      marginValue = 15
-      boxHeight = $(this).outerHeight(false)
-      if($(this).find('.header').length > 0)
-        marginValue += $(this).find('.header').outerHeight(false) + 20
-      if (windowHeight > boxHeight)
-        marginValue = Math.max((windowHeight - boxHeight)/2, marginValue)
-      marginValue += 'px'
-      $(this).css
-        "margin-top": marginValue
-        "margin-bottom": marginValue
-
-  verticallyCenterBox()
-  $(window).off('resize', verticallyCenterBox).resize verticallyCenterBox
-
-
 Template.user_modal.helpers
 
   welcome: ->
@@ -117,23 +91,24 @@ Template.user_modal.helpers
 
 
 Template.user_modal.events
+
   'click .user-modal': (event) ->
     $userModal = $('.user-modal')
     $userModal.removeClass("is-visible") if $(event.target).is($userModal)
 
 
 
-
 Template.login_box.events
+
   'click #register-link': ->
     $("#login-box").addClass('hidden')
     $("#register").removeClass('hidden')
-    resetWidth()
+
 
   'click #go-login': ->
     $('#login-box').removeClass("hidden")
     $('#register').addClass("hidden")
-    resetWidth()
+
 
   'click #login-button': (event, template) ->
     event.preventDefault()
@@ -153,6 +128,7 @@ Template.login_box.events
           template.$('#login-form .form-message').removeClass('invisible').text(reason)
     else
       template.$('#login-form .form-message').removeClass('invisible').text('Please fill out all the boxes!')
+
 
   'click #create-account': (event) ->
     event.preventDefault()
@@ -178,16 +154,3 @@ Template.login_box.events
   'keyup #account-username,#account-email,#account-password': (e) ->
     unless e.keyCode is 13
       $('#register .form-message').addClass 'invisible'
-
-
-
-resetWidth = ->
-  buttonWidth = $('#login-button').width()
-  signupWidth = $('#create-account').width()
-  width = if buttonWidth > signupWidth
-    buttonWidth
-  else
-    signupWidth
-  $('.user-modal input').each (index, $input) ->
-    if $(this).width() > width
-      $(this).width(width-23)

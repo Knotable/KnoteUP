@@ -108,7 +108,7 @@ Template.padsList.onRendered ->
       unless Meteor.user()
         ModalHelper.initWelcome()
         Cookie.set('welcome', { expires: 7 })
-  , 2000
+  , 1000
 
 Template.padsList.helpers
   currentContact: ->
