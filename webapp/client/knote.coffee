@@ -209,7 +209,7 @@ Template.knote.helpers
     data =
       value: @title
       class: 'knote-title editKnote'
-      contentEditable: controller?.isEditing.get()
+      contentEditable: if @archived then false else controller?.isEditing.get()
       maxlength: CHAR_LIMITATION_IN_KNOTE_TITLE
       placeholder: 'What needs to be done?'
       tabindex: 16
@@ -229,7 +229,7 @@ Template.knote.helpers
     data =
       class: htmlClasses
       value: body
-      contentEditable: controller?.isEditing.get()
+      contentEditable: if @archived then false else controller?.isEditing.get()
     container = Blaze.toHTMLWithData(Template.contentEditable, data)
     new Spacebars.SafeString(container)
 
@@ -270,7 +270,3 @@ Template.addContactPopupBox.events
           console.log 'ERROR: addContactsToThread', error
         else
           template.$('a.btn-close').click()
-
-
-
-

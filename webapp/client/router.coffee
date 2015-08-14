@@ -1,3 +1,6 @@
+Router.configure
+  loadingTemplate: 'loading'
+
 Router.route '/(.*)',
   name: 'pads'
   template: 'padsList'

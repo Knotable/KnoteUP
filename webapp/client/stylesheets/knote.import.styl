@@ -46,9 +46,8 @@ html
     margin-right: 5px
     font-size: 16px
     text-decoration: none
-    font-weight: bold
     height: 26px
-    width: 26px
+    width: 24px
     line-height: 26px
 
 
@@ -85,12 +84,20 @@ html
       cursor: pointer
       line-height: 30px
       text-align: center
+      box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
 
 
   &.padItem
     display: table
     .subject
       display: table-cell
+      font-size: 14px
+    .share-pad
+      display: inline-block
+      margin-left: 10px
+      .share-pad-btn
+        text-decoration: underline
+        cursor: pointer
     .divider
       display: table-cell
       width: 100%
@@ -99,9 +106,9 @@ html
         content: "";
         height: 1px;
         background: #e5e5e5;
-        margin: 0 200px 5px 40px;
+        margin: 0 200px 5px 40px
 
-  &#header .share-part
+  &#header .share-pad
     float: left
 
   &#header .share-pad-btn
@@ -111,9 +118,19 @@ html
     padding-left: 20px
 
   &#header .share-pad-btn
-    font-size: 14px !important
-    height: 30px
+    font-size: 14px
+    height: 24px
     padding: 2px 8px
+    display: inline-block
+    margin-bottom: 0
+    line-height: 23px
+    color: #fff
+    text-align: center
+    cursor: pointer
+    background-color: #28ace8
+    border: 1px solid rgba(0,0,0,0)
+    border-radius: 2px
+    box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
 
   &#header .share-pad-dropdown
     top: 35px
@@ -172,10 +189,6 @@ html
   .knote:hover
   .compose:hover
     box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
-    .knote-header
-      .knote-header-right
-        .knote-date
-          display: block
   .knote.animate
     transition:all 300ms 0ms ease-in
   .knote
@@ -222,9 +235,9 @@ html
         .knote-date
           float: left
           padding-right: 7px
-          display: none
           span
             font-size: 10px
+            line-height: 1.8
         .archive
         .restore
           float: left
@@ -342,7 +355,6 @@ html
           color: #696E73
       .knote-replys
         margin: 0
-        margin-top: 10px
         li
           padding-bottom: 10px
           position: relative
@@ -424,7 +436,6 @@ html
     & .knote-compose-popup-cn
         display: none
         width: 100%
-        margin-top: 10px
         .contenteditable-wrapper
           padding-bottom: 5px
 
@@ -476,6 +487,7 @@ html
   background-color: #28ACE8
   border: 1px solid rgba(0,0,0,0)
   border-radius: 2px
+  box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4);
   -webkit-appearance: none
   -moz-appearance: none
   &:disabled
@@ -524,10 +536,6 @@ html
   cursor: pointer
   max-width: none
   box-shadow: 0 1px 1px #999
-
-  &:hover
-    -webkit-box-shadow: 0 0 2px 2px #78c5e8
-    box-shadow: 0 0 2px 2px #78c5e8
 
 .bgcolor1
   background: #ebe18c
@@ -633,16 +641,13 @@ a.btn-close
   filter: none
   cursor: pointer
 
-.share-part
+.share-pad
   display: inline
   position: relative
   margin-left: 10px
 
-  .share-pad-btn
-    padding: 2px 8px
-
   .share-pad-dropdown
-    top: 30px
+    top: 25px
     left: 0
 
 .share-pad-dropdown
@@ -673,8 +678,8 @@ a.btn-close
       color: #28ace8
 
 #setting-dropdown
-  top: 50px
-  right: 20px
+  top: 45px
+  right: 25px
 
 #share-pad-popup
   background: white
@@ -741,7 +746,7 @@ a.btn-close
     line-height: 20px
   .placeholder
     color: #aeaeae
-    
+
 
 #sys-message-popup
   display: none
@@ -821,15 +826,18 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .viewing .thumbnail-wrapper
   border-color: transparent
 
+.thumb.img-wrapper
+  position: relative
+
 .delete_file_ico
   position: absolute
-  right: 0
+  left: 0
   top: 0
   margin: 10px
   cursor: pointer
   width: 12px
   height: 12px
-  background: url("cdn_url_variable/images/sprite_3.png") -150px -251px no-repeat
+  background: url("/images/sprite_3.png") -150px -251px no-repeat
   z-index: 10
 
 .message .thumbnail-wrapper .delete_file_ico
@@ -875,7 +883,6 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
 
 .thumbnail-wrapper
-  max-width: 100px
   .file
     border: 1px solid $gray-lighter !important
     &:hover
@@ -1089,7 +1096,7 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .thumb-box .thumb .delete_file_ico
   top: 0
   right: 0
-  margin-right: 0
+  margin-left: 0
   margin-top: 0
   display: none
 
@@ -1306,7 +1313,6 @@ span.account-avatar
   font-size: 18px
   font-weight: 400px
   line-height: 29px
-  margin-right: 5px
   text-align: center
 
 span.account-avatar.small
