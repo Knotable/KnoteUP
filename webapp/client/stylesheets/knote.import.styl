@@ -826,15 +826,18 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .viewing .thumbnail-wrapper
   border-color: transparent
 
+.thumb.img-wrapper
+  position: relative
+
 .delete_file_ico
   position: absolute
-  right: 0
+  left: 0
   top: 0
   margin: 10px
   cursor: pointer
   width: 12px
   height: 12px
-  background: url("cdn_url_variable/images/sprite_3.png") -150px -251px no-repeat
+  background: url("/images/sprite_3.png") -150px -251px no-repeat
   z-index: 10
 
 .message .thumbnail-wrapper .delete_file_ico
@@ -880,7 +883,6 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 
 
 .thumbnail-wrapper
-  max-width: 100px
   .file
     border: 1px solid $gray-lighter !important
     &:hover
@@ -1094,7 +1096,7 @@ div[contenteditable=true] span.img-wrapper:hover .btn-close
 .thumb-box .thumb .delete_file_ico
   top: 0
   right: 0
-  margin-right: 0
+  margin-left: 0
   margin-top: 0
   display: none
 
