@@ -255,7 +255,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
     return false
 
 
-    
+
   shouldLeaveArchived: (knote, content, filesIds) ->
     # Card#1217: If an archived knote is edited can it be moved back to the thread?
     return knote.htmlBody.trim() == content.trim() and filesIds.length == 0
@@ -345,7 +345,17 @@ displayEmbedLinks = (links, options = {}, callback) ->
   _saveKnote: (template, callback) ->
     knote = template.data
     newTitle = $(template.find('.knote-title')).html()
-    newBody = $(template.find('.knote-body')).html()
+    $knoteBody = $(template.find('.knote-body'))
+
+    archiveFileIds = []
+    $knoteBody.find('.file-archiving').each (i, ele) ->
+      archiveFileIds.push $(ele).attr('data-id')
+    $knoteBody.find('.file-archiving').remove()
+    # TODO - Set archive = true or delete file doc with s3 file for
+    # All ids inside archiveFileIds
+
+    newBody = $knoteBody.html()
+
     # TODO
     #isKnoteTitleEnable = SettingsHelper.isEnableKnoteTitle()
     isKnoteTitleEnable = true

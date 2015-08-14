@@ -173,6 +173,13 @@ Template.knote.events
 
 
 
+  'click .delete_file_ico': (e,t) ->
+    $thumbBox = $(e.target).parents('.thumb-box')
+    if $thumbBox.length
+      $thumbBox.hide().addClass('file-archiving')
+
+
+
 Template.knote.helpers
   dateNewFormat: ->
     return '' unless @date
