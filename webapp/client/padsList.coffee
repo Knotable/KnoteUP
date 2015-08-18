@@ -59,6 +59,8 @@ Template.padsList.onRendered ->
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
+  sharePadBtn = $('#header .share-pad')
+
   scrollAction = ->
     currentScroll = $('.padList').scrollTop()
 
@@ -81,9 +83,12 @@ Template.padsList.onRendered ->
     if $currentPadItem.length
       subject = $currentPadItem.data('subject')
       id = $currentPadItem.data('id')
+      sharePadBtn.show()
     else
       subject = todaySubject()
       id = $('#header .title').data('latest-id')
+      unless id
+        sharePadBtn.hide()
     $('#header .subject').text subject
     $('#header .share-pad').attr 'data-id', id
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(id)
@@ -230,6 +235,7 @@ Template.padsList.events
       knotesRepository.insertKnote(requiredKnoteParameters, optionalKnoteParameters)
       $newBody.html('').hide()
       $newTitle.html('').focus()
+      $('#header .share-pad').show()
       PadsListHelper.resetEditedContent()
     $postButton.attr('disabled', false)
 
@@ -285,9 +291,13 @@ Template.padItem.onRendered ->
 
 
 Template.sharePadDropdown.onRendered ->
-  isTopHeader = $(@find '.share-pad').parents('#header').length
+  sharePadBtn = $(@find '.share-pad')
+  isTopHeader = sharePadBtn.parents('#header').length
   if isTopHeader
-    $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(@data._id)
+    if @data._id
+      $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(@data._id)
+    else
+      sharePadBtn.hide()
 
 
 

@@ -22,7 +22,7 @@ Router.route '/(.*)',
     pads = Pads.find {}, option
 
     return {
-      latestPad: latestPad
+      latestPad: latestPad or {}
       restPads: pads
     }
 

@@ -22,11 +22,9 @@
         <div class="title" data-latest-id="{{latestPad._id}}">
           {{contentEditableSubject}}
         </div>
-        {{#if latestPad}}
-          {{#with latestPad}}
-            {{> sharePadDropdown}}
-          {{/with}}
-        {{/if}}
+        {{#with latestPad}}
+          {{> sharePadDropdown}}
+        {{/with}}
         <i class='icon icon-edit show-compose invisible'></i>
       </div>
     </div>
