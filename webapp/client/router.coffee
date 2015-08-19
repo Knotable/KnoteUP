@@ -4,6 +4,7 @@ Router.configure
 Router.route '/(.*)',
   name: 'pads'
   template: 'padsList'
+  layoutTemplate: 'layout'
   data: ->
     S3Credentials.requestCredentials()
 

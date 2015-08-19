@@ -1,0 +1,6 @@
+<Template name="layout">
+  {{> yield}}
+  {{#unless currentUser}}
+    {{> user_modal}}
+  {{/unless}}
+</Template>

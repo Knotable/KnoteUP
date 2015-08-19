@@ -1,20 +1,17 @@
-<template name="user_modal">
-  {{#if welcome}}
-    {{#unless currentUser}}
-      <div class="user-modal {{type}}">
-        <div class="user-modal-container">
-          {{> welcome_carousel}}
-        </div>
-      </div>
-    {{/unless}}
-  {{else}}
-    <div class="user-modal {{type}}">
+<Template name="user_modal">
+  {{#if modal}}
+    <div class="user-modal {{modal}}">
       <div class="user-modal-container">
-      {{> login_box}}
+        {{#if welcome}}
+          {{> welcome_carousel}}
+        {{/if}}
+        {{#if login}}
+          {{> login_box}}
+        {{/if}}
       </div>
     </div>
   {{/if}}
-</template>
+</Template>
 
 
 

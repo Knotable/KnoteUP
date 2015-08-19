@@ -102,16 +102,7 @@ Template.padsList.onRendered ->
     PadsListHelper.initKnoteDraggable()
   $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
 
-  ModalHelper.showModal('welcome')
 
-  Meteor.setTimeout ->
-    if Cookie.get('welcome')
-      return
-    else
-      unless Meteor.user()
-        ModalHelper.initWelcome()
-        Cookie.set('welcome', { expires: 7 })
-  , 1000
 
 Template.padsList.helpers
   currentContact: ->
@@ -182,7 +173,7 @@ Template.padsList.events
       title: title
       body: body
     PadsListHelper.storeEditedContent editKnote
-    ModalHelper.showModal('login')
+    Session.set 'modal', 'login'
 
 
 
@@ -225,7 +216,7 @@ Template.padsList.events
         title: title
         body: body
       PadsListHelper.storeEditedContent editKnote
-      ModalHelper.showModal('login')
+      Session.set 'modal', 'login'
     else
       requiredKnoteParameters =
         subject: subject

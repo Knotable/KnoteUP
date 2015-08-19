@@ -30,7 +30,7 @@ registerEventHandler = (type, options = {}) ->
 logIn = (email, password, callback) ->
   Meteor.loginWithPassword email, password, (error) ->
     unless error
-      $('.user-modal').removeClass('is-visible')
+      Session.set 'modal', null
       PadsListHelper.restoreEditedContent()
     else
       console.log 'login error', error
@@ -79,14 +79,21 @@ regist = (username, email, password) ->
         registerEventHandler null, {type: 'error', desc: err.reason} if err
 
 
+Template.user_modal.onRendered ->
+  Session.set 'modal', 'welcome'
+
+
 
 Template.user_modal.helpers
 
-  welcome: ->
-    Session.get 'welcome'
+  modal: ->
+    Session.get 'modal'
 
-  type: ->
-    Session.get 'modalType'
+  welcome: ->
+    Session.equals 'modal', 'welcome'
+
+  login: ->
+    Session.equals 'modal', 'login'
 
 
 
@@ -94,7 +101,42 @@ Template.user_modal.events
 
   'click .user-modal': (event) ->
     $userModal = $('.user-modal')
-    $userModal.removeClass("is-visible") if $(event.target).is($userModal)
+    if $(event.target).is($userModal)
+      Session.set 'modal', false
+
+
+Template.welcome_carousel.onRendered ->
+  carousel = $(".owl-carousel")
+  carousel.owlCarousel(
+    margin: 50,
+    nav: true,
+    autoWidth: true,
+    center: true,
+    responsiveClass: true,
+    responsive: {
+      5000: {
+        items: 1,
+        nav: true
+      }
+    }
+  )
+  carousel.on('changed.owl.carousel', (event) ->
+    total = event.item.count - 1
+    current = event.item.index
+    if current == 0
+      $('.owl-prev').hide()
+    else
+      $('.owl-prev').css('display', 'inline-block')
+    if total == current
+      $('.owl-next').hide()
+    else
+      $('.owl-next').css('display', 'inline-block')
+  )
+
+
+
+Template.login_box.onRendered ->
+  $('.user-modal').find('#login-username').focus()
 
 
 
