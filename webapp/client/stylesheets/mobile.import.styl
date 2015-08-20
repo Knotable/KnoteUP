@@ -13,6 +13,9 @@
     font-size: 14px
     line-height: 22px
 
+  .not-mobile
+    display: none !important
+
   #share-pad-popup
     padding: 0
     width: 100%
@@ -39,14 +42,12 @@
       &.scrolling
         box-shadow: 0px 2px 12px -3px rgba(0,0,0,0.45)
       .left-header
-        margin-left: 10px
-        .title
-          max-width: calc(100% - 145px)
-          .subject
-            width: 100%
-            text-overflow: ellipsis
-            white-space: nowrap
-            overflow: hidden
+        padding-top: 12px
+        padding-right: 0
+        .subject
+          text-overflow: ellipsis
+          white-space: nowrap
+          overflow: hidden
         .show-compose
           position: fixed
           bottom: 20px
@@ -55,6 +56,8 @@
           width: 45px
           height: 45px
           line-height: 45px
+      .right-header
+        padding-left: 0
       #setting-dropdown
         top: 50px
         right: 10px
@@ -76,6 +79,8 @@
         .knote-title
           opacity: 1
           font-size: 14px
+        .knote-header:hover
+          background-color: initial
         .knote-content
           padding: 0 10px
         .knote-gutter
@@ -116,6 +121,27 @@
 
   .user-modal-container
     width: 90%
+  .user-modal.welcome
+    .user-modal-container
+      max-width: 300px
+      .item
+        width: 300px
+        height: 270px
+        .welcome-title.first
+          padding: 130px 0
+          text-align: center
+          line-height: 30px
+        img
+          width: 617px
+          max-width: initial
+        .knoteup
+        .slack
+          margin: 10px 0
+        .slack
+          height: 230px
+          width: 750px
+        #login-box
+          margin: 0
 
   .share-popup-centered-container
     width: 90%

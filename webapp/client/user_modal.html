@@ -18,12 +18,12 @@
 <Template name="welcome_carousel">
   <div class="owl-carousel">
     <div class="item">
-      <div class="welcome-title">KnoteUp Makes SlackUps Work Better.</div>
-      <img src="/images/welcome/intro.png" alt="Overview" class="welcome-img">
+      <div class="welcome-title first">KnoteUp makes SlackUps work better.</div>
+      <img src="/images/welcome/intro.png" alt="Overview" class="welcome-img not-mobile">
     </div>
     <div class="item">
       <div class="welcome-title">Keep today's task list in KnoteUp.</div>
-      <img src="/images/welcome/knoteup.png" alt="Knoteup" class="welcome-img">
+      <img src="/images/welcome/knoteup.png" alt="Knoteup" class="welcome-img knoteup">
     </div>
     <div class="item">
       <div class="welcome-title">Share with a click to Slack.</div>
@@ -33,11 +33,13 @@
       <div class="welcome-title">No more status pings. Let them check your KnoteUp.</div>
       <img src="/images/welcome/reply.png" alt="Reply" class="welcome-img">
     </div>
-    <div class="item">
-      <div class="welcome-title">Use the tomato timer to focus.</div>
-      <img src="/images/welcome/focus-tab.png" alt="Focus Tab" class="welcome-img focus-one">
-      <img src="/images/welcome/focus-knote.png" alt="Focus Knote" class="welcome-img focus-two">
-    </div>
+    {{#unless isMobile}}
+      <div class="item">
+        <div class="welcome-title">Use the tomato timer to focus.</div>
+        <img src="/images/welcome/focus-tab.png" alt="Focus Tab" class="welcome-img focus-one">
+        <img src="/images/welcome/focus-knote.png" alt="Focus Knote" class="welcome-img focus-two">
+      </div>
+    {{/unless}}
     <div class="item">
       {{> login_box}}
     </div>

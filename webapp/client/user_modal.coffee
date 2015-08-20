@@ -113,13 +113,6 @@ Template.welcome_carousel.onRendered ->
       nav: true,
       autoWidth: true,
       center: true,
-      responsiveClass: true,
-      responsive: {
-        5000: {
-          items: 1,
-          nav: true
-        }
-      }
     )
     carousel.on('changed.owl.carousel', (event) ->
       total = event.item.count - 1
@@ -135,6 +128,11 @@ Template.welcome_carousel.onRendered ->
     )
   , 1000
 
+
+Template.welcome_carousel.helpers
+
+  isMobile: ->
+    return mobileHelper.isMobile()
 
 
 Template.login_box.onRendered ->
