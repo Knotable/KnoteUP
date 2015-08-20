@@ -16,27 +16,41 @@
 .account-avatar
   width: 30px
   height: 30px
+  line-height: 30px
   display: inline-block
   box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
   vertical-align: top
-  cursor: pointer
   max-width: none
-
-.account-avatar
-  color: rgba(255,255,255,0.8)
+  background: white
   font-size: 22px
+  cursor: initial
   font-weight: bold
-  line-height: 32px
   text-align: center
-  -webkit-border-radius: 50%
   border-radius: 50%
-  width: 34px
-  height: 34px
-  display: inline-block
+  &.small
+    width: 20px
+    height: 20px
+    font-size: 11px
+    line-height: 20px
+  &.medium
+    width: 24px
+    height: 24px
+    font-size: 14px
+    line-height: 24px
+  &.large
+    font-size: 24px
+    line-height: 34px
+  &.larger
+    font-size: 120px
+    line-height: 180px
+    font-weight: 400px
+    width: 200px
+    height: 200px
+  &.unactivated
+    border: 1px solid #555
+
+.account-avatar img
   vertical-align: top
-  cursor: pointer
-  max-width: none
-  box-shadow: 0 1px 1px #999
 
 .participators
   display: inline-block
@@ -47,43 +61,3 @@
     color: #fff
   .participator
     display: inline
-
-.account-avatar.small
-  width: 20px
-  height: 20px
-
-.account-avatar.medium
-  width: 24px
-  height: 24px
-
-span.account-avatar img
-  vertical-align: top
-
-span.account-avatar
-  color: rgba(255,255,255,0.6)
-  font-size: 18px
-  font-weight: 400px
-  line-height: 29px
-  text-align: center
-
-span.account-avatar.small
-  font-size: 11px
-  line-height: 20px
-
-span.account-avatar.medium
-  font-size: 14px
-  line-height: 24px
-
-span.account-avatar.large
-  font-size: 24px
-  line-height: 34px
-
-span.account-avatar.larger
-  font-size: 120px
-  line-height: 180px
-  font-weight: 400px
-  width: 200px
-  height: 200px
-
-.account-avatar.unactivated
-  border: 1px solid #555
