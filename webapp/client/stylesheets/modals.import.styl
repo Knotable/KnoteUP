@@ -1,3 +1,10 @@
+//
+// Modal styles
+// ---------------------------------------
+
+@import 'nib'
+@import 'variables.styl'
+
 .user-modal
   position: fixed
   top: 0
@@ -209,3 +216,304 @@ form
   width: 100%
   span
     font-style: italic
+
+.addContactPopup
+  display: none
+
+.popup
+  background-color: #fff
+  padding: 20px
+  position: relative
+  text-align: center
+  max-width: 98%
+
+.popup-container
+  left: 50%
+  top: 40px
+  -webkit-transform: translateX(-50%)
+  -moz-transform: translateX(-50%)
+  -o-transform: translateX(-50%)
+  -ms-transform: translateX(-50%)
+  transform: translateX(-50%)
+  min-width: 300px
+  width: 46%
+
+.add-new-users-container
+  font-size: 14px
+  margin-top: 10px
+  text-align: left
+  div
+    display: table-cell
+    padding: 5px 0 0
+    vertical-align: top
+    width: 100%
+
+.add-new-users-container .btn
+  margin-left: 5px
+
+.add-new-users-container input[type="text"]
+  color: #28ace8
+  width: 100%
+
+#share-pad-popup
+  background: white
+  padding: 20px
+  border-radius: 2px
+  width: 500px
+  .popup-title
+    margin-bottom: 10px
+    font-size: 14px
+  .popup-content
+    position: relative
+    .icon-docs
+      position: absolute
+      top: 6px
+      right: 5px
+      cursor: pointer
+      color: #555
+      &.zeroclipboard-is-hover
+        color: #000
+  .share-message, .shared-url
+    width: 486px
+    font-size: 12px
+  .shared-url
+    margin-bottom: 5px
+  .share-description
+    color: $gray
+    margin-top: 0
+  .share-message
+    height: 90px
+  .copied
+    position: absolute
+    top: 0
+    left: 6px
+
+.share-popup-external-container
+  display: block
+  width: 100%
+  background-color: white
+
+.share-popup-centered-container
+  background: url("/images/_bg1.png") repeat left top
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.33)
+  width: 600px
+  height: 400px
+  margin: 0 auto
+  border-radius: 2px
+
+.share-popup-above-header
+  height: 1px
+
+.share-popup-header-container
+  padding-bottom: 10px
+  margin: 9px 20px 0px 20px
+  background-color: rgba(0, 0, 0, 0.05)
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.33)
+
+.share-popup-header
+  padding-top: 10px
+  font-weight: bold
+  text-align: center
+  font-size: 16px
+  line-height: 1.3
+  color: #666
+  top: 50%
+
+.share-popup-internal-container
+  padding: 0 20px 20px 20px
+
+.share-content-card
+  background-color: white
+  padding: 20px 20px 20px 20px
+  margin: 20px 0
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.33)
+
+.share-content-card-content
+  text-align: left
+  margin-left: 10px
+  font-size: 14px
+  line-height: 1.3
+  color: #666
+  top: 50%
+  i
+    font-size: 20px
+    line-height: 20px
+    height: 20px
+    width: 20px
+    margin-left: 0
+    margin-right: 0
+    &:before
+      font-size: 20px
+      line-height: 20px
+      height: 20px
+      width: 20px
+      margin-left: 0
+      margin-right: 0
+    &.everythings-ok
+      &:before
+        font-size: 30px
+        color: rgba(40, 172, 232, 1)
+
+  .selectric-wrapper
+    display: inline-block
+    min-width: 150px
+
+.nice-text-link
+  color: rgba(40, 172, 232, 1)
+  border-bottom: 1px dashed
+  text-decoration: none
+
+.share-popup-buttons-container
+  position: absolute
+  bottom: 0
+  right: 0
+  padding: 20px 20px 10px 20px
+
+.share-popup-button
+  display: inline-block
+  margin: 0 0 0 15px
+  padding: 0
+  border: 0
+  cursor: pointer
+  font-family: "Open Sans", sans-serif
+  &:active
+    box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.33) !important
+
+  &:disabled
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.33) !important
+    cursor: default
+
+.share-popup-button-content
+  text-align: left
+  font-size: 14px
+  line-height: 1.3
+  color: #fff
+  top: 50%
+  padding: 10px 15px
+
+#share-ok
+  background-color: rgba(40, 172, 232, 1)
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.33)
+  &:hover
+    background-color: rgba(40, 172, 232, 0.87)
+  &:disabled
+    background-color: rgba(40, 172, 232, 0.7)
+  &:active
+    background-color: rgba(40, 172, 232, 0.7) !important
+
+#share-cancel
+  background-color: rgba(0, 0, 0, 0.5)
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.33)
+  &:hover
+    background-color: rgba(0, 0, 0, 0.45)
+  &:disabled
+    background-color: rgba(100, 100, 100, 0.5)
+  &:active
+    background-color: rgba(100, 100, 100, 0.5) !important
+
+.selectric .label,
+.selectric-items li
+  color: #666
+  font-size: 14px
+
+.selectric-items
+  .disabled
+    display: none
+
+#shareEmails
+  background: white
+  padding: 2px 4px
+  border-radius: 5px
+  margin-bottom: 5px
+  min-height: 26px
+  font-size: 12px
+  cursor: text
+  color: $text-dark
+  word-break: break-all
+  border: 1px solid #EEE
+  .contact-item
+    padding: 2px 4px
+    font-size: 12px
+    margin: 2px 0
+    display: inline-block
+    line-height: 20px
+    cursor: pointer
+  .fa-times
+    cursor: pointer
+  .account-avatar
+    box-shadow: none
+    border-radius: 50%
+  .newEmail
+    padding: 0 4px
+    border: none
+    margin: 2px 0
+    min-width: 250px
+    vertical-align: middle !important
+    line-height: 20px
+  .placeholder
+    color: #aeaeae
+
+#sys-message-popup
+  display: none
+  position: fixed
+  top: 60px
+  right: 20px
+  min-width: 120px
+  font-size: 12px
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 50%)
+  background: white
+  padding: 0 10px
+  z-index: 10000
+  &.success
+    border-left: 3px solid green
+    .icon
+      color: green
+  &.warning
+    border-left: 3px solid red
+    .icon
+      color: red
+  .ok-btn
+    font-size: 10px
+    padding: 0 6px
+    margin-bottom: 12px
+
+#show-image-popup
+  width: 60%
+  height: 75%
+  .img-container
+    height: 100%
+    width: 100%
+    text-align: center
+    vertical-align: middle
+    img
+      max-height: 100%
+      max-width: 100%
+
+
+// Growl alerts
+
+
+.bootstrap-growl
+  right: 15px !important
+  top: 60px !important
+  background-color: $brand-primary
+  color: white
+  font-size: 12px
+  border: 1px solid #fff
+  border-radius: 3px
+  padding: 5px 20px
+  width: 155px
+  opacity: 1
+  .close
+    color: white
+    opacity: 0.7
+
+.bootstrap-growl.alert-error
+  border: 1px solid #ebccd1
+  background-color: $red
+  color: white
+
+.bootstrap-growl.alert-success
+  border: 1px solid #8ac472
+  background-color: $green-pastel
+  color: white

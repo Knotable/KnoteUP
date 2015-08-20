@@ -1,25 +1,27 @@
 <template name="padsList">
   <div id="container">
     <div id="header" class="header">
-      {{#if currentUser}}
-        <div class="user">
-          {{#with currentContact}}
-            {{> contactAvatar}}
-          {{/with}}
-        </div>
-        {{> settingDropdown}}
-        <div class="latest-share">
-          {{#with latestPad}}
-            {{> sharePadDropdown}}
-          {{/with}}
-        </div>
-      {{else}}
-        {{#if hasKnotableLoginToken}}
-          <button class="btn login-button" disabled="disabled">Logging in...</button>
+      <div class="right-header">
+        {{#if currentUser}}
+          <div class="user right-header-item">
+            {{#with currentContact}}
+              {{> contactAvatar}}
+            {{/with}}
+          </div>
+          {{> settingDropdown}}
+          <div class="latest-share right-header-item">
+            {{#with latestPad}}
+              {{> sharePadDropdown}}
+            {{/with}}
+          </div>
         {{else}}
-          <button class="btn login-button">Login</button>
+          {{#if hasKnotableLoginToken}}
+            <button class="btn login-button right-header-item" disabled="disabled">Logging in...</button>
+          {{else}}
+            <button class="btn login-button right-header-item">Login</button>
+          {{/if}}
         {{/if}}
-      {{/if}}
+      </div>
       <div class="left-header">
         <a href="#" target="_blank" class="btn redirect-to-knotable" tabindex='5'>
           k
@@ -83,10 +85,12 @@
 
 <template name="padItem">
   <div class="header padItem" data-subject="{{subject}}" data-id="{{_id}}">
-    <div class="subject">
+    <div class="left-header">
       <a href="{{knotableLink}}" target="_blank" class="min-k-btn btn">k</a>
-      <span class="title">{{ subject }}</span>
-      {{> sharePadDropdown}}
+      <div class="subject">
+        <span class="title">{{ subject }}</span>
+        {{> sharePadDropdown}}
+      </div>
     </div>
     <div class="divider"></div>
   </div>

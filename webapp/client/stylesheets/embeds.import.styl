@@ -1,0 +1,79 @@
+//
+// Embed styles
+// ---------------------------------------
+
+@import 'nib'
+@import 'variables.styl'
+
+.embed
+  margin: 10px 0
+
+.embed a
+  border: none
+  margin-right: 5px
+
+.embed > a
+  float: left
+
+.embed a:hover
+  border: none
+  text-decoration: underline
+
+.embed img
+  display: inline-block !important
+
+.embed .origin-link
+.embed .origin-link a
+  word-wrap: break-word
+  word-break: break-all
+
+.embed.link
+  .embedded-link
+    width: auto
+  .origin-link
+    display: inline
+
+.embed.link.has-photo
+.embed.photo.has-photo
+  .embedded-link
+  .embedded-link:hover
+    border: none
+    overflow: hidden
+    width: 100%
+    .detail
+      line-height: 2
+      .embedded-title
+        font-size: 13px
+  .origin-link
+    display: block
+
+.embed.link
+.embed.photo
+  .img-wrapper
+    float: left
+    margin: 2px 10px 2px 2px
+    max-height: 100px !important
+    max-width: 100px !important
+    box-shadow: 0 0 2px
+    border-radius: 5px
+    overflow: hidden
+    img
+      object-fit: contain
+    .embedded-favicon
+      width: 50px !important
+      height: 50px !important
+    &.longer-width img
+      height: 100px
+    &.longer-height img
+      width: 100px
+
+.embed.video
+  .origin-link
+    text-align: center
+
+.knote-content p.embed-original-link
+  margin-top: 5px
+
+.embed-original-link a
+  background-color: #e6e6e6
+  padding: 3px

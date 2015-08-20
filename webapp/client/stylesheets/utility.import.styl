@@ -5,6 +5,42 @@
 @import 'nib'
 @import 'variables.styl'
 
+textarea
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input
+  padding: 4px 6px
+  margin-bottom: 10px
+  font-size: 14px
+  color: #616161
+  vertical-align: middle
+  -webkit-border-radius: 4px
+  border-radius: 4px
+  border: solid 1px #eee
+
+.pull-right
+  float: right
+
+:focus
+  outline: none
+
+[contenteditable][placeholder]:empty:before
+  content: attr(placeholder)
+  color: #ccc
+  cursor: text
+
 .hidden,
 .hide
   display: none
@@ -36,14 +72,16 @@
 
 .clearfix:after
   clear: both
+
 .clearfix:before,
 .clearfix:after
   display: table
   line-height: 0
   content: ""
+
 .clear
   clear: both
-  
+
 .close
   float: right
   font-size: 20px
@@ -54,6 +92,17 @@
 
 .no-border
   border: none
+
+.bgcolor1
+  background: #ebe18c
+.bgcolor2
+  background: #dc3f1c
+.bgcolor3
+  background: #448d7a
+.bgcolor4
+  background: #d8a027
+.bgcolor5
+  background: #88a764
 
 .round-corner-xs
   border-radius: 1px
