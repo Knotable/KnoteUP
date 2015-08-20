@@ -23,7 +23,6 @@ html
   .min-k-btn
     display: inline-block
     padding: 0
-    margin-right: 5px
     font-size: 16px
     text-decoration: none
     height: 26px
@@ -38,6 +37,7 @@ html
     width: 100%
     position: fixed
     top: 0px
+    font-size: 16px
     &.scrolling
       background-color: white
       box-shadow: 0px 2px 7px -3px rgba(0,0,0,0.45)
@@ -54,8 +54,8 @@ html
     overflow: hidden
     .title
     .show-compose
-      float: left
-    & .show-compose
+      display: inline-block
+    .show-compose
       margin-left: 15px
       background: #2EB4EF
       color: #fff
@@ -91,12 +91,6 @@ html
       margin: 2px 0
 
   &#header .share-pad-btn
-  .redirect-to-knotable
-  .subject
-    font-size: 16px
-    padding-left: 20px
-
-  &#header .share-pad-btn
     font-size: 14px
     height: 24px
     padding: 2px 8px
@@ -112,7 +106,7 @@ html
     box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
 
   &#header .share-pad-dropdown
-    top: 35px
+    top: 38px
     left: initial
     right: 0
     li
@@ -123,6 +117,7 @@ html
     text-decoration: none
     padding: 2px 9px
     line-height: 24px
+    font-size: 16px
 
   .subject
     line-height: 1.3
@@ -136,21 +131,34 @@ html
 
   &.padItem
     display: table
+    .right-header
     .left-header
       display: table-cell
+      width: 25%
+      min-width: 315px
+      overflow: initial
       .subject
         font-size: 14px
+        display: inline-block
+        .title
+        .share-pad-btn
+          padding-left: 10px
+        .share-pad-btn
+          text-decoration: underline
+        .share-pad-dropdown
+          top: 25px
+          right: 0
+          left: initial
+      .min-k-btn
+        display: inline-block
     .divider
       display: table-cell
       width: 100%
       &:after
-        display: block;
-        content: "";
-        height: 1px;
-        background: #e5e5e5;
-        margin: 0 200px 5px 40px
-    .share-pad-btn
-      text-decoration: underline
+        display: block
+        content: ""
+        height: 1px
+        background: #e5e5e5
 
 .share-pad
   display: inline-block
@@ -190,7 +198,13 @@ html
 
 #setting-dropdown
   top: 50px
-  right: 22px
+  right: 18px
+
+.pad:not(.currentDatePad)
+  .gutter
+    display: none
+  .knote:first-of-type
+    margin-top: 45px
 
 .pad
   width: 100%
