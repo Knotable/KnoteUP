@@ -92,6 +92,38 @@
       -1
 
 
+  leftSideMessage: (template, type) ->
+    return if !template.knotes
+    unarchived = template.knotes.unarchived.length
+    archived = template.knotes.archived.length
+    total = unarchived + archived
+    if total == 1
+      text = "That's a start"
+      image = "one"
+    if total > 1
+      text = "Yawn. Too easy."
+      image = "more-one"
+    if total > 3
+      text = "Not bad."
+      image = "more-three"
+    if total > 5
+      text = "Let's get cracking!"
+      image = "more-five"
+    if total > 8
+      text = "Wow. Busy!"
+      image = "more-eight"
+    if total > 3 and unarchived == 0
+      text = "Great job!"
+      image = "success"
+    if moment().endOf('day').fromNow() < 8 && unarchived > 3
+      text = "Its getting late!"
+      image = "sleepy"
+    if type == "image"
+      return image
+    if type == "text"
+      return text
+
+
 
   initKnoteDraggable: ->
     options =
@@ -99,7 +131,7 @@
       cancel: '.in-edit'
       cursorAt:
         top: 0
-        left: -300
+        left: 0
       scrollSensitivity: 100
       handle: '.knote-header'
       placeholder: 'knote-placeholder'

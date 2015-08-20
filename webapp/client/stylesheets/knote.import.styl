@@ -50,7 +50,6 @@ html
     width: 24px
     line-height: 26px
 
-
 .header
   width: 100%
   position: relative
@@ -181,16 +180,55 @@ html
 
 .pad
   width: 100%
+  .pad-container
+    display: table
+    table-layout: auto
+    width: 100%
+  .knote-list
+    display: table-cell
+    vertical-align: top
+  .gutter
+    display: table-cell
+    width: 25%
+  .left-gutter
+    .message
+      padding-top: 80px
+      vertical-align: top
+      text-align: center
+      &.one
+        background: url(/images/unhappy.png) no-repeat center
+        background-size: 60px
+      &.more-one
+        background: url(/images/yawn.png) no-repeat center
+        background-size: 60px
+      &.more-three
+        background: url(/images/wink.png) no-repeat center
+        background-size: 60px
+      &.more-five
+        background: url(/images/smile.png) no-repeat center
+        background-size: 60px
+      &.more-eight
+        background: url(/images/surprised.png) no-repeat center
+        background-size: 60px
+      &.success
+        background: url(/images/laugh.png) no-repeat center
+        background-size: 60px
+      &.fail
+        background: url(/images/sad.png) no-repeat center
+        background-size: 60px
   .knote-placeholder
     width: 580px
     margin: auto
     background-color: #fff
     @extend .round-corner-m
+    min-height: 62px
   .knote:hover
   .compose:hover
     box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
   .knote.animate
     transition:all 300ms 0ms ease-in
+  .knote:first-of-type
+    margin-top: 0
   .knote
   .compose
     width: 550px

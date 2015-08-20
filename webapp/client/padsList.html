@@ -44,20 +44,28 @@
             </div>
           </div>
         </div>
-        {{#with latestPad}}
-          <div class="knote-list latest-knotes">
-            <div class="unarchived-knotes">
-              {{#each knotes.unarchived}}
-                {{> knote}}
-              {{/each}}
+        <div class="pad-container">
+          {{#with latestPad}}
+            <div class="left-gutter gutter">
+              <div class="message {{leftImage}}">
+                {{leftText}}
+              </div>
             </div>
-            <div class="archived-knotes">
-              {{#each knotes.archived}}
-                {{> knote}}
-              {{/each}}
+            <div class="knote-list latest-knotes">
+              <div class="unarchived-knotes">
+                {{#each knotes.unarchived}}
+                  {{> knote}}
+                {{/each}}
+              </div>
+              <div class="archived-knotes">
+                {{#each knotes.archived}}
+                  {{> knote}}
+                {{/each}}
+              </div>
             </div>
-          </div>
-        {{/with}}
+            <div class="right-gutter gutter"></div>
+          {{/with}}
+        </div>
       </div>
 
       {{#each restPads}}
@@ -82,16 +90,23 @@
   </div>
 
   <div class="pad">
-    <div class="knote-list">
-      <div class="unarchived-knotes">
-        {{#each knotes.unarchived}}
-          {{> knote}}
-        {{/each}}
-      </div>
-      <div class="archived-knotes">
-        {{#each knotes.archived}}
-          {{> knote}}
-        {{/each}}
+    <div class="pad-container">
+      <div class="knote-list">
+        <div class="left-gutter gutter">
+          <div class="message {{leftImage}}">
+            {{leftText}}
+          </div>
+        </div>
+        <div class="unarchived-knotes">
+          {{#each knotes.unarchived}}
+            {{> knote}}
+          {{/each}}
+        </div>
+        <div class="archived-knotes">
+          {{#each knotes.archived}}
+            {{> knote}}
+          {{/each}}
+        </div>
       </div>
     </div>
   </div>

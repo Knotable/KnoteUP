@@ -130,6 +130,16 @@ Template.padsList.helpers
 
 
 
+  leftText: ->
+    return PadsListHelper.leftSideMessage @, "text"
+
+
+
+  leftImage: ->
+    return PadsListHelper.leftSideMessage @, "image"
+
+
+
 Template.padsList.events
   'mouseup #container' :(e)->
     elem = $(document)
