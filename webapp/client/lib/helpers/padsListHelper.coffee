@@ -97,6 +97,7 @@
     unarchived = template.knotes.unarchived.length
     archived = template.knotes.archived.length
     total = unarchived + archived
+    half = total / 2
     if total == 1
       text = "That's a start"
       image = "one"
@@ -106,15 +107,21 @@
     if total > 3
       text = "Not bad."
       image = "more-three"
-    if total > 5
-      text = "Let's get cracking!"
-      image = "more-five"
-    if total > 8
-      text = "Wow. Busy!"
-      image = "more-eight"
-    if total > 3 and unarchived == 0
-      text = "Great job!"
-      image = "success"
+      if total > 5
+        text = "Let's get cracking!"
+        image = "more-five"
+      if total > 8
+        text = "Wow. Busy!"
+        image = "more-eight"
+      if archived >= half
+        text = "In the zone."
+        image = "half"
+      if archived == (total - 1)
+        text = "So...close."
+        image = "one-more"
+      if total > 3 and unarchived == 0
+        text = "Great job!"
+        image = "success"
     if moment().endOf('day').fromNow() < 8 && unarchived > 3
       text = "Its getting late!"
       image = "sleepy"

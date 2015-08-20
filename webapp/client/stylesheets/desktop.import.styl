@@ -21,13 +21,11 @@ html
   height: calc(100% - 50px)
 
   .min-k-btn
-    display: inline-block
     padding: 0
-    font-size: 16px
-    text-decoration: none
-    height: 26px
-    width: 24px
-    line-height: 26px
+    font-size: 20px
+    height: 29px
+    width: 30px
+    line-height: 30px
 
 .header
   position: relative
@@ -38,6 +36,7 @@ html
     position: fixed
     top: 0px
     font-size: 16px
+    z-index: 200
     &.scrolling
       background-color: white
       box-shadow: 0px 2px 7px -3px rgba(0,0,0,0.45)
@@ -45,6 +44,10 @@ html
       line-height: 30px
       height: 30px
       padding-left: 10px
+      font-size: 18px
+      .title
+        display: inline-block
+        padding: 2px
 
   .left-header
   .right-header
@@ -59,9 +62,9 @@ html
       background: #2EB4EF
       color: #fff
       border-radius: 50%
-      height: 30px
-      width: 30px
-      font-size: 15px
+      height: 34px
+      width: 34px
+      font-size: 18px
       cursor: pointer
       line-height: 30px
       text-align: center
@@ -78,24 +81,18 @@ html
       font-size: 16px
       float: left
       color: #666
-    button
-      float: left
-      margin: 10px 0 10px 10px
-      font-size: 16px
-      padding: 2px 7px 2px 9px
-      letter-spacing: 2px
-      line-height: 24px
 
     .latest-share
       margin: 2px 0
 
   &#header .share-pad-btn
+  &#header .login-button
     font-size: 14px
-    height: 24px
+    letter-spacing: 2px
     padding: 2px 8px
     display: inline-block
     margin-bottom: 0
-    line-height: 23px
+    line-height: 25px
     color: #fff
     text-align: center
     cursor: pointer
@@ -114,9 +111,10 @@ html
   .redirect-to-knotable
     float: left
     text-decoration: none
-    padding: 2px 9px
-    line-height: 24px
-    font-size: 16px
+    padding: 0 11px 0 12px
+    line-height: 32px
+    font-size: 23px
+    height: 33px
 
   .subject
     line-height: 1.3
@@ -134,10 +132,10 @@ html
     .left-header
       display: table-cell
       width: 25%
-      min-width: 315px
+      min-width: 335px
       overflow: initial
       .subject
-        font-size: 14px
+        font-size: 16px
         display: inline-block
         .title
         .share-pad-btn
@@ -202,8 +200,6 @@ html
 .pad:not(.currentDatePad)
   .gutter
     display: none
-  .knote:first-of-type
-    margin-top: 45px
 
 .pad
   width: 100%
@@ -222,27 +218,27 @@ html
       padding-top: 80px
       vertical-align: top
       text-align: center
+      font-size: 13px
+      background-size: 50px !important
+      color: $gray-dark
       &.one
-        background: url(/images/unhappy.png) no-repeat center
-        background-size: 60px
+        background: url(/images/nonpluss.png) no-repeat center
       &.more-one
-        background: url(/images/yawn.png) no-repeat center
-        background-size: 60px
+        background: url(/images/sleepy.png) no-repeat center
       &.more-three
         background: url(/images/wink.png) no-repeat center
-        background-size: 60px
       &.more-five
         background: url(/images/smile.png) no-repeat center
-        background-size: 60px
       &.more-eight
         background: url(/images/surprised.png) no-repeat center
-        background-size: 60px
+      &.half
+        background: url(/images/focus.png) no-repeat center
+      &.one-more
+        background: url(/images/headache.png) no-repeat center
       &.success
         background: url(/images/laugh.png) no-repeat center
-        background-size: 60px
       &.fail
         background: url(/images/sad.png) no-repeat center
-        background-size: 60px
   .knote-placeholder
     width: 580px
     margin: auto
@@ -254,8 +250,8 @@ html
     box-shadow: 0 2px 6px -2px rgba(0,0,0,0.4)
   .knote.animate
     transition:all 300ms 0ms ease-in
-  .knote:first-of-type
-    margin-top: 0
+  .compose.compose-popup
+    margin-bottom: 0
   .knote
   .compose
     width: 550px
