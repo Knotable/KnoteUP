@@ -8,6 +8,11 @@
           {{/with}}
         </div>
         {{> settingDropdown}}
+        <div class="latest-share">
+          {{#with latestPad}}
+            {{> sharePadDropdown}}
+          {{/with}}
+        </div>
       {{else}}
         {{#if hasKnotableLoginToken}}
           <button class="btn login-button" disabled="disabled">Logging in...</button>
@@ -22,9 +27,6 @@
         <div class="title" data-latest-id="{{latestPad._id}}">
           {{contentEditableSubject}}
         </div>
-        {{#with latestPad}}
-          {{> sharePadDropdown}}
-        {{/with}}
         <i class='icon icon-edit show-compose invisible'></i>
       </div>
     </div>
