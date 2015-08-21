@@ -153,8 +153,10 @@ getFileUploadOptions = (uploadForm) ->
 
 Template.file_upload.events
   'click .upload-icon': (e) ->
-    return unless Meteor.user()
-    $(e.currentTarget).siblings('input[name=file]').click()
+    if Meteor.user()
+      $(e.currentTarget).siblings('input[name=file]').click()
+    else
+      Session.set 'modal', 'login'
 
   'click .upload-photo-btn-large': (e)->
     e.stopPropagation()
@@ -277,7 +279,7 @@ initFileuploader = ($form, options) ->
             fileId = file_id
             fileName = file.name
             fileURL = url
-            
+
             if $thumbBoxes.length
               $thumbBoxes.removeClass("loading-thumb")
               isPhoto = FileHelper.isGraphic(fileName)
@@ -298,10 +300,10 @@ initFileuploader = ($form, options) ->
                 popUploadVar file_id
                 $('.post-new-knote').removeAttr('disabled')
               $thumbBoxes.find('input[name=file_ids]').val(fileId)
-              
+
             knotableConnection.subscribe 'fileById', fileId
           return
-        
+
         fileUploading = uploaderVar or {}
         fileUploading[file_id] = {
           'uploader' : uploader,
