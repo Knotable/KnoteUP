@@ -49,6 +49,11 @@ Template.sysMessagePopup.events
   'click .ok-btn': ->
     SysMessagePopup.activeInstance.close()
 
+  'click .confirm-btn': ->
+    email = Meteor.user()?.emails?[0]?.address
+    Meteor.call 'sendConfirmEmail', email
+    SysMessagePopup.activeInstance.close()
+
 
 
 showMessage = (type, message, options) ->

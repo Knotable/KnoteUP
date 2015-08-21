@@ -285,12 +285,22 @@ Template.sharePadDropdown.onRendered ->
       sharePadBtn.hide()
 
 
+Template.sharePadDropdown.helpers
+  unconfirmed: ->
+    return !UsersHelper.isUserEmailConfirmed(Meteor.user())
+
+
 
 Template.sharePadDropdown.events
   'click .share-pad-btn': (e) ->
     btn = $(e.currentTarget)
-    btn.siblings('.share-pad-dropdown').slideToggle()
-
+    if UsersHelper.isUserEmailConfirmed(Meteor.user())
+      btn.siblings('.share-pad-dropdown').slideToggle()
+    else
+      showWarningMessage 'Please confirm your email to use this feature.',
+        duration: -1
+        showOk: true
+        showConfirm: true
 
 
   'click .share-invite': (e) ->
