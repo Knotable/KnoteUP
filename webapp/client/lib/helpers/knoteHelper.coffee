@@ -392,6 +392,23 @@ displayEmbedLinks = (links, options = {}, callback) ->
       knotableConnection.call 'remove_other_topic_viewers', knote.topic_id
 
 
+  deleteKnote: (knoteId) ->
+    user = Meteor.user()
+    knote = Knotes.findOne knoteId
+    throw new Meteor.Error "User not found" unless user
+    throw new Meteor.Error "Knote not found" unless user
+    throw new Meteor.Error "Can not delete knote" unless knote.archived
+
+    # TODO - If there are files in knote, remove files from s3 & file collection
+
+    # Quick solve - Update the knote collection to delete it
+    Knotes.update {_id: knoteId},
+      $set: {htmlBody: '', file_ids: []}
+
+    # Remove the knote
+    Knotes.remove knoteId
+
+
 
 class EmbeddableLinksFilter
   TAG_LINK_RGX = /^a$/i

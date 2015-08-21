@@ -179,6 +179,10 @@ Template.knote.events
       $thumbBox.hide().addClass('file-archiving')
 
 
+  'click .delete-knote': () ->
+    KnoteHelper.deleteKnote @_id
+
+
 
 Template.knote.helpers
   dateNewFormat: ->
