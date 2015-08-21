@@ -15,5 +15,7 @@
 .icon-lock-filled:before { content: '\e80d'; } /* '' */
 .icon-mail-alt:before { content: '\e80e'; } /* '' */
 .icon-attach:before { content: '\e80f'; } /* '' */
+.icon-trash:before { content: '\e810'; } /* '' */
 .icon-cancel:before { content: '\e811'; } /* '' */
 .icon-attention-1:before { content: '\e812'; } /* '' */
+.icon-trash-empty:before { content: '\e813'; } /* '' */

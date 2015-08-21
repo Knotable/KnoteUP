@@ -73,6 +73,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
+      "css": "trash",
+      "code": 59408,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f48ae54adfb27d8ada53d0fd9e34ee10",
+      "css": "trash-empty",
+      "code": 59411,
+      "src": "fontawesome"
+    },
+    {
       "uid": "c8585e1e5b0467f28b70bce765d5840c",
       "css": "docs",
       "code": 59399,
