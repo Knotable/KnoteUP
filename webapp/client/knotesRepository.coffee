@@ -1,7 +1,10 @@
 class KnotesRepository
   _initialization = false
   _draftKnoteExpiration = moment.duration(1, 'day')
-  _repositoryStoreKey = 'local_draft_knotes_repo'
+  _currentUserKey = ''
+  _repositoryStoreKey = 'knotesRepository'
+  _draftKnotesKey = 'draftKnotes'
+  _isDraftknotesInserted = false
   _repository = null
 
 
@@ -11,6 +14,14 @@ class KnotesRepository
     @_bindKnotesCursor()
     @_bindKnotesStorage()
     @_mapCollectionMethod()
+    Tracker.autorun =>
+      if Meteor.userId()
+        _currentUserKey = Meteor.userId()
+        @_fillRepositoryWithDraftKnotes()
+      else
+        _currentUserKey = ''
+        _isDraftknotesInserted = false
+        _repository.remove(isLocalKnote: true)
 
 
 
@@ -45,7 +56,8 @@ class KnotesRepository
 
   _bindKnotesCursor: ->
     Knotes.find().observe
-      added: (document) ->
+      added: (document) =>
+        @_removeDraftKnoteIfExists(document)
         _repository.insert(document)
       changed: (newDocument) ->
         _repository.upsert(newDocument._id, newDocument)
@@ -55,36 +67,37 @@ class KnotesRepository
 
 
   _bindKnotesStorage: ->
-    @_fillRepositoryWithDraftKnotes()
     _repository.find().observe
-      added: @_updateStoredDocument
-      changed: @_updateStoredDocument
-      removed: (document) ->
-        if document.isLocalKnote
-          draftKnotes = amplify.store(_repositoryStoreKey) or {}
+      added: @_updateStoredDocument.bind(@)
+      changed: @_updateStoredDocument.bind(@)
+      removed: (document) =>
+        if _isDraftknotesInserted and document.isLocalKnote
+          draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
           delete draftKnotes[document._id] if draftKnotes[document._id]
-          amplify.store(_repositoryStoreKey, draftKnotes)
+          amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
 
 
 
   _fillRepositoryWithDraftKnotes: ->
-    draftKnotes = amplify.store(_repositoryStoreKey)
+    draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey))
     unless _.isEmpty(draftKnotes)
+      _isDraftknotesInserted = false
       now = moment()
       _.each _.clone(draftKnotes), (localKnote, key) ->
         if moment(localKnote.timestamp).add(_draftKnoteExpiration).isAfter(now)
           _repository.insert(localKnote)
         else
           delete draftKnotes[key]
-      amplify.store(_repositoryStoreKey, draftKnotes)
+      amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
+    _isDraftknotesInserted = true
 
 
 
   _updateStoredDocument: (document) ->
-    if document.isLocalKnote
-      draftKnotes = amplify.store(_repositoryStoreKey) or {}
+    if _isDraftknotesInserted and document.isLocalKnote
+      draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
       draftKnotes[document._id] = document
-      amplify.store(_repositoryStoreKey, draftKnotes)
+      amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
 
 
 
@@ -96,12 +109,23 @@ class KnotesRepository
 
 
   _listenToPostCompletion: (draftKnoteId, promise) ->
-    promise.done ->
-      _repository.remove(draftKnoteId)
     promise.fail (err) ->
       _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false, isReposting: false)
       console.log err
     return promise
+
+
+
+  _removeDraftKnoteIfExists: (knote) ->
+    if _repository.find(isLocalKnote: true).count()
+      draftKnotes = _repository.find(isLocalKnote: true).fetch()
+      targetKnote = _.find draftKnotes, (draftKnote) ->  moment(draftKnote.date).isSame(knote.date, 'second')
+      _repository.remove(targetKnote._id) if targetKnote
+
+
+
+  _getLocalStorageKey: (subKey) ->
+    [_currentUserKey, _repositoryStoreKey, subKey].join('.')
 
 
 
