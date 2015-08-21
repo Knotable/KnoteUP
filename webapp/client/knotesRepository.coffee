@@ -21,6 +21,7 @@ class KnotesRepository
       else
         _currentUserKey = ''
         _isDraftknotesInserted = false
+        _repository.remove(isLocalKnote: true)
 
 
 
