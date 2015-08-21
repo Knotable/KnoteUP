@@ -1,7 +1,3 @@
-hidePadShareDropdown = ->
-  $('.share-pad-dropdown:visible').slideToggle()
-
-
 
 todaySubject = ->
   user = AppHelper.currentContact()
@@ -39,12 +35,6 @@ moveAnimationHooks =
     # // reset everything to 0, animated
     $node.addClass('animate').css('top', 0);
     $inBetween.addClass('animate').css('top', 0);
-
-
-
-$(document).click ->
-  $('#setting-dropdown:visible').slideToggle()
-  hidePadShareDropdown()
 
 
 
@@ -153,14 +143,8 @@ Template.padsList.events
 
 
   'click .user': (e) ->
-    e.stopPropagation()
-    hidePadShareDropdown()
     $('#setting-dropdown').slideToggle()
 
-
-
-  'click #setting-dropdown': (e) ->
-    e.stopPropagation()
 
 
 
@@ -304,7 +288,6 @@ Template.sharePadDropdown.onRendered ->
 
 Template.sharePadDropdown.events
   'click .share-pad-btn': (e) ->
-    e.stopPropagation()
     btn = $(e.currentTarget)
     btn.siblings('.share-pad-dropdown').slideToggle()
 
