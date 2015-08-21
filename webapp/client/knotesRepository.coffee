@@ -4,7 +4,7 @@ class KnotesRepository
   _currentUserKey = ''
   _repositoryStoreKey = 'knotesRepository'
   _draftKnotesKey = 'draftKnotes'
-  _postTransactionsCount = 0
+  _isDraftknotesInserted = false
   _repository = null
 
 
@@ -14,13 +14,17 @@ class KnotesRepository
     @_bindKnotesCursor()
     @_bindKnotesStorage()
     @_mapCollectionMethod()
-    Tracker.autorun ->
-      _currentUserKey = if Meteor.userId() then Meteor.userId() else ''
+    Tracker.autorun =>
+      if Meteor.userId()
+        _currentUserKey = Meteor.userId()
+        @_fillRepositoryWithDraftKnotes()
+      else
+        _currentUserKey = ''
+        _isDraftknotesInserted = false
 
 
 
   insertKnote: (requiredKnoteParameters, optionalKnoteParameters) ->
-    @_startPostTransaction()
     promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
     draftKnote = _.extend _.clone(requiredKnoteParameters), optionalKnoteParameters,
       isPosting: true
@@ -43,7 +47,6 @@ class KnotesRepository
       _.defer -> deferred.reject new Meteor.Error 'Knote not found'
       return deferred.promise()
     _repository.update knoteId, $set: isReposting: true
-    @_startPostTransaction()
     promise = KnoteHelper.postNewKnote(draftKnote.requiredKnoteParameters, draftKnote.optionalKnoteParameters)
     @_listenToPostCompletion(draftKnote._id, promise)
     return promise
@@ -63,12 +66,11 @@ class KnotesRepository
 
 
   _bindKnotesStorage: ->
-    @_fillRepositoryWithDraftKnotes()
     _repository.find().observe
       added: @_updateStoredDocument.bind(@)
       changed: @_updateStoredDocument.bind(@)
       removed: (document) =>
-        if document.isLocalKnote
+        if _isDraftknotesInserted and document.isLocalKnote
           draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
           delete draftKnotes[document._id] if draftKnotes[document._id]
           amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
@@ -78,6 +80,7 @@ class KnotesRepository
   _fillRepositoryWithDraftKnotes: ->
     draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey))
     unless _.isEmpty(draftKnotes)
+      _isDraftknotesInserted = false
       now = moment()
       _.each _.clone(draftKnotes), (localKnote, key) ->
         if moment(localKnote.timestamp).add(_draftKnoteExpiration).isAfter(now)
@@ -85,11 +88,12 @@ class KnotesRepository
         else
           delete draftKnotes[key]
       amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
+    _isDraftknotesInserted = true
 
 
 
   _updateStoredDocument: (document) ->
-    if document.isLocalKnote
+    if _isDraftknotesInserted and document.isLocalKnote
       draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
       draftKnotes[document._id] = document
       amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
@@ -104,8 +108,6 @@ class KnotesRepository
 
 
   _listenToPostCompletion: (draftKnoteId, promise) ->
-    promise.always =>
-      @_completePostTransaction()
     promise.fail (err) ->
       _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false, isReposting: false)
       console.log err
@@ -114,25 +116,10 @@ class KnotesRepository
 
 
   _removeDraftKnoteIfExists: (knote) ->
-    if @_isThereAnyTransaction()
-      draftKnotes = _repository.find(isLocalKnote: true, {sort: timestamp: 1}).fetch()
+    if _repository.find(isLocalKnote: true).count()
+      draftKnotes = _repository.find(isLocalKnote: true).fetch()
       targetKnote = _.find draftKnotes, (draftKnote) ->  moment(draftKnote.date).isSame(knote.date, 'second')
       _repository.remove(targetKnote._id) if targetKnote
-
-
-
-  _startPostTransaction: ->
-    _postTransactionsCount++
-
-
-
-  _completePostTransaction: ->
-    _postTransactionsCount-- if _postTransactionsCount
-
-
-
-  _isThereAnyTransaction: ->
-    _postTransactionsCount
 
 
 
