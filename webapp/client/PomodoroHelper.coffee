@@ -17,7 +17,7 @@ class PomodoroHelper
 
 
 
-  startPomodoro: (knoteId, $pomodoroTime, $pomodo) ->
+  startPomodoro: (knoteId, $pomodoroTime, $pomodoro) ->
     return unless Meteor.userId() and knoteId
     $favicon = $('#favicon')
     $pageTitle = $('title')
@@ -32,18 +32,18 @@ class PomodoroHelper
         Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
         @stopPomodoro(knoteId)
       else
-        updateView($pomodoroTime, time, $pomodo)
+        updateView($pomodoroTime, time, $pomodoro)
         pomodoroTimers[knoteId] = setTimeout func, 1000
     pomodoroTimers[knoteId] = setTimeout func, 1000
 
 
 
-  updateView = ($pomodoroTime, pomodoroTime, $pomodo) ->
+  updateView = ($pomodoroTime, pomodoroTime, $pomodoro) ->
     time = s2Str(pomodoroTime)
     $pomodoroTime?.html(time)
     $pageTitle?.text("Knoteup - #{time}")
-    $pomodo?.toggleClass('animate')
-    if $pomodo?.hasClass('animate')
+    $pomodoro?.toggleClass('animate')
+    if $pomodoro?.hasClass('animate')
       $favicon.attr('href', '/tomato-red.ico')
     else
       $favicon.attr('href', '/tomato.ico')
