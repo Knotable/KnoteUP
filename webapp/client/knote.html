@@ -43,11 +43,13 @@
       {{/unless}}
     </div>
     {{#unless isPostingOrFailed}}
-      <div class="knote-actions {{#unless replys}}no-replies{{/unless}}">
-        {{#unless archived}}
+      <div class="knote-actions {{#unless replys}}no-replies{{/unless}} {{#if archived}}archived-actions{{/if}}">
+        {{#if archived}}
+          <i class="icon icon-trash delete-knote"></i>
+        {{else}}
           <i class="icon icon-chat"></i>
           {{! <i class="icon icon-share share-knote"></i> }}
-        {{/unless}}
+        {{/if}}
       </div>
       {{#unless archived}}
        {{> pomodoro this}}
