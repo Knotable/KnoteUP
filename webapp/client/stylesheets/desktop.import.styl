@@ -210,35 +210,40 @@ html
   .knote-list
     display: table-cell
     vertical-align: top
+  .unarchived-knotes
+    position: relative
   .gutter
     display: table-cell
-    width: 25%
-  .left-gutter
-    .message
-      padding-top: 80px
-      vertical-align: top
-      text-align: center
-      font-size: 13px
-      background-size: 50px !important
-      color: $gray-dark
-      &.one
-        background: url(/images/nonpluss.png) no-repeat center
-      &.more-one
-        background: url(/images/sleepy.png) no-repeat center
-      &.more-three
-        background: url(/images/wink.png) no-repeat center
-      &.more-five
-        background: url(/images/smile.png) no-repeat center
-      &.more-eight
-        background: url(/images/surprised.png) no-repeat center
-      &.half
-        background: url(/images/focus.png) no-repeat center
-      &.one-more
-        background: url(/images/headache.png) no-repeat center
-      &.success
-        background: url(/images/laugh.png) no-repeat center
-      &.fail
-        background: url(/images/sad.png) no-repeat center
+    width: 35%
+  .message
+    padding-top: 80px
+    text-align: center
+    font-size: 13px
+    background-size: 50px !important
+    color: $gray-dark
+    color: #424242
+    position: absolute
+    left: -200px
+    bottom: -10px
+    width: 70px
+    &.one
+      background: url(/images/nonpluss.png) no-repeat center
+    &.more-one
+      background: url(/images/sleepy.png) no-repeat center
+    &.more-three
+      background: url(/images/wink.png) no-repeat center
+    &.more-five
+      background: url(/images/smile.png) no-repeat center
+    &.more-eight
+      background: url(/images/surprised.png) no-repeat center
+    &.half
+      background: url(/images/focus.png) no-repeat center
+    &.one-more
+      background: url(/images/headache.png) no-repeat center
+    &.success
+      background: url(/images/laugh.png) no-repeat center
+    &.fail
+      background: url(/images/sad.png) no-repeat center
   .knote-placeholder
     width: 580px
     margin: auto

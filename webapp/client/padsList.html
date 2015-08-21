@@ -50,13 +50,12 @@
         </div>
         <div class="pad-container">
           {{#with latestPad}}
-            <div class="left-gutter gutter">
-              <div class="message {{leftImage}}">
-                {{leftText}}
-              </div>
-            </div>
+            <div class="left-gutter gutter"></div>
             <div class="knote-list latest-knotes">
               <div class="unarchived-knotes">
+                <div class="message {{leftImage}}">
+                  {{leftText}}
+                </div>
                 {{#each knotes.unarchived}}
                   {{> knote}}
                 {{/each}}

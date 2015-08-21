@@ -110,7 +110,7 @@ uploadOptions =
 
       $thumbBoxes = $(".thumb-box-#{data.index}")
       if $thumbBoxes.length
-        knoteId = $thumbBoxes.closest('.message[data-id]').data('id')
+        knoteId = $thumbBoxes.closest('.knote[data-id]').data('id')
         if knoteId
           isPhoto = FileHelper.isGraphic(fileName)
           if isPhoto
@@ -227,7 +227,7 @@ initFileuploader = ($form, options) ->
 
       return if event.delegatedEvent.type is 'drop' and
               $(event.target).closest('#compose-popup').length and
-              $('.message.in-edit').length
+              $('.knote.in-edit').length
 
       $composePopup = $(event.target).closest('#compose-popup')
       $composePopup.find('#message-textarea')?.show() if $composePopup
@@ -241,7 +241,7 @@ initFileuploader = ($form, options) ->
         size: file.size
         created_time: new Date()
       $form = $('.file_upload_s3')
-      if $form.parents('.key-note, .message, #compose-popup, .knote').length
+      if $form.parents('.key-note, #compose-popup, .knote').length
         ############################################
         file = data.files[0]
         parent = $(event.target).closest(".files_holder")

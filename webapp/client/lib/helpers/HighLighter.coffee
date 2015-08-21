@@ -202,7 +202,7 @@
   saveNewKnoteBySpliting : ->
     knoteId = KnoteBaseModel.getActive()?._id
     return  unless knoteId
-    $container = $("div.message[data-id=\"" + knoteId + "\"]").find("div.knote-content")
+    $container = $("div.knote[data-id=\"" + knoteId + "\"]").find("div.knote-content")
     messages = HighLighter.splitHTML($container)
     if messages.length is 2
       dateCreated = new Date()
