@@ -1,7 +1,9 @@
 class KnotesRepository
   _initialization = false
   _draftKnoteExpiration = moment.duration(1, 'day')
-  _repositoryStoreKey = 'local_draft_knotes_repo'
+  _currentUserKey = ''
+  _repositoryStoreKey = 'knotesRepository'
+  _draftKnotesKey = 'draftKnotes'
   _postTransactionsCount = 0
   _repository = null
 
@@ -12,6 +14,8 @@ class KnotesRepository
     @_bindKnotesCursor()
     @_bindKnotesStorage()
     @_mapCollectionMethod()
+    Tracker.autorun ->
+      _currentUserKey = if Meteor.userId() then Meteor.userId() else ''
 
 
 
@@ -61,18 +65,18 @@ class KnotesRepository
   _bindKnotesStorage: ->
     @_fillRepositoryWithDraftKnotes()
     _repository.find().observe
-      added: @_updateStoredDocument
-      changed: @_updateStoredDocument
-      removed: (document) ->
+      added: @_updateStoredDocument.bind(@)
+      changed: @_updateStoredDocument.bind(@)
+      removed: (document) =>
         if document.isLocalKnote
-          draftKnotes = amplify.store(_repositoryStoreKey) or {}
+          draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
           delete draftKnotes[document._id] if draftKnotes[document._id]
-          amplify.store(_repositoryStoreKey, draftKnotes)
+          amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
 
 
 
   _fillRepositoryWithDraftKnotes: ->
-    draftKnotes = amplify.store(_repositoryStoreKey)
+    draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey))
     unless _.isEmpty(draftKnotes)
       now = moment()
       _.each _.clone(draftKnotes), (localKnote, key) ->
@@ -80,15 +84,15 @@ class KnotesRepository
           _repository.insert(localKnote)
         else
           delete draftKnotes[key]
-      amplify.store(_repositoryStoreKey, draftKnotes)
+      amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
 
 
 
   _updateStoredDocument: (document) ->
     if document.isLocalKnote
-      draftKnotes = amplify.store(_repositoryStoreKey) or {}
+      draftKnotes = amplify.store(@_getLocalStorageKey(_draftKnotesKey)) or {}
       draftKnotes[document._id] = document
-      amplify.store(_repositoryStoreKey, draftKnotes)
+      amplify.store(@_getLocalStorageKey(_draftKnotesKey), draftKnotes)
 
 
 
@@ -129,6 +133,11 @@ class KnotesRepository
 
   _isThereAnyTransaction: ->
     _postTransactionsCount
+
+
+
+  _getLocalStorageKey: (subKey) ->
+    [_currentUserKey, _repositoryStoreKey, subKey].join('.')
 
 
 
