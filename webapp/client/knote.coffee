@@ -2,7 +2,7 @@ Template.pomodoro.onRendered ->
   @autorun =>
     if pomodoro = Knotes.findOne(_id: @data._id)?.pomodoro
       if moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds() > 0
-        pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'))
+        pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'), @.$('.pomodoro'))
     else
      pomodoroHelper.stopPomodoro(@data._id, @.$('.pomodoro-time'))
 
