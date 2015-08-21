@@ -317,6 +317,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
       replys: []
       pinned: false
       requiresPostProcessing: true
+      date: new Date
 
     addKnote = ->
       Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->

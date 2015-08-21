@@ -2,6 +2,7 @@ class KnotesRepository
   _initialization = false
   _draftKnoteExpiration = moment.duration(1, 'day')
   _repositoryStoreKey = 'local_draft_knotes_repo'
+  _postTransactionsCount = 0
   _repository = null
 
 
@@ -15,6 +16,7 @@ class KnotesRepository
 
 
   insertKnote: (requiredKnoteParameters, optionalKnoteParameters) ->
+    @_startPostTransaction()
     promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
     draftKnote = _.extend _.clone(requiredKnoteParameters), optionalKnoteParameters,
       isPosting: true
@@ -37,6 +39,7 @@ class KnotesRepository
       _.defer -> deferred.reject new Meteor.Error 'Knote not found'
       return deferred.promise()
     _repository.update knoteId, $set: isReposting: true
+    @_startPostTransaction()
     promise = KnoteHelper.postNewKnote(draftKnote.requiredKnoteParameters, draftKnote.optionalKnoteParameters)
     @_listenToPostCompletion(draftKnote._id, promise)
     return promise
@@ -45,7 +48,8 @@ class KnotesRepository
 
   _bindKnotesCursor: ->
     Knotes.find().observe
-      added: (document) ->
+      added: (document) =>
+        @_removeDraftKnoteIfExists(document)
         _repository.insert(document)
       changed: (newDocument) ->
         _repository.upsert(newDocument._id, newDocument)
@@ -96,12 +100,35 @@ class KnotesRepository
 
 
   _listenToPostCompletion: (draftKnoteId, promise) ->
-    promise.done ->
-      _repository.remove(draftKnoteId)
+    promise.always =>
+      @_completePostTransaction()
     promise.fail (err) ->
       _repository.update(draftKnoteId, $set: isFailed: true, isPosting: false, isReposting: false)
       console.log err
     return promise
+
+
+
+  _removeDraftKnoteIfExists: (knote) ->
+    if @_isThereAnyTransaction()
+      draftKnotes = _repository.find(isLocalKnote: true, {sort: timestamp: 1}).fetch()
+      targetKnote = _.find draftKnotes, (draftKnote) ->  moment(draftKnote.date).isSame(knote.date, 'second')
+      _repository.remove(targetKnote._id) if targetKnote
+
+
+
+  _startPostTransaction: ->
+    _postTransactionsCount++
+
+
+
+  _completePostTransaction: ->
+    _postTransactionsCount-- if _postTransactionsCount
+
+
+
+  _isThereAnyTransaction: ->
+    _postTransactionsCount
 
 
 
