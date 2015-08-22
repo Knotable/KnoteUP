@@ -5,7 +5,7 @@
     user.emails?[0]?.address || user.services?.google?.email || user.services?.github?.email
 
 
-  
+
   getContactsInSeq: (account = null) ->
     UsersHelper.getSortedContactsCursor(account).fetch()
 
@@ -76,3 +76,10 @@
     _.each emailsInContact, (e) ->
       emails.push e
     _.uniq emails
+
+
+
+  isUserEmailConfirmed: (user) ->
+    return false unless user?.emails
+    if user.emails.length > 0
+      user.emails[0].actived

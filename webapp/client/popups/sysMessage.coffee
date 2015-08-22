@@ -51,7 +51,7 @@ Template.sysMessagePopup.events
 
   'click .confirm-btn': ->
     email = Meteor.user()?.emails?[0]?.address
-    Meteor.call 'sendConfirmEmail', email
+    knotableConnection.call 'sendConfirmEmail', email, true
     SysMessagePopup.activeInstance.close()
 
 
