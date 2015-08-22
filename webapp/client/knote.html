@@ -1,11 +1,11 @@
 <template name="knote">
-  <div class="order">{{order}}</div>
   <div class="knote knote-reply-cn likeable files_holder
   {{#if isEditing}} in-edit {{/if}}
   {{#if isPosting}} posting {{/if}}
   {{#if isFailed}} failed {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}" data-topic-id="{{topic_id}}">
+   <div class="order">{{order}}</div>
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
       {{#with contact}}
         <div class="contact">

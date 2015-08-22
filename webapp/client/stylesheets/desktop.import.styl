@@ -222,9 +222,8 @@ html
     font-size: 13px
     background-size: 50px !important
     color: $gray-dark
-    color: #424242
     position: absolute
-    left: -200px
+    right: -200px
     bottom: -10px
     width: 110px
     &.one
@@ -245,6 +244,12 @@ html
       background: url(/images/laugh.png) no-repeat center
     &.fail
       background: url(/images/sad.png) no-repeat center
+  .order
+    display: none
+    position: absolute
+    left: -100px
+    font-size: 20px
+    color: $gray-dark
   .knote-placeholder
     width: 580px
     margin: auto
@@ -549,6 +554,8 @@ html
           vertical-align: middle
 
   .archived-knotes
+    .order
+      text-decoration: line-through
     .knote
       .knote-header
         &:hover
@@ -558,3 +565,7 @@ html
           cursor: initial
           .restore
             cursor: pointer
+
+.pad.currentDatePad
+  .order
+    display: block
