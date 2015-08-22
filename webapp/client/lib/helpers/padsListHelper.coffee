@@ -159,6 +159,7 @@
     if type == "archived"
       knote = target.data
     $knotes = $("[data-topic-id='" + knote.topic_id + "']")
+    Session.set 'knotesNum', $knotes.length
     knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
     PadsListHelper.calcOrder(knote.topic_id, knotes, knote._id)
 
@@ -176,6 +177,11 @@
         updateOption.containerName = container
       Knotes.update({_id: k.id}, {$set: updateOption})
 
+
+  knotesNumToText: (knotesNum) ->
+    words = ['','first','second','third','fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'nineth',
+    'tenth', 'eleventh', 'twelveth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
+    return words[knotesNum + 1]
 
 
   getTextFromHtml: (html) ->

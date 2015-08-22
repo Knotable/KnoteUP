@@ -39,6 +39,9 @@ moveAnimationHooks =
 
 
 Template.padsList.onRendered ->
+  $knotes = $('.currentDatePad .knote')
+  Session.set 'knotesNum', $knotes.length
+
   @data.subject = moment().format "MMM Do"
 
   $title = @$(".new-knote-title")
@@ -127,6 +130,12 @@ Template.padsList.helpers
 
   leftImage: ->
     return PadsListHelper.leftSideMessage @, "image"
+
+
+  composePlaceholder: ->
+    knotesNum = Session.get 'knotesNum'
+    placeholderNum = PadsListHelper.knotesNumToText(knotesNum)
+    return "What's the " + placeholderNum + " thing you need to do today?"
 
 
 
