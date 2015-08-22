@@ -68,7 +68,7 @@ regist = (username, email, password) ->
       form.removeClass 'processing'
       return registerEventHandler('duplicateName')
 
-    knotableConnection.call 'createAccount', user, null, false, false, (err, result) =>
+    knotableConnection.call 'createAccount', user, null, false, false, true, (err, result) =>
       form.removeClass 'processing'
       if err
         return registerEventHandler null, {type: 'error', desc: err.reason}
