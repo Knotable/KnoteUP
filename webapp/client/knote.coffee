@@ -1,36 +1,38 @@
 Template.pomodoro.onRendered ->
-  @autorun =>
-    if pomodoro = Knotes.findOne(_id: @data._id)?.pomodoro
-      if moment.duration(moment(pomodoro.date).add(25, 'minutes').subtract(new Date())).asSeconds() > 0
-        pomodoroHelper.startPomodoro(@data._id, @.$('.pomodoro-time'), @.$('.pomodoro'))
-    else
-     pomodoroHelper.stopPomodoro(@data._id, @.$('.pomodoro-time'))
+  $time = @.$('.pomodoro-time')
+  $pomodoro = @.$('.pomodoro')
+  $pageTitle = $('title')
+  $favicon = $('#favicon')
 
+  $(pomodoroHelper).on 'stop', ->
+    user = AppHelper.currentContact()
+    if user
+      $pageTitle.text('Knoteup - ' + user.username)
+    else
+      $pageTitle.text('Knoteup')
+    $favicon?.attr('href', '/favicon.ico')
+
+  $(pomodoroHelper).on 'flushing', (event, time)->
+    $time.text(time)
+    $pageTitle.text("Knoteup - #{time}")
+    $pomodoro?.toggleClass('animate')
+    if $pomodoro?.hasClass('animate')
+      $favicon.attr('href', '/tomato-red.ico')
+    else
+      $favicon.attr('href', '/tomato.ico')
+
+  $(pomodoroHelper).on 'running', (event, time)->
+    $time?.text(time)
+    $pageTitle?.text("Knoteup - #{time}")
+    $favicon.attr('href', '/tomato-red.ico')
+    $pomodoro?.addClass('animate')
+
+  pomodoroHelper.startPomodoro(@data._id)
 
 
 
 Template.pomodoro.onDestroyed ->
-  pomodoroHelper.stopPomodoro(@data._id) if @data.pomodoro
-
-
-
-Template.pomodoro.helpers
-  isYourPomodoro: ->
-    @pomodoro?.userId is Meteor.userId()
-
-
-
-Template.pomodoro.events
-  'click .pomodoro': (e, t)->
-    knoteId = t.data._id
-    if t.data.pomodoro
-      return Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
-    else
-      return if Knotes.find({pomodoro: {$exists: true}}).count()
-    pomodoro =
-      userId: Meteor.userId()
-      date: new Date()
-    Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
+  pomodoroHelper.stopPomodoro()
 
 
 
@@ -193,7 +195,16 @@ Template.knote.events
 
 
 
+  'click .pomodoro': (e, t)->
+    pomodoroHelper.clickOnTomato(t.data._id)
+
+
 Template.knote.helpers
+  isPomodoro: ->
+    @pomodoro and not @pomodoro.pauseTime
+
+
+
   dateNewFormat: ->
     return '' unless @date
     nowDate = moment()
