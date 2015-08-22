@@ -62,14 +62,20 @@ Template.knote.events
     showImagePopup(url: imgUrl) if imgUrl
 
 
-  'click i.archive': ->
+  'click i.archive': (e, t) ->
     if not @isPosting and not @isFailed
       Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
+      Meteor.setTimeout ->
+        PadsListHelper.updateOrder(t, "archived")
+      , 500
 
 
 
-  'click i.restore': ->
+  'click i.restore': (e, t) ->
     Knotes.update @_id, $set: archived: false
+    Meteor.setTimeout ->
+      PadsListHelper.updateOrder(t, "archived")
+    , 500
 
 
 

@@ -136,7 +136,7 @@
       helper: 'clone'
       appendTo: '.pad'
       update: (e, ui) ->
-        PadsListHelper.updateOrder(ui.item, "dragged")
+        PadsListHelper.updateOrder(ui.item, "moved")
         #TopicsHelper.trackKnoteDraggingEvent(entityId)
       start: (e, ui) ->
         ui.item.addClass('sorting')
@@ -152,13 +152,16 @@
 
 
   updateOrder: (target, type) ->
-    if type == "dragged"
+    if type == "moved"
       knote = Knotes.findOne target.data('id')
       element = target
     if type == "posted"
       knote = Knotes.findOne target
       element = $("[data-id='" + target + "']")
-    $knotes = element.parents('.unarchived-knotes').find('.knote')
+    if type == "archived"
+      knote = target.data
+      element = $("[data-id='" + knote._id + "']")
+    $knotes = element.parents('.knote-list').find('.knote')
     knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
     PadsListHelper.calcOrder(knote.topic_id, knotes, knote._id)
 
