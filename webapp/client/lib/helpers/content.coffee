@@ -42,7 +42,7 @@ class ContentHelper
     initDomIterator.call @, domFragment, NodeFilter.SHOW_ELEMENT, 'img'
 
     while imgNode = next.call @
-      continue if imgNode.parentNode.className.indexOf('img-wrapper') >= 0
+      continue if $(imgNode).parents('.embedded-link').length
       # set max-height of image to 500px
       imgNode.style.maxHeight = "500px"
       #if parseInt(imgNode.width) > 400 and parseInt(imgNode.width) > 0
@@ -165,7 +165,7 @@ class ContentHelper
     if p = oldNode.parentNode
       p.replaceChild newNode, oldNode
 
-      
+
 
 
 @contentHelper = new ContentHelper()
