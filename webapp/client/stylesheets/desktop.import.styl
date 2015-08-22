@@ -40,14 +40,13 @@ html
     &.scrolling
       background-color: white
       box-shadow: 0px 2px 7px -3px rgba(0,0,0,0.45)
+    .title
+      display: inline-block
     .subject
       line-height: 30px
       height: 30px
-      padding-left: 10px
+      padding-left: 15px
       font-size: 18px
-    .title
-      display: inline-block
-      padding: 2px
 
   .left-header
   .right-header
@@ -55,6 +54,15 @@ html
 
   .left-header
     overflow: hidden
+    color: $gray-dark
+    .subject
+      line-height: 1.3
+      border: none
+      -o-text-overflow: ellipsis
+      text-overflow: ellipsis
+      white-space: nowrap
+      &:focus
+        background-color: #fff
     .show-compose
       display: inline-block
     .show-compose
@@ -105,8 +113,7 @@ html
     top: 38px
     left: initial
     right: 0
-    li
-      white-space: nowrap
+    font-size: 14px
 
   .redirect-to-knotable
     float: left
@@ -116,16 +123,6 @@ html
     font-size: 23px
     height: 33px
 
-  .subject
-    line-height: 1.3
-    color: #666
-    border: none
-    -o-text-overflow: ellipsis
-    text-overflow: ellipsis
-    white-space: nowrap
-    &:focus
-      background-color: #fff
-
   &.padItem
     display: table
     .right-header
@@ -134,20 +131,19 @@ html
       width: 25%
       min-width: 335px
       overflow: initial
-      .subject
+      .title
         font-size: 16px
-        display: inline-block
-        .title
+        padding: 5px
+        .subject
         .share-pad-btn
           padding-left: 10px
         .share-pad-btn
           text-decoration: underline
         .share-pad-dropdown
           top: 25px
-          right: 0
-          left: initial
+          left: 10px
       .min-k-btn
-        display: inline-block
+        float: left
     .divider
       display: table-cell
       width: 100%
@@ -171,22 +167,25 @@ html
   display: none
   box-shadow: 0px 1px 2px 0 rgba(0, 0, 0, .5)
   position: absolute
-  padding: 4px
+  padding: 5px
+  padding-right: 8px
   background: white
   cursor: pointer
-  font-size: 12px
-  width: 120px
+  font-size: 14px
   li
-    padding: 4px
-    a
-      display: block
-      text-decoration: none
-    .icon-k
-      float: left
-      font-size: 15px
-      line-height: 3px
-      padding: 4px
+    padding: 5px 0
+    display: table
+    white-space: nowrap
+    .icon
+      display: table-cell
       font-weight: 600
+      text-align: center
+      padding-right: 3px
+    .icon-k
+      font-size: 16px
+    .text
+      display: table-cell
+      text-decoration: none
   li
   li a
     color: #555
@@ -203,7 +202,6 @@ html
 
 .pad
   width: 100%
-  padding-bottom: 40px
   .pad-container
     display: table
     table-layout: auto
@@ -221,7 +219,7 @@ html
   .message
     padding-top: 80px
     text-align: center
-    font-size: 13px
+    font-size: 14px
     background-size: 50px !important
     color: $gray-dark
     position: absolute
@@ -247,7 +245,7 @@ html
     &.fail
       background: url(/images/sad.png) no-repeat center
   .order
-    display: none
+    visibility: hidden
     position: absolute
     left: -100px
     font-size: 20px
@@ -265,8 +263,9 @@ html
     transition:all 300ms 0ms ease-in
   .compose.compose-popup
     margin-bottom: 0
-  .knote:last-of-type
-    margin-bottom: 0
+    padding-bottom: 40px
+  .knote-list .knote
+    padding-top: 20px
   .knote
   .compose
     width: 550px
@@ -309,6 +308,7 @@ html
         right: 0px
         top: 0
         .knote-date
+          display: none
           float: left
           padding-right: 7px
           span
@@ -317,17 +317,17 @@ html
         .archive
         .restore
           float: left
-          width: 18px
-          height: 18px
-          border-radius: 0 4px 0 50%
+          border-radius: 0 4px
           border-left: 1px solid #e9e9e9
           border-bottom: 1px solid #e9e9e9
           background-color: white
-          color: $gray
           display: block
+          padding: 2px 5px
+          color: $text-medium
+          font-size: 13px
           &:before
             vertical-align: top
-            font-size: 15px
+            font-size: 20px
             margin: 1px
           &:hover
             background-color: $brand-primary
@@ -335,14 +335,25 @@ html
           &.archived
             color: $text-dark
             border: none
+          i
+            padding-left: 3px
+            &:before
+              margin-right: 0
+
     .new-knote-title
-      padding: 0
+    .new-knote-body
+      padding-bottom: 5px
+
+    .new-knote-title
       width: 100%
       font-weight: 700
       border: none
       resize: none
       word-wrap: break-word
       font-size: 14px
+
+    .new-knote-body
+      display: none
 
     .knote-title
       font-size: 14px
@@ -357,18 +368,18 @@ html
       word-wrap: break-word
       resize: none
 
-    .new-knote-body
-      display: none
     .knote-body
       cursor: text
       line-height: 1.3
-      padding: 5px 0
       word-wrap: break-word
+      padding: 5px 0
       p
         margin: 0
     .post-btn-container
-      width: 100%
       height: 30px
+      position: absolute
+      right: 10px
+      bottom: 10px
       .post-button
         float: right
         font-size: 14px
@@ -384,6 +395,7 @@ html
         line-height: 15px
         position: relative
         z-index: 10
+        display: inline-block
         .edit-knote
           color: $gray
           cursor: pointer
@@ -394,6 +406,7 @@ html
           position: relative
         .attachment form
           line-height: 25px
+          height: 22px
         .contributors
           .contributor
             display: inline-block
@@ -408,8 +421,10 @@ html
       z-index: 11
       margin-left: 55px
       &.no-replies
-      &.archived-actions
         margin-left: 12px
+      &.archived-actions
+        right: 10px
+        left: initial
       .icon
         font-size: 18px
         color: #b4b4b4
@@ -417,17 +432,19 @@ html
         &:hover
           color: #424242
 
+    &.in-edit .pomodoro-container
+      display: none
     .pomodoro-container
       position: absolute
       right: 0
       bottom: 0
-      padding: 8px 6px
-      height: 13px
+      padding: 8px
+      height: 20px
       .pomodoro
         background: url(/images/tomato.png) no-repeat center
         background-size: contain
-        width: 15px
-        height: 15px
+        width: 20px
+        height: 20px
         cursor: pointer
         float: right
       .pomodoro.animate
@@ -435,7 +452,7 @@ html
         background-size: contain
       .pomodoro-time
         float: right
-        padding: 0 5px
+        padding: 5px
         .show
           display: block
         .hide
@@ -572,4 +589,10 @@ html
 
 .pad.currentDatePad
   .order
-    display: block
+    visibility: visible
+    transition: opacity 0.5s linear
+    opacity: 1
+  .sorting
+    .order
+      visibility: hidden
+      opacity: 0

@@ -86,8 +86,8 @@
   <div class="header padItem" data-subject="{{subject}}" data-id="{{_id}}">
     <div class="left-header">
       <a href="{{knotableLink}}" target="_blank" class="min-k-btn btn">k</a>
-      <div class="subject">
-        <span class="title">{{subject}}</span>
+      <div class="title">
+        <span class="subject">{{subject}}</span>
         {{> sharePadDropdown}}
       </div>
     </div>
@@ -124,8 +124,14 @@
   <div class="share-pad" data-id="{{_id}}">
     <div class="share-pad-btn {{#if unconfirmed}}unconfirmed{{/if}}">Share</div>
     <ul class="share-pad-dropdown">
-      <li class="share-invite"><div class="icon icon-k">k</div>Share in Knotable</li>
-      <li class="share-slack"><i class="icon icon-slack"></i>Post to Slack</li>
+      <li class="share-slack">
+        <div class="icon icon-slack"></div>
+        <div class="share-text">Share to Slack</div>
+      </li>
+      <li class="share-invite">
+        <div class="icon icon-mail"></div>
+        <div class="share-text">Share by email</div>
+      </li>
     </ul>
   </div>
 </template>
@@ -134,8 +140,14 @@
 
 <template name="settingDropdown">
   <ul id="setting-dropdown">
-    <li><a href="http://beta.knotable.com/settings" target="_blank"><i class="icon icon-info"></i>Knotable Settings</a></li>
-    <li><a href="#" class="logout"><i class="icon icon-logout"></i>Logout</a></li>
+    <li><a href="http://beta.knotable.com/settings" target="_blank">
+      <div class="icon icon-info"></div>
+      <div class="text">Knotable Settings</div>
+    </a></li>
+    <li><a href="#" class="logout">
+      <div class="icon icon-logout"></div>
+      <div class="text">Logout</div>
+    </a></li>
   </ul>
 </template>
 

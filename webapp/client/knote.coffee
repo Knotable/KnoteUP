@@ -62,7 +62,7 @@ Template.knote.events
     showImagePopup(url: imgUrl) if imgUrl
 
 
-  'click i.archive': (e, t) ->
+  'click .archive': (e, t) ->
     if not @isPosting and not @isFailed
       Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
       Meteor.setTimeout ->
@@ -71,7 +71,7 @@ Template.knote.events
 
 
 
-  'click i.restore': (e, t) ->
+  'click .restore': (e, t) ->
     Knotes.update @_id, $set: archived: false
     Meteor.setTimeout ->
       PadsListHelper.updateOrder(t, "archived")
@@ -79,13 +79,13 @@ Template.knote.events
 
 
 
-  'click i.edit-knote': (e, template) ->
+  'click .edit-knote': (e, template) ->
     if not @isPosting and not @isFailed
       template.controller.isEditing.set(true)
 
 
 
-  'click i.share-knote': (e, template) ->
+  'click .share-knote': (e, template) ->
     e.stopPropagation()
     title = template.$(".knote-title").val()
     text = template.$(".knote-body").text()

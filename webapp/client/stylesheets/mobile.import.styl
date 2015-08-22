@@ -35,6 +35,13 @@
     &::-webkit-scrollbar
       display: none
 
+    .header
+      .title
+        display: block !important
+
+      .divider:after
+        margin: 0 20px 5px 10px
+
     #header
       z-index: 200
       .user
@@ -42,7 +49,7 @@
       &.scrolling
         box-shadow: 0px 2px 12px -3px rgba(0,0,0,0.45)
       .left-header
-        padding-top: 12px
+        padding: 10px
         padding-right: 0
         .subject
           text-overflow: ellipsis
@@ -61,28 +68,61 @@
       #setting-dropdown
         top: 50px
         right: 10px
+
+    #header .share-pad-btn
+    .header .redirect-to-knotable
+    .header .subject
+      left: 10px
+
+    .header.padItem
+      .left-header
+        padding: 0
+      .min-k-btn
+        margin-left: 10px
+      .title
+        font-size: 14px
+        width: 70%
+        margin: 0
+        overflow: hidden
+        padding: 0
+
+    #header .share-pad .share-pad-dropdown
+    .share-pad .share-pad-dropdown
+      right: 0
+      left: auto
+
     .padList
       overflow-x: hidden
       .gutter
         display: none
-      .pad .knote
-        margin: 40px auto
+      .compose
         width: 100%
-        padding: 15px 0
+        margin-bottom: 0
+        margin-top: 30px
+        padding: 0
+        border: 1px solid white
+        .compose-wrapper
+          margin: 10px
+      .unarchived-knotes
+        margin-top: 30px
+      .knote
+        margin: 30px auto
+        width: 100%
+        padding: 20px 0
         .contact
           left: 8px
-          top: -17px
+          top: -13px
           .account-avatar
-            width: 26px
-            height: 26px
-            line-height: 26px
+            width: 23px
+            height: 23px
+            line-height: 23px
         .knote-title
           opacity: 1
           font-size: 14px
         .knote-header:hover
           background-color: initial
         .knote-content
-          padding: 0 10px
+          padding: 0 20px
         .knote-gutter
           .btn
             padding: 0px 8px
@@ -92,9 +132,9 @@
         .knote-replys
           padding: 0 10px
           .account-avatar
-            width: 26px
-            height: 26px
-            line-height: 26px
+            width: 23px
+            height: 23px
+            line-height: 23px
         .pomodoro-container
           right: 3px
           z-index: 999
@@ -105,19 +145,6 @@
             padding-right: 10px
             .btn
               padding: 0px 8px
-      .pad .compose
-        width: 100%
-        margin-bottom: 0
-        margin-top: 30px
-        padding: 0
-        border: 1px solid white
-        .compose-wrapper
-          margin: 10px
-
-    #header .share-pad-btn
-    .header .redirect-to-knotable
-    .header .subject
-      left: 10px
 
   .user-modal-container
     width: 90%
@@ -145,23 +172,3 @@
 
   .share-popup-centered-container
     width: 90%
-
-  .header.padItem
-    .subject
-      padding-left: 10px
-      .title
-        display: inline-block
-        max-width: calc(100% - 95px)
-        text-overflow: ellipsis
-        white-space: nowrap
-        overflow: hidden
-        vertical-align: middle
-      .share-pad
-        margin-left: 2px
-    .divider:after
-      margin: 0 20px 5px 10px
-
-  #header .share-pad .share-pad-dropdown
-  .share-pad .share-pad-dropdown
-    right: 0
-    left: auto

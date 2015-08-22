@@ -133,11 +133,9 @@
       handle: '.knote-header'
       placeholder: 'knote-placeholder'
       forcePlaceholderSize: true
-      helper: 'clone'
       appendTo: '.pad'
       update: (e, ui) ->
         PadsListHelper.updateOrder(ui.item, "moved")
-        #TopicsHelper.trackKnoteDraggingEvent(entityId)
       start: (e, ui) ->
         ui.item.addClass('sorting')
         Session.set('isKnoteDroppabe', true)
