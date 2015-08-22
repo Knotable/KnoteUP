@@ -154,14 +154,11 @@
   updateOrder: (target, type) ->
     if type == "moved"
       knote = Knotes.findOne target.data('id')
-      element = target
     if type == "posted"
       knote = Knotes.findOne target
-      element = $("[data-id='" + target + "']")
     if type == "archived"
       knote = target.data
-      element = $("[data-id='" + knote._id + "']")
-    $knotes = element.parents('.knote-list').find('.knote')
+    $knotes = $("[data-topic-id='" + knote.topic_id + "']")
     knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
     PadsListHelper.calcOrder(knote.topic_id, knotes, knote._id)
 
