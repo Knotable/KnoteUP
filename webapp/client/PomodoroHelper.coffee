@@ -1,52 +1,67 @@
-class PomodoroHelper
-  pomodoroTimers = {}
-  $favicon = null
-  $pageTitle = null
+class @PomodoroHelper
+  pomodoroWorker = null
+  tomatoSeconds = 25 * 60
 
-  stopPomodoro: (knoteId)->
+
+  stopPomodoro: ->
+    return unless Meteor.userId()
+    if pomodoroWorker
+      pomodoroWorker.terminate()
+      pomodoroWorker = null
+    $(@).trigger('stop')
+
+
+
+  startPomodoro: (knoteId) ->
     return unless Meteor.userId() and knoteId
-    if pomodoroTimers[knoteId]
-      clearTimeout(pomodoroTimers[knoteId])
-      delete pomodoroTimers[knoteId]
-      user = AppHelper.currentContact()
-      if user
-        $pageTitle?.text('Knoteup - ' + user.username)
-      else
-        $pageTitle?.text('Knoteup')
-      $favicon?.attr('href', '/favicon.ico')
+    time = @getPomodoroTime(knoteId)
+    setTimeout =>
+
+      pomodoroWorker = new Worker("/js/pomodoro_worker.js")
+      pomodoroWorker.onmessage = (event) =>
+        if event.data > time
+          $(@).trigger('flushing', s2Str(0))
+        else
+          $(@).trigger('running', s2Str(time - event.data) )
+    , 0
 
 
 
-  startPomodoro: (knoteId, $pomodoroTime, $pomodoro) ->
-    return unless Meteor.userId() and knoteId
-    $favicon = $('#favicon')
-    $pageTitle = $('title')
-    @stopPomodoro(knoteId)
-    return unless pomorodo = Knotes.findOne({_id: knoteId})?.pomodoro
-    pomodoroDate = moment(pomorodo.date).add(25, 'minutes')
-    updateView($pomodoroTime, moment.duration(moment(pomodoroDate).subtract(new Date())).asSeconds())
-    $favicon.attr('href', '/tomato-red.ico')
-    func = =>
-      time = moment.duration(moment(pomodoroDate).subtract(new Date())).asSeconds()
-      if time <= 0
-        Knotes.update {_id: knoteId}, {$unset: pomodoro: '' }
-        @stopPomodoro(knoteId)
-      else
-        updateView($pomodoroTime, time, $pomodoro)
-        pomodoroTimers[knoteId] = setTimeout func, 1000
-    pomodoroTimers[knoteId] = setTimeout func, 1000
+  getPomodoroTime: (knoteId) ->
+   if pomodoro = Knotes.findOne(_id: knoteId)?.pomodoro
+     return pomodoro.pauseTime if pomodoro.pauseTime
+     newTime = moment(pomodoro.date).add(tomatoSeconds, 'seconds')
+     if moment().isBefore(newTime)
+      return moment.duration(moment(newTime).subtract(new Date())).asSeconds()
+   0
 
 
 
-  updateView = ($pomodoroTime, pomodoroTime, $pomodoro) ->
-    time = s2Str(pomodoroTime)
-    $pomodoroTime?.html(time)
-    $pageTitle?.text("Knoteup - #{time}")
-    $pomodoro?.toggleClass('animate')
-    if $pomodoro?.hasClass('animate')
-      $favicon.attr('href', '/tomato-red.ico')
-    else
-      $favicon.attr('href', '/tomato.ico')
+  pomodoroPause: (knoteId) ->
+    return unless pomodoro = Knotes.findOne(_id: knoteId)?.pomodoro
+    time = @getPomodoroTime(knoteId)
+    pomodoro.pauseTime = time
+    Knotes.update {_id: knoteId}, {$set: {pomodoro: pomodoro} }
+
+
+
+  clickOnTomato: (knoteId) ->
+    if pomodoro = Knotes.findOne(_id: knoteId)?.pomodoro
+      if pomodoroWorker
+        return if pomodoro.pauseTime
+        return @pomodoroPause(knoteId) if @getPomodoroTime(knoteId) > 0
+        return Knotes.update {_id: knoteId}, {$unset: pomodoro: ''}
+      if pomodoro.pauseTime
+        newPomodoro =
+         userId: pomodoro.userId
+         date: moment().subtract(tomatoSeconds - pomodoro.pauseTime, 'seconds').toDate()
+        return Knotes.update {_id: knoteId}, {$set: pomodoro: newPomodoro }
+    return if pomodoroWorker
+    pomodoro =
+      userId: Meteor.userId()
+      date: new Date()
+    Knotes.update {_id: knoteId}, {$set: pomodoro: pomodoro }
+
 
 
   s2Str = (seconds) ->
@@ -57,5 +72,5 @@ class PomodoroHelper
 
 
 
-@pomodoroHelper = new PomodoroHelper()
+@pomodoroHelper = new @PomodoroHelper()
 
