@@ -81,5 +81,5 @@
 
   isUserEmailConfirmed: (user) ->
     return false unless user?.emails
-    if user?.emails.length > 0
+    if user.emails.length > 0
       user.emails[0].actived
