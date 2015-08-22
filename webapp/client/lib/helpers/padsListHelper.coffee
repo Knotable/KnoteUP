@@ -82,16 +82,6 @@
 
 
 
-  getNewKnoteOrder: () =>
-    messages = $('.latest-knotes .knote')
-    if messages.length
-      messages.sort (message1, message2) ->
-        return $(message1).data('order') - $(message2).data('order')
-      $(messages[0]).data('order') - 1
-    else
-      -1
-
-
   leftSideMessage: (template, type) ->
     return if !template.knotes
     unarchived = template.knotes.unarchived.length
@@ -146,7 +136,7 @@
       helper: 'clone'
       appendTo: '.pad'
       update: (e, ui) ->
-        PadsListHelper.updateOrder(ui.item)
+        PadsListHelper.updateOrder(ui.item, "dragged")
         #TopicsHelper.trackKnoteDraggingEvent(entityId)
       start: (e, ui) ->
         ui.item.addClass('sorting')
@@ -161,29 +151,30 @@
 
 
 
-  updateOrder: (card) ->
-    knote = Knotes.findOne card.data('id')
-    $messages = card.parents('.unarchived-knotes').find('.knote')
-    cards = _.map $messages, (ele)-> id: $(ele).data('id'), collection: 'knotes'
-    PadsListHelper.updateOrderForManualSortEx(knote.topic_id, cards, knote._id)
+  updateOrder: (target, type) ->
+    if type == "dragged"
+      knote = Knotes.findOne target.data('id')
+      element = target
+    if type == "posted"
+      knote = Knotes.findOne target
+      element = $("[data-id='" + target + "']")
+    $knotes = element.parents('.unarchived-knotes').find('.knote')
+    knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
+    PadsListHelper.calcOrder(knote.topic_id, knotes, knote._id)
 
 
 
-  updateOrderForManualSortEx: (topic_id, cards, targetId, container = 'main') ->
+  calcOrder: (topic_id, knotes, targetId, container = 'main') ->
     topic = Pads.findOne topic_id
     throw new Meteor.Error 500, "Topic not exist with " + topic_id  unless topic?
-    return if cards.length is 0
-    order = -cards.length
-    _.each cards, (c)->
+    return if knotes.length is 0
+    order = 1
+    _.each knotes, (k)->
       updateOption =
         order: order++
-      if c.id is targetId
+      if k.id is targetId
         updateOption.containerName = container
-      switch c.collection
-        when 'knotes'
-          Knotes.update({_id: c.id}, {$set: updateOption})
-        when 'date_events'
-          DateEvents.update({_id: c.id}, {$set: updateOption})
+      Knotes.update({_id: k.id}, {$set: updateOption})
 
 
 
