@@ -177,7 +177,7 @@
 
 
   knotesNumToText: (knotesNum) ->
-    words = ['','first','second','third','fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'nineth',
+    words = ['','first','second','third','fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth',
     'tenth', 'eleventh', 'twelveth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth']
     return words[knotesNum + 1]
 
