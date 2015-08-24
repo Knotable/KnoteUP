@@ -135,20 +135,23 @@
     total = unarchived + archived
     half = total / 2
     if total == 1
-      text = "That's a start"
+      text = "That's a start."
       image = "one"
     if total > 1
       text = "Yawn. Too easy."
       image = "more-one"
-    if total > 3
+    if total > 2
       text = "Not bad."
-      image = "more-three"
-      if total > 5
+      image = "more-two"
+      if total > 3
+        text = "Getting there.."
+        image = "more-three"
+      if total > 4
         text = "Let's get cracking!"
-        image = "more-five"
-      if total > 8
+        image = "more-four"
+      if total > 5
         text = "Wow. Busy!"
-        image = "more-eight"
+        image = "more-five"
       if archived >= half
         text = "In the zone."
         image = "half"
