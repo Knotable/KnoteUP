@@ -48,7 +48,7 @@ class ContentHelper
       #if parseInt(imgNode.width) > 400 and parseInt(imgNode.width) > 0
         #imgNode.height = imgNode.height / 400 * imgNode.width
         #imgNode.width = 400
-      span = createElement 'span', 'btn-close', 'contenteditable': false
+      span = createElement 'span', 'icon-cancel', 'contenteditable': false
 
       imgWrapper = createElement 'span', 'img-wrapper', 'contenteditable': false
       imgWrapper.appendChild span

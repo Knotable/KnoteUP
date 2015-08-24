@@ -105,6 +105,12 @@ Template.user_modal.events
       Session.set 'modal', false
 
 
+
+  'click .icon-cancel': (event) ->
+    Session.set 'modal', false
+
+
+
 Template.welcome_carousel.onRendered ->
   Meteor.setTimeout ->
     carousel = $(".owl-carousel")

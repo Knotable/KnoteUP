@@ -1,0 +1,69 @@
+<template name="header">
+  <div id="header" class="header">
+    <div class="right-header">
+      {{#if currentUser}}
+        <div class="user right-header-item">
+          {{#with currentContact}}
+            {{#if hasAvatar}}
+              <img class="account-avatar large account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
+            {{else}}
+              <span class="account-avatar large account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
+            {{/if}}
+          {{/with}}
+        </div>
+        {{> settings_dropdown}}
+        <div class="latest-share right-header-item">
+          {{#with latestPad}}
+            {{> share_dropdown}}
+          {{/with}}
+        </div>
+      {{else}}
+        {{#if hasKnotableLoginToken}}
+          <button class="btn login-button right-header-item" disabled="disabled">Logging in...</button>
+        {{else}}
+          <button class="btn login-button right-header-item">Login</button>
+        {{/if}}
+      {{/if}}
+    </div>
+    <div class="left-header">
+      <a href="#" target="_blank" class="btn redirect-to-knotable" tabindex='5'>k</a>
+      <div class="title" data-latest-id="{{latestPad._id}}">
+        {{contentEditableSubject}}
+      </div>
+      <i class='icon icon-edit show-compose invisible'></i>
+    </div>
+  </div>
+</template>
+
+
+
+<template name="share_dropdown">
+  <div class="share-pad" data-id="{{_id}}">
+    <div class="share-pad-btn {{#if unconfirmed}}unconfirmed{{/if}}">Share</div>
+    <ul class="share-pad-dropdown">
+      <li class="share-slack">
+        <div class="icon icon-slack"></div>
+        <div class="share-text">Share to Slack</div>
+      </li>
+      <li class="share-invite">
+        <div class="icon icon-mail"></div>
+        <div class="share-text">Share by email</div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+
+
+<template name="settings_dropdown">
+  <ul id="setting-dropdown">
+    <li><a href="http://beta.knotable.com/settings" target="_blank">
+      <div class="icon icon-info"></div>
+      <div class="text">Knotable Settings</div>
+    </a></li>
+    <li><a href="#" class="logout">
+      <div class="icon icon-logout"></div>
+      <div class="text">Logout</div>
+    </a></li>
+  </ul>
+</template>

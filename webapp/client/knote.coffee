@@ -271,22 +271,6 @@ Template.knote.helpers
 
 
 
-Template.participatorsAvatar.helpers
-  participators: ->
-    userAccountId = UserAccounts.findOne({user_ids: Meteor.userId()})?._id
-    accountIds = _.difference @pad.participator_account_ids, [userAccountId]
-    contacts = Contacts.find({belongs_to_account_id: {$in: accountIds}}).fetch()
-    userContact = Contacts.findOne({account_id: userAccountId, type: 'me'})
-    contacts.push userContact
-    return contacts
-
-
-
-Template.participatorsAvatar.events
-  'click .add-contact': (event, template) ->
-    $('.addContactPopup').lightbox_me(centered: true)
-
-
 
 Template.addContactPopupBox.events
   'click .add-new-users': (event, template) ->
@@ -300,4 +284,4 @@ Template.addContactPopupBox.events
         if error
           console.log 'ERROR: addContactsToThread', error
         else
-          template.$('a.btn-close').click()
+          template.$('.icon-cancel').click()

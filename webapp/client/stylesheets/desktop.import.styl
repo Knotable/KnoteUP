@@ -193,7 +193,7 @@ html
       color: #28ace8
 
 #setting-dropdown
-  top: 50px
+  top: 55px
   right: 18px
 
 .pad:not(.currentDatePad)
@@ -346,7 +346,8 @@ html
 
     .new-knote-title
       width: 100%
-      font-weight: 700
+      color: $text-dark
+      font-weight: 600
       border: none
       resize: none
       word-wrap: break-word
@@ -357,9 +358,9 @@ html
 
     .knote-title
       font-size: 14px
-      color: #424242
+      color: $text-dark
       line-height: 17px
-      font-weight: 700
+      font-weight: 600
       cursor: text
       border: none
       padding: 0
@@ -493,8 +494,6 @@ html
             opacity: 1
           &:last-of-type
             padding-bottom: 20px
-          .account-avatar
-            cursor: initial
           .readmore-tip
             display: none
             line-height: 12px
@@ -545,15 +544,13 @@ html
           width: 25px
           height: 25px
           box-shadow: none
+          cursor: initial
         .username
           position: absolute
           left: 40px
           line-height: 9px
           display: block
           font-size: 10px
-        .account-avatar.small
-          width: 20px
-          height: 20px
 
     & .knote-compose-popup-cn
         display: none

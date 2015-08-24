@@ -1,0 +1,34 @@
+<template name="pad">
+  <div class="header padItem" data-subject="{{subject}}" data-id="{{_id}}">
+    <div class="left-header">
+      <a href="{{knotableLink}}" target="_blank" class="min-k-btn btn">k</a>
+      <div class="title">
+        <span class="subject">{{subject}}</span>
+        {{> share_dropdown}}
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="right-header"></div>
+  </div>
+  <div class="pad">
+    <div class="pad-container">
+      <div class="knote-list">
+        <div class="left-gutter gutter">
+          <div class="message {{leftImage}}">
+            {{leftText}}
+          </div>
+        </div>
+        <div class="unarchived-knotes">
+          {{#each knotes.unarchived}}
+            {{> knote}}
+          {{/each}}
+        </div>
+        <div class="archived-knotes">
+          {{#each knotes.archived}}
+            {{> knote}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

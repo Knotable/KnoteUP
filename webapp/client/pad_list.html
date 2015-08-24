@@ -1,0 +1,70 @@
+<Template name="pad_list">
+  <div id="container">
+    {{> header}}
+    <div class="padList">
+      <div class="pad currentDatePad">
+        <div class="compose compose-popup files_holder" id="compose-popup">
+          <div class="compose-wrapper">
+            <div contenteditable="true" class="new-knote-title" placeholder="{{composePlaceholder}}" tabindex="1" spellcheck="false"></div>
+            <div class="clearfix"></div>
+            <div id="message-textarea" contenteditable="true" class="new-knote-body file-container" spellcheck="false" tabindex="2"></div>
+            <div class="post-btn-container">
+              <input type="button" class="btn my-btn post-button" value="Post" tabindex="3" disabled>
+              <div class="attachment">
+                {{> file_upload}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pad-container">
+          {{#with latestPad}}
+            <div class="left-gutter gutter"></div>
+            <div class="knote-list latest-knotes">
+              <div class="unarchived-knotes">
+                <div class="message {{leftImage}}">
+                  {{leftText}}
+                </div>
+                {{#each knotes.unarchived}}
+                  {{> knote}}
+                {{/each}}
+              </div>
+              <div class="archived-knotes">
+                {{#each knotes.archived}}
+                  {{> knote}}
+                {{/each}}
+              </div>
+            </div>
+            <div class="right-gutter gutter"></div>
+          {{/with}}
+        </div>
+      </div>
+
+      {{#each restPads}}
+        {{> pad}}
+      {{/each}}
+
+    </div>
+  </div>
+</template>
+
+
+
+<Template name="sel_text_menu">
+  <div id="sel-text-menu" class="sel-arrow-down">
+    <ul class='clearfix'>
+      <li><button data-menu="bold"><span class="bold">B</span></button></li>
+      <li><button data-menu="italic"><span class="italic">I</span></button></li>
+      <li><button data-menu="highlight"><span class="highlight">H</span></button></li>
+      <!--<li><button data-menu="unhighlight">Unlight</button></li> think this is subset of tx -->
+      <!--<li><button data-menu="clip"><i class="fa fa-quote-left"></i>Q<i class="fa fa-quote-right"></i></button></li> rm clip until we make it look nice and work well -->
+      <!--<li><button data-menu="comment"><i class="fa fa-comment"></i><span>A</span></button></li> commenting isn't working at the moment and its errors are creating problems-->
+      <li><button data-menu="tx"><i class="fa fa-tx"></i><span>Tx</span></button></li>
+    </ul>
+  </div>
+</Template>
+
+
+
+<Template name="contentEditable">
+  <div {{attributes}}>{{encodedValue}}</div>
+</Template>

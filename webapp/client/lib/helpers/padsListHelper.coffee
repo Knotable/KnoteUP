@@ -3,6 +3,52 @@
 
 
 @PadsListHelper =
+
+  scrollAction: ->
+    currentScroll = $('.padList').scrollTop()
+    sharePadBtn = $('#header .share-pad')
+
+    if currentScroll > 0
+      $('#header').addClass('scrolling')
+    else
+      $('#header').removeClass('scrolling')
+
+    if currentScroll > 180
+      $('.show-compose').removeClass("invisible")
+    else
+      $('.show-compose').addClass("invisible")
+
+    $currentPadItem = $('.padItem').filter( ->
+      $pad = $(@)
+      top = 80
+      $pad.position().top < top
+    ).last()
+
+    if $currentPadItem.length
+      subject = $currentPadItem.data('subject')
+      id = $currentPadItem.data('id')
+      sharePadBtn.show()
+    else
+      subject = PadsListHelper.todaySubject()
+      id = $('#header .title').data('latest-id')
+      unless id
+        sharePadBtn.hide()
+    $('#header .subject').text subject
+    $('#header .share-pad').attr 'data-id', id
+    $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(id)
+
+
+
+  todaySubject: ->
+    user = AppHelper.currentContact()
+    date = moment().format "MMM Do"
+    if user
+      return user.username + '\'s Knoteup for ' + date
+    else
+      return date
+
+
+
   storeEditedContent: (editKnote) ->
     amplify.store "knote", editKnote
 

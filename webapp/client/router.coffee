@@ -18,7 +18,7 @@ Router.configure
 Router.map ->
   @route "activateToken",
     path: '/activate/:user_id/:token'
-    template: 'padsList'
+    template: 'pad_list'
     layoutTemplate: "layout"
     onBeforeAction: [ activateUserFilter ]
 
@@ -26,7 +26,7 @@ Router.map ->
 
   @route 'pads',
     path: '/(.*)'
-    template: 'padsList'
+    template: 'pad_list'
     layoutTemplate: 'layout'
     data: ->
       S3Credentials.requestCredentials()

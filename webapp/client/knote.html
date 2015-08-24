@@ -9,7 +9,11 @@
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
       {{#with contact}}
         <div class="contact">
-          {{> contactAvatar}}
+          {{#if hasAvatar}}
+            <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
+          {{else}}
+            <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
+          {{/if}}
         </div>
       {{/with}}
       <div class="knote-header-right">
@@ -83,34 +87,10 @@
 
 
 
-<template name="participatorsAvatar">
-  <div class="participator add-participator">
-    <span class="add-contact account-avatar account-avatar-current">Add</span>
-  </div>
-
-  {{#each participators}}
-    <div class="participator">
-      {{> contactAvatar}}
-    </div>
-  {{/each}}
-</template>
-
-
-
-<template name="contactAvatar">
-  {{#if hasAvatar}}
-    <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
-  {{else}}
-    <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
-  {{/if}}
-</template>
-
-
-
 <template name="addContactPopupBox">
   <div class="addContactPopup">
     <div class="popup popup-container">
-      <a class="btn-close close"></a>
+      <a class="icon-cancel close"></a>
       <div class="add-new-users-container">
         Add email addresses:
         <div>
