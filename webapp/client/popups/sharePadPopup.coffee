@@ -59,7 +59,7 @@ Template.sharePadPopup.helpers
       return availableContacts
     else
       [] # Guest use
-    
+
 
   showPlaceholder: ->
     selectedEmails = EJSON.parse(Session.get('SelectedContactsInThreadPopupList') || '[]')
@@ -69,7 +69,7 @@ Template.sharePadPopup.helpers
 
 Template.sharePadPopup.onRendered ->
   showPlaceholder(true)
-  
+
   @find('.shared-url')?.select()
 
   ZeroClipboard.prototype._singleton = null
@@ -114,11 +114,12 @@ Template.sharePadPopup.events
 
     Meteor.remoteConnection.call 'addContactsToThread', template.data.padId, emails, {message: message}, (error, result) ->
       if error
-        showWarningMessage 'Add contact to pad failed. Please try again later.'
+        showWarningMessage 'Sharing by email failed! Please try again later.'
         console.log 'ERROR: addContactsToThread', error
       else
         SharePadPopup.activeInstance.close()
-        showSuccessMessage 'Shared in Knotable.'
+        emails = emails.join(', ')
+        showSuccessMessage 'Shared with ' + emails
 
 
 
