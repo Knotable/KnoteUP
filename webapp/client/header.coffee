@@ -93,9 +93,14 @@ Template.share_dropdown.events
     pad = Pads.findOne _id: topicId
     padUrl = UrlHelper.getPadUrlFromId topicId
     knotes = Knotes.find(topic_id: topicId, archived: $ne: true).fetch()
+    getKnoteFilesList = (knote) ->
+      $knote = $('.knote[data-id="' + knote._id + '"]')
+      $files = $knote.find('a[file_id]')
+      $titles = $files.map (index, file) -> $(file).attr('title')
+      $titles.get().join ', ' or 'knote'
     text = ''
     for knote, i in knotes
-      text += (i+1) + '. ' + knote.title + '\n'
+      text += (i+1) + '. ' + if knote.title then knote.title + '\n' else getKnoteFilesList(knote) + '\n'
     new SharePopup(
       authorName: pad.subject
       authorLink: padUrl
