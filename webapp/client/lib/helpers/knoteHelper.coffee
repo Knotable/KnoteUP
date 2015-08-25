@@ -219,7 +219,6 @@ displayEmbedLinks = (links, options = {}, callback) ->
       options = null
     return callback(null, content: '') unless $editor.length
     $el = $editor.clone()
-    #CommentsHighlighter.getInstance().unhighlight($el)
     #Usertag.cleanUp $el
     contentHelper.linkifyDOM $el[0]
     KnoteHelper.embedLink $el[0], options, (err) =>

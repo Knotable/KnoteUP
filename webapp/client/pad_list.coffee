@@ -44,16 +44,6 @@ Template.pad_list.helpers
 
 
 Template.pad_list.events
-  'mouseup #container' :(e)->
-    elem = $(document)
-    if elem.data('isHighLighting')
-      elem.data('isHighLighting',false)
-      ###
-      HighLighter.init()
-      HighLighter.togglePopupHighlightMenu(e)
-      ###
-
-
 
   'keydown .new-knote-title': (event, template) ->
     PadsListHelper.moveFocusToBodyIfNecessary(event, template)
@@ -107,39 +97,6 @@ Template.pad_list.events
       $('#header .share-pad').show()
       PadsListHelper.resetEditedContent()
     $postButton.attr('disabled', false)
-
-
-
-  'click #sel-text-menu button': ->
-    return false
-
-
-
-  'mousedown #sel-text-menu button': (e) ->
-    #keep menu opened after first click on buttons
-    $selTextMenu = $(e.currentTarget).closest('div')
-    status = $selTextMenu.data('status')
-    if status == "trigger"
-      $selTextMenu.data('status', "")
-      $selTextMenu.fadeOut "fast"
-      return false
-    $selTextMenu.data('status', "trigger")
-
-    command = $(e.currentTarget).data("menu")
-    switch command
-      when "bold"
-        HighLighter.applyBoldToSelection(e)
-      when "italic"
-        HighLighter.applyItalicToSelection(e)
-      when "highlight"
-        HighLighter.applyToSelection(e)
-      when "tx"
-        HighLighter.clearFormatToSelection(e)
-      else
-        console.log "can't hold these."
-
-    $selTextMenu.fadeOut "fast"
-    return false
 
 
 

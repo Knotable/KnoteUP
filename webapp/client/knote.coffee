@@ -154,18 +154,6 @@ Template.knote.events
 
 
 
-  'mouseup .knote-body, mouseup .knote-title': (e, template) ->
-    if template.controller.isEditing.get() and HighLighter.hasSelection()
-      HighLighter.init()
-      HighLighter.togglePopupHighlightMenu(e)
-
-
-
-  'mousedown .knote-body, mousedown .knote-title': (e) ->
-    $(document).data('isHighLighting',true)
-
-
-
   'keydown .knote': (e, template) ->
     KnoteHelper.processSavingOnCtrlEnterAction(template.$('.btn-save'), e)
 

@@ -21,7 +21,6 @@ http
 language-tools
 mrt:jquery-ui@1.9.2
 edgee:slingshot
-timdown:rangy
 duongthienduc:meteor-bootstrap-growl
 richsilv:owl-carousel
 mrt:cookies
