@@ -72,7 +72,8 @@ Template.pad_list.events
 
 
   'click .post-button': (e, template) ->
-    $postButton = $(e.currentTarget).attr('disabled', true)
+    $postButton = template.$('.post-button')
+    $postButton.attr('disabled', true)
     subject = $("#header .subject").text()
     $newTitle = template.$(".new-knote-title")
     $newBody = template.$(".new-knote-body")
@@ -96,7 +97,6 @@ Template.pad_list.events
       $newTitle.html('').focus()
       $('#header .share-pad').show()
       PadsListHelper.resetEditedContent()
-    $postButton.attr('disabled', false)
 
 
 
