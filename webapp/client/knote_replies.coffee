@@ -90,7 +90,7 @@ Template.knote_replies.events
 
 
 
-  "click .knote-replys li .btn-close": (e) ->
+  "click .icon-trash": (e) ->
     ele = $(e.target)
     id = $(e.currentTarget).parents('li').attr('data-id')
     knote_id = $(e.currentTarget).parents('.knote-reply-cn').attr('data-id')

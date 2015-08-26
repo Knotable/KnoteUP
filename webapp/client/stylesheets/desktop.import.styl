@@ -456,7 +456,6 @@ html
         color: #b4b4b4
 
     .knote-reply-wrapper
-      overflow: hidden
       width: 100%
       .knote-reply-actions
         width: 100%
@@ -472,9 +471,6 @@ html
         li
           padding-bottom: 10px
           position: relative
-          &:hover
-            .btn-close
-              display: block
           &.need-readmore .reply-body
             margin-bottom: 5px
             overflow: hidden
@@ -490,17 +486,19 @@ html
             line-height: 12px
             padding-left: 39px
             margin-top: -10px
-          .btn-close
-            top: 0
-            right: 0
-            display: none
-            font-size: 10px
-            color: $gray-light
+          .icon-trash
+            top: 8px
+            right: -8px
+            position: absolute
+            font-size: 15px
+            cursor: pointer
+            color: $gray
+            opacity: 0.5
             background: none
             line-height: 9px
             width: initial
             &:hover
-              color: $gray
+              color: $gray-dark
           .fa-refresh
             top: 6px
             right: 6px
@@ -526,6 +524,7 @@ html
         .reply-body
           padding-left: 40px
           padding-top: 10px
+          padding-right: 15px
           box-sizing: content-box
           word-wrap: break-word
         .account-avatar
