@@ -160,6 +160,13 @@ displayEmbedLinks = (links, options = {}, callback) ->
       name: 'Onedrive'
 
 
+  togglePost: (t, input) ->
+    $post = t.$('.post-button')
+    if $.trim(input)
+      $post.attr('disabled', false)
+    else
+      $post.attr('disabled', true)
+
 
   # embed.ly
   # API usage: https://github.com/embedly/embedly-jquery/
@@ -269,7 +276,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
   postReplyMessage: ($target) ->
     btnText = $target.val()
-    el = $target.parents('.knote-compose-popup-cn').find(".reply-message-textarea").clone()[0]
+    el = $target.parents('.knote-compose-popup-cn').find(".reply-compose-textarea").clone()[0]
     knote_id = $target.parents('.knote-compose-popup-cn').prev('.knote-reply-cn').attr('data-id')
     knote_id = $target.parents('.knote-compose-popup-cn').attr('data-id') unless knote_id
     replyDisplaying = $target.parents('.knote-compose-popup-cn').prev('.knote-reply-cn').find('.knote-reply-wraper').attr('data-reply-displaying')
@@ -282,7 +289,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
 
     KnoteHelper.embedLink el, {inlineLinks: true}, (err) =>
       body = $(el).html()
-      $(".reply-message-textarea").html("")
+      $(".reply-compose-textarea").html("")
       knotableConnection.call 'add_reply_message', knote_id, body, (e) ->
         console.log e if e
         ###

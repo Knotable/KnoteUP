@@ -142,8 +142,10 @@ Template.knote_replies.events
 
 ## Knote Reply Compose Template
 #
+
+
 Template.knote_reply_compose.events
-  "keydown .reply-message-textarea": (e) ->
+  'keydown .reply-compose-textarea': (e) ->
     code = e.keyCode || e.which;
     if code == 9
       ele=$(e.currentTarget)
@@ -155,33 +157,20 @@ Template.knote_reply_compose.events
 
 
 
-  ###
-  'keyup .reply-message-textarea': (e) ->
-    TopicsHelper.autoSaveEditingTopic({type: "commentsDraft", id: @_id , body: $(e.target).html()})
-    KnotesHelper.listenToMentions(e)
+  'keyup .reply-compose-textarea': (e, t) ->
+    KnoteHelper.togglePost(t, $(e.currentTarget).text())
 
 
 
-  'keydown .reply-message-textarea': (e) ->
-    KnotesHelper.listenToMentions(e)
+  'paste .reply-compose-textarea': AppHelper.pasteAsPlainTextEventHandler
 
 
 
-  'keyup .reply-message-textarea.reply': (e) ->
-    TopicsHelper.autoSaveEditingTopic({type: "comments", id: @replyId, body: $(e.target).html()})
-  ###
+  'paste .reply-compose-textarea.reply': AppHelper.pasteAsPlainTextEventHandler
 
 
 
-  'paste .reply-message-textarea': AppHelper.pasteAsPlainTextEventHandler
-
-
-
-  'paste .reply-message-textarea.reply': AppHelper.pasteAsPlainTextEventHandler
-
-
-
-  "click .reply-new-message": (e) ->
+  "click .post-button": (e) ->
     $ele = $(e.target)
     $knote = $ele.closest('.knote')
     replyCompose = $knote.find('.knote-compose-popup-cn')
@@ -196,7 +185,7 @@ Template.knote_reply_compose.events
   "click .reply-cancel": (e) ->
     $knote = $(e.target).closest('.knote')
     replyCompose = $knote.find('.knote-compose-popup-cn')
-    replyText = $knote.find('.reply-message-textarea')
+    replyText = $knote.find('.reply-compose-textarea')
     replyText.html('')
     replyCompose.slideToggle ->
       $knote.find('.knote-actions').show()

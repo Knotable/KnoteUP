@@ -143,7 +143,7 @@ Template.knote.events
     knote.find('.pomodoro-container')?.hide()
     composePopup.slideToggle()
     setTimeout ->
-      composePopup.find('.reply-message-textarea').focus()
+      composePopup.find('.reply-compose-textarea').focus()
     , 500
 
 
