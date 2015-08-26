@@ -57,8 +57,8 @@
   restoreEditedContent: ->
     storedKnote = amplify.store("knote")
     return if _.isEmpty storedKnote
-    $(".new-knote-title").html(storedKnote.title)
-    $(".new-knote-body").html(storedKnote.body).show() unless _.isEmpty(storedKnote.body)
+    $(".compose .knote-title").html(storedKnote.title)
+    $(".compose .knote-body").html(storedKnote.body).show() unless _.isEmpty(storedKnote.body)
 
 
 
@@ -90,7 +90,7 @@
       titleText = $(jQueryEvent.currentTarget).text()
       content = PadsListHelper.splitKnoteTitle titleText
       if content.bodyText
-        body = templateInstance.find('.new-knote-body, .knote-body')
+        body = templateInstance.find('.knote-body')
         PadsListHelper.insertContentIntoTitleAndBody jQueryEvent.currentTarget, body, content
 
 
@@ -123,7 +123,7 @@
     if jQueryEvent.keyCode is 13 or jQueryEvent.keyCode is 10
       jQueryEvent.preventDefault()
       text = $(jQueryEvent.currentTarget).text()
-      templateInstance.$('.new-knote-body, .knote-body').removeClass('hidden').show().focus() unless _.isEmpty(text)
+      templateInstance.$('.knote-body').removeClass('hidden').show().focus() unless _.isEmpty(text)
       return false
 
 
@@ -198,13 +198,9 @@
 
 
 
-  updateOrder: (target, type) ->
-    if type == "moved"
-      knote = Knotes.findOne target.data('id')
-    if type == "posted"
-      knote = Knotes.findOne target
-    if type == "archived"
-      knote = target.data
+  updateOrder: (target) ->
+    knote = Knotes.findOne target.data('id')
+    return if !knote
     $knotes = $("[data-topic-id='" + knote.topic_id + "']")
     Session.set 'knotesNum', $knotes.length
     knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'

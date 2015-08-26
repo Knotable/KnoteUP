@@ -8,7 +8,7 @@
           {{#with latestPad}}
             <div class="left-gutter gutter"></div>
             <div class="knote-list latest-knotes">
-              <div class="unarchived-knotes">
+              <div class="unarchived-knotes knotes">
                 <div class="message {{leftImage}}">
                   {{leftText}}
                 </div>
@@ -16,7 +16,7 @@
                   {{> knote}}
                 {{/each}}
               </div>
-              <div class="archived-knotes">
+              <div class="archived-knotes knotes">
                 {{#each knotes.archived}}
                   {{> knote}}
                 {{/each}}

@@ -1,3 +1,5 @@
+
+
 Template.pad_list.onRendered ->
   $knotes = $('.currentDatePad .knote')
   Session.set 'knotesNum', $knotes.length
@@ -6,7 +8,15 @@ Template.pad_list.onRendered ->
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
-  @find('.currentDatePad .knote-list')?._uihooks = AnimationHooks.moveKnote
+  knoteLists = document.querySelectorAll('.knotes')
+  [].forEach.call(knoteLists, (knotes) ->
+    knotes._uihooks =
+      insertElement: (node, next) ->
+        $(node).insertBefore(next)
+        Deps.afterFlush(->
+          PadsListHelper.updateOrder($(node))
+        )
+    )
 
   unless window.isMobile
     PadsListHelper.initKnoteDraggable()

@@ -32,7 +32,7 @@ Template.header.events
 
   'click .show-compose': ->
     $(".padList").animate {scrollTop: 0}, 600
-    $('.new-knote-title').focus()
+    $('.compose .knote-title').focus()
 
 
 
@@ -43,8 +43,8 @@ Template.header.events
 
   'click .login-button': (event, template) ->
     return if Meteor.userId()
-    title = template.$(".new-knote-title").html()
-    body = template.$(".new-knote-body").html()
+    title = $(".compose .knote-title").html()
+    body = $(".compose .knote-body").html()
     editKnote =
       title: title
       body: body

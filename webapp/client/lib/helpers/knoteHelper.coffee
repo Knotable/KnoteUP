@@ -328,7 +328,6 @@ displayEmbedLinks = (links, options = {}, callback) ->
     addKnote = ->
       Meteor.remoteConnection.call 'add_knote', requiredKnoteParameters, optionalKnoteParameters, (error, knoteId) ->
         return deferred.reject(error) if error
-        PadsListHelper.updateOrder(knoteId, "posted")
         deferred.resolve(knoteId)
 
     if requiredKnoteParameters.topic_id

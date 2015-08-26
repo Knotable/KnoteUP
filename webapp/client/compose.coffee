@@ -1,6 +1,6 @@
 Template.compose.onRendered ->
   PadsListHelper.restoreEditedContent()
-  @$('.post-button').attr('disabled', false) if @$(".new-knote-title").text().length
+  @$('.post-button').attr('disabled', false) if @$(".knote-title").text().length
   $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
 
 
@@ -16,23 +16,23 @@ Template.compose.helpers
 
 Template.compose.events
 
-  'keydown .new-knote-title': (e, t) ->
+  'keydown .knote-title': (e, t) ->
     PadsListHelper.moveFocusToBodyIfNecessary(e, t)
-    
 
 
-  'keyup .new-knote-title': (e, t) ->
+
+  'keyup .knote-title': (e, t) ->
     PadsListHelper.listenToTitleInput e, t
     KnoteHelper.togglePost(t, $(e.currentTarget).text())
     PadsListHelper.resetEditedContent()
 
 
 
-  'paste .new-knote-title': PadsListHelper.listenToTitlePaste
+  'paste .knote-title': PadsListHelper.listenToTitlePaste
 
 
 
-  'paste .new-knote-body': AppHelper.pasteAsPlainTextEventHandler
+  'paste .knote-body': AppHelper.pasteAsPlainTextEventHandler
 
 
 
@@ -40,8 +40,8 @@ Template.compose.events
     $postButton = $(e.currentTarget)
     $postButton.attr('disabled', true)
     subject = $("#header .subject").text()
-    $newTitle = t.$(".new-knote-title")
-    $newBody = t.$(".new-knote-body")
+    $newTitle = t.$(".knote-title")
+    $newBody = t.$(".knote-body")
     title = $newTitle.text()
     body = $newBody.html()
 
