@@ -26,6 +26,8 @@ class @SharePadPopup
 
 
   close: ->
+    Session.set 'SelectedContactsInThreadPopupList', null
+    $('#share-emails .contact-item').removeAttr('data-email')
     @$popup.trigger 'close'
 
 
@@ -89,7 +91,7 @@ Template.sharePadPopup.onRendered ->
 
 
 Template.sharePadPopup.events
-  'click #shareEmails': (e)->
+  'click #share-emails': (e)->
     $newEmail = $(e.currentTarget).find('#NewEmail')
     $newEmail.focus()
     showPlaceholder(false)
@@ -119,7 +121,9 @@ Template.sharePadPopup.events
       else
         SharePadPopup.activeInstance.close()
         emails = emails.join(', ')
-        showSuccessMessage 'Shared with ' + emails
+        showSuccessMessage 'Shared with ' + emails,
+          duration: -1
+          showOk: true
 
 
 

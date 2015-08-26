@@ -13,11 +13,11 @@
         </div>
         <div class="share-view">
           <div class="inner-conatiner">
-            <div id="shareEmails">
-              {{#if showPlaceholder}}  <span class="placeholder">Email or username</span> {{/if}}
-              {{#each selectedContacts}}
+            <div id="share-emails">
+              {{#if showPlaceholder}} <span class="placeholder">Email or username</span> {{/if}}
+                {{#each selectedContacts}}
                   {{> contactTab}}
-              {{/each}}
+                {{/each}}
               {{> search_contacts}}
             </div>
             <div><textarea name="" id="" cols="30" rows="10" placeholder="Message (optional)" class="share-message"></textarea></div>
