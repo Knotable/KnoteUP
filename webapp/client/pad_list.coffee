@@ -8,14 +8,19 @@ Template.pad_list.onRendered ->
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
-  knoteLists = document.querySelectorAll('.knotes')
-  [].forEach.call(knoteLists, (knotes) ->
+  currentKnotes = document.querySelectorAll('.currentDatePad .knotes')
+  [].forEach.call(currentKnotes, (knotes) ->
     knotes._uihooks =
       insertElement: (node, next) ->
         $(node).insertBefore(next)
         Deps.afterFlush(->
           PadsListHelper.updateOrder($(node))
         )
+
+      removeElement: (node) ->
+        topic_id = $(node).data('topicId')
+        $(node).remove()
+        PadsListHelper.updateOrder(null, topic_id)
     )
 
   unless window.isMobile

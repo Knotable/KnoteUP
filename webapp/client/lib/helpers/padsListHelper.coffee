@@ -198,25 +198,29 @@
 
 
 
-  updateOrder: (target) ->
-    knote = Knotes.findOne target.data('id')
-    return if !knote
-    $knotes = $("[data-topic-id='" + knote.topic_id + "']")
+  updateOrder: (target, topicId) ->
+    if target
+      knote = Knotes.findOne target.data('id')
+      return if !knote
+      topicId = knote.topic_id
+      knoteId = knote._id
+    return if !knote and !topicId
+    $knotes = $("[data-topic-id='" + topicId + "']")
     Session.set 'knotesNum', $knotes.length
     knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
-    PadsListHelper.calcOrder(knote.topic_id, knotes, knote._id)
+    PadsListHelper.calcOrder(topicId, knotes, knoteId)
 
 
 
-  calcOrder: (topic_id, knotes, targetId, container = 'main') ->
-    topic = Pads.findOne topic_id
-    throw new Meteor.Error 500, "Topic not exist with " + topic_id  unless topic?
+  calcOrder: (topicId, knotes, knoteId, container = 'main') ->
+    topic = Pads.findOne topicId
+    throw new Meteor.Error 500, "Topic not exist with " + topicId  unless topic?
     return if knotes.length is 0
     order = 1
     _.each knotes, (k)->
       updateOption =
         order: order++
-      if k.id is targetId
+      if k.id is knoteId
         updateOption.containerName = container
       Knotes.update({_id: k.id}, {$set: updateOption})
 

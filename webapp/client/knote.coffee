@@ -170,11 +170,9 @@ Template.knote.events
       $thumbBox.hide().addClass('file-archiving')
 
 
+
   'click .delete-knote': (e, t) ->
     KnoteHelper.deleteKnote @_id
-    Meteor.setTimeout ->
-      PadsListHelper.updateOrder(t, "archived")
-    , 500
 
 
 
