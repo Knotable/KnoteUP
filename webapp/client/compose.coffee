@@ -1,6 +1,7 @@
 Template.compose.onRendered ->
   PadsListHelper.restoreEditedContent()
   @$('.post-button').attr('disabled', false) if @$(".new-knote-title").text().length
+  $('#compose-popup').on 'keydown', KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, @$('.post-button'))
 
 
 
@@ -17,10 +18,7 @@ Template.compose.events
 
   'keydown .new-knote-title': (e, t) ->
     PadsListHelper.moveFocusToBodyIfNecessary(e, t)
-    KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, t.$('.post-button'))
-
-  'keydown .new-knote-body': (e, t) ->
-    KnoteHelper.processSavingOnCtrlEnterAction.bind(KnoteHelper, t.$('.post-button'))
+    
 
 
   'keyup .new-knote-title': (e, t) ->
