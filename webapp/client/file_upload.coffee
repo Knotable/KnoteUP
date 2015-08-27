@@ -292,6 +292,12 @@ initFileuploader = ($form, options) ->
                   $thumbBoxes.removeClass "process-thumb"
                   $thumbBoxes.find('.upload-progress').remove()
                   $('.post-new-knote').removeAttr('disabled')
+                  # If knote is already posted, update it
+                  $knote = $thumbBoxes.parents('.knote-reply-cn')
+                  if $knote.length
+                    knoteId = $knote.attr 'data-id'
+                    newBody = $knote.find('.knote-body').html()
+                    Knotes.update knoteId, $set:{htmlBody: newBody}
               else
                 $thumbBoxes.find('.upload-progress').remove()
                 $file = $thumbBoxes.find(".img-wrapper .thumb")
@@ -299,7 +305,14 @@ initFileuploader = ($form, options) ->
                 $file.append("<a href='#{fileURL}' class='file embedded-link' title='#{fileName}' target='_blank' file_id='#{fileId}'>#{fileImage}</a>")
                 popUploadVar file_id
                 $('.post-new-knote').removeAttr('disabled')
+                # If knote is already posted, update it
+                $knote = $thumbBoxes.parents('.knote-reply-cn')
+                if $knote.length
+                  knoteId = $knote.attr 'data-id'
+                  newBody = $knote.find('.knote-body').html()
+                  Knotes.update knoteId, $set: {htmlBody: newBody}
               $thumbBoxes.find('input[name=file_ids]').val(fileId)
+
 
             knotableConnection.subscribe 'fileById', fileId
           return
