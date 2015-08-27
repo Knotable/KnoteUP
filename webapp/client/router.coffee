@@ -50,7 +50,6 @@ Router.map ->
       }
 
     waitOn: ->
-      Meteor.remoteConnection.subscribe 'user'
       if Meteor.userId()
         [
           Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
