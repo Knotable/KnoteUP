@@ -230,7 +230,7 @@ initFileuploader = ($form, options) ->
               $('.knote.in-edit').length
 
       $composePopup = $(event.target).closest('#compose-popup')
-      $composePopup.find('#message-textarea')?.show() if $composePopup
+      $composePopup.find('.knote-body')?.show() if $composePopup
 
       file = data.files[0]
       fileName = FileHelper.cleanFileName file.name
