@@ -21,27 +21,6 @@ userIdKey = ".userId"
 
 
 
-unstoreLoginToken = ->
-  Meteor._localStorage.removeItem 'Meteor' + userIdKey
-  Meteor._localStorage.removeItem 'Meteor' + loginTokenKey
-  Meteor._localStorage.removeItem 'Meteor' + loginTokenExpiresKey
-
-
-
-makeClientLoggedOut = ->
-  unstoreLoginToken()
-  knoteupConnection.setUserId null
-  knoteupConnection.onReconnect = null
-
-
-
-Meteor.startup ->
-  knoteupConnection.logout = ->
-    knoteupConnection.apply 'logout', [], {wait: true}, ->
-      makeClientLoggedOut()
-
-
-
 do ->
   #log in knotable automatically when there are login cookies
   key = amplify.store 'Knotable' + loginTokenKey
