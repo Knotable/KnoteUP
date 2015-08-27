@@ -82,7 +82,7 @@ regist = (username, email, password) ->
 Template.user_modal.onRendered ->
   Meteor.setTimeout ->
     Session.set 'modal', 'welcome'
-  , 500
+  , 1000
 
 
 

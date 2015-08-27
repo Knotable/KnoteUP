@@ -12,6 +12,7 @@ activateUserFilter = ->
 
 Router.configure
   loadingTemplate: 'loading'
+  layoutTemplate: 'layout'
 
 
 
@@ -19,7 +20,6 @@ Router.map ->
   @route "activateToken",
     path: '/activate/:user_id/:token'
     template: 'pad_list'
-    layoutTemplate: "layout"
     onBeforeAction: [ activateUserFilter ]
 
 
@@ -27,7 +27,6 @@ Router.map ->
   @route 'pads',
     path: '/(.*)'
     template: 'pad_list'
-    layoutTemplate: 'layout'
     data: ->
       S3Credentials.requestCredentials()
 
@@ -51,6 +50,7 @@ Router.map ->
       }
 
     waitOn: ->
+      Meteor.remoteConnection.subscribe 'user'
       if Meteor.userId()
         [
           Meteor.remoteConnection.subscribe 'topicsBySource', 'quick'
