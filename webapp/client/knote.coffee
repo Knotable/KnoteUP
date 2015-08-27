@@ -54,6 +54,9 @@ Template.knote.onRendered ->
       KnoteHelper.formatAndSave template
     , 1000
 
+  if knote.topic_id == $('#header .title').attr 'data-latest-id'
+    PadsListHelper.updateOrder(null, knote.topic_id)
+
 
 
 Template.knote.events
