@@ -106,6 +106,7 @@ Template.sharePadPopup.events
   'click .btn-share': (e, template) ->
     message = template.$('.share-message').val()
     emails = EJSON.parse(Session.get('SelectedContactsInThreadPopupList') || '[]')
+    showEmails = emails.join(', ')
     newEmail = template.$('#NewEmail').val()
 
     if not _.isEmpty(newEmail) and not AppHelper.isCorrectEmail(newEmail)
@@ -114,17 +115,16 @@ Template.sharePadPopup.events
     unless emails.length > 0
       return showWarningMessage 'Please enter email address'
 
+    showSuccessMessage 'Sharing with ' + showEmails,
+      duration: -1
+      showOk: true
+
+    SharePadPopup.activeInstance.close()
+
     Meteor.remoteConnection.call 'addContactsToThread', template.data.padId, emails, {message: message}, (error, result) ->
       if error
-        showWarningMessage 'Sharing by email failed! Please try again later.'
+        showWarningMessage 'Sharing by email failed! Please try again.'
         console.log 'ERROR: addContactsToThread', error
-      else
-        SharePadPopup.activeInstance.close()
-        emails = emails.join(', ')
-        showSuccessMessage 'Shared with ' + emails,
-          duration: -1
-          showOk: true
-
 
 
 Template.search_contacts.rendered = ->
