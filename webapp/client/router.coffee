@@ -27,6 +27,12 @@ Router.map ->
   @route 'pads',
     path: '/(.*)'
     template: 'pad_list'
+
+    action: ->
+      if hasKnotableLoginToken.get()
+        return this.render 'loading'
+      this.render()
+
     data: ->
       S3Credentials.requestCredentials()
 

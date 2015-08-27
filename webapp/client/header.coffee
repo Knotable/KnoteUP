@@ -19,11 +19,6 @@ Template.header.helpers
 
 
 
-  hasKnotableLoginToken: ->
-    hasKnotableLoginToken.get()
-
-
-
 Template.header.events
   'click .user': (e) ->
     $('#setting-dropdown').slideToggle()
