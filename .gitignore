@@ -1,3 +1,5 @@
 localhost.json
 dev.json
 staging.json
+
+webapp/.meteor/platforms
