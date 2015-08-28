@@ -1,18 +1,27 @@
+Template.pomodoro.onCreated ->
+  _.extend(@, _.pick(Template.pomodoro))
+  controller = new PomodoroController
+  controller.extend(@)
+
+
 Template.pomodoro.onRendered ->
-  $time = @.$('.pomodoro-time')
-  $pomodoro = @.$('.pomodoro')
   $pageTitle = $('title')
   $favicon = $('#favicon')
+  $time = @.$('.pomodoro-time')
+  $pomodoro = @.$('.pomodoro')
 
-  $(pomodoroHelper).on 'stop', ->
+  $(@controller).on 'stop', ->
     user = AppHelper.currentContact()
     if user
       $pageTitle.text('Knoteup - ' + user.username)
     else
       $pageTitle.text('Knoteup')
     $favicon?.attr('href', '/favicon.ico')
+    $pomodoro.removeClass('animate')
+    $time?.hide()
 
-  $(pomodoroHelper).on 'flushing', (event, time)->
+  $(@controller).on 'flushing', (event, time) ->
+    $time?.show()
     $time.text(time)
     $pageTitle.text("Knoteup - #{time}")
     $pomodoro?.toggleClass('animate')
@@ -21,19 +30,37 @@ Template.pomodoro.onRendered ->
     else
       $favicon.attr('href', '/tomato.ico')
 
-  $(pomodoroHelper).on 'running', (event, time)->
+  $(@controller).on 'running', (event, time) ->
+    $time?.show()
     $time?.text(time)
     $pageTitle?.text("Knoteup - #{time}")
     $favicon.attr('href', '/tomato-red.ico')
-    $pomodoro?.addClass('animate')
+    $pomodoro.addClass('animate')
 
-  pomodoroHelper.startPomodoro(@data._id)
+
+  $(@controller).on 'pause', (event, time) ->
+    $time?.show()
+    $time?.text(time)
+    $pomodoro.addClass('animate')
+
+
+  @autorun =>
+    pomodoro = Knotes.findOne(_id: @data._id)?.pomodoro
+    return unless pomodoro
+    return @controller.pausePomodoro(@data._id) if pomodoro.pauseTime
+    @controller.startPomodoro(@data._id)
 
 
 
 Template.pomodoro.onDestroyed ->
-  pomodoroHelper.stopPomodoro()
+  @controller.stopPomodoro() if @data.pomodoro and not @data.pomodoro.pauseTime
 
+
+
+
+Template.pomodoro.events
+  'click .pomodoro': (e, t) ->
+    t.controller.clickOnTomato(t.data._id)
 
 
 Template.knote.onCreated ->
@@ -179,16 +206,7 @@ Template.knote.events
 
 
 
-  'click .pomodoro': (e, t)->
-    pomodoroHelper.clickOnTomato(t.data._id)
-
-
 Template.knote.helpers
-  isPomodoro: ->
-    @pomodoro and not @pomodoro.pauseTime
-
-
-
   dateNewFormat: ->
     return '' unless @date
     nowDate = moment()
