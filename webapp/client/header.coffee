@@ -1,5 +1,7 @@
 Template.header.onRendered ->
   @data.subject = moment().format "MMM Do"
+  if Meteor.isCordova
+    $('#header').css('padding-top', '10px')
 
 
 

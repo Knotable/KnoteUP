@@ -22,6 +22,9 @@ App.launchScreens({
 // Cordova preferences
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'portrait');
+App.setPreference('StatusBarOverlaysWebView', true);
+App.setPreference('StatusBarBackgroundColor', '#000000')
+App.setPreference('StatusBarStyle', 'default')
 
 // Accesss rules
 App.accessRule('*')

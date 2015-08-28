@@ -21,9 +21,9 @@
           <span data-date="{{date}}">{{dateNewFormat}}</span>
         </div>
         {{#if archived}}
-          <div class="icon restore" title="Restore">Restore<i class="icon-reply-1"></i></div>
+          <div class="icon restore" title="Restore">{{#unless isMobile}}Restore{{/unless}}<i class="icon-reply-1"></i></div>
         {{else}}
-          <div class="icon archive" title="Mark done">Mark Done<i class="icon-check"></i></div>
+          <div class="icon archive" title="Mark done">{{#unless isMobile}}Mark Done{{/unless}}<i class="icon-check"></i></div>
         {{/if}}
       </div>
     </div>

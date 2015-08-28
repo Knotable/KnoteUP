@@ -10,8 +10,8 @@
               <span class="account-avatar large account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
             {{/if}}
           {{/with}}
+          {{> settings_dropdown}}
         </div>
-        {{> settings_dropdown}}
         <div class="latest-share right-header-item">
           {{#with latestPad}}
             {{> share_dropdown}}

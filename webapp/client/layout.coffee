@@ -18,4 +18,21 @@
 Template.layout.events
 
   'click #container': (e) ->
+    # Collapse any open menus
     collapseElements(e)
+
+  'click a[href]': (e) ->
+    # Force all URLs to open in external browser on mobile device
+    if Meteor.isCordova
+      e.preventDefault()
+      console.log("working")
+      platform = device.platform.toLowerCase()
+      $link = $(e.target).closest('a[href]')
+      console.log($link)
+      if $link.length > 0
+        url = $link.attr('href')
+        switch platform
+          when 'ios'
+            window.open url, '_system'
+          when 'android'
+            navigator.app.loadUrl url, {openExternal: true}

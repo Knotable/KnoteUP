@@ -254,6 +254,10 @@ Template.knote.helpers
     @isPosting or @isFailed
 
 
+    
+  isMobile: ->
+    return mobileHelper.isMobile()
+
 
 
 Template.addContactPopupBox.events
