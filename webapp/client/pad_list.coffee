@@ -1,6 +1,8 @@
 
 
 Template.pad_list.onRendered ->
+  $knotes = $('.currentDatePad .knote')
+  Session.set 'knotesNum', $knotes.length
   latestPad = @data.latestPad
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
