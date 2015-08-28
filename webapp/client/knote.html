@@ -57,13 +57,7 @@
         {{/if}}
       </div>
       {{#unless archived}}
-        {{#unless isPomodoro}}
-            <div class="pomodoro-container">
-              <div class="pomodoro"></div>
-            </div>
-        {{else}}
-            {{> pomodoro this}}
-        {{/unless}}
+          {{> pomodoro this}}
       {{/unless}}
       {{> knote_replies}}
       {{> knote_reply_compose}}
@@ -171,7 +165,7 @@
 
 <Template name="pomodoro">
     <div class="pomodoro-container">
-       <div class="pomodoro animate" title="pomodoro"></div>
+       <div class="pomodoro"> {{#if pomodoro.pauseTime}} || {{/if}}</div>
        <div class="pomodoro-time"></div>
     </div>
 </Template>
