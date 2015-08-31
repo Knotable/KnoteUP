@@ -28,6 +28,8 @@ Template.pad_list.onRendered ->
 
   @$('.padList').off('scroll').on 'scroll', _.throttle(PadsListHelper.scrollAction, 200)
 
+  Session.set 'modal', 'welcome'
+
 
 Template.pad_list.helpers
   username: ->

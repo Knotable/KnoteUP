@@ -76,11 +76,7 @@ regist = (username, email, password) ->
       knotableConnection.call('update_contact_gravatar_status', result.userId)
 
       logIn user.email, user.password, (err) ->
-        registerEventHandler null, {type: 'error', desc: err.reason} if err
-
-
-Template.user_modal.onRendered ->
-  Session.set 'modal', 'welcome'
+        registerEventHandler null, {type: 'error', desc: err.reason} if err  
 
 
 
