@@ -81,9 +81,6 @@ Template.knote.onRendered ->
       KnoteHelper.formatAndSave template
     , 1000
 
-  if knote.topic_id == $('#header .title').attr 'data-latest-id'
-    PadsListHelper.updateOrder(null, knote.topic_id)
-
 
 
 Template.knote.events
@@ -96,8 +93,8 @@ Template.knote.events
 
 
   'click .archive': (e, t) ->
-    if not @isPosting and not @isFailed
-      Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
+    return showErrorBootstrapGrowl("Please wait until Knote is saved") if @isPosting or @isFailed
+    Knotes.update @_id, {$set: {archived: true}, $unset: {pomodoro: '' }}
 
 
 
@@ -107,8 +104,8 @@ Template.knote.events
 
 
   'click .edit-knote': (e, template) ->
-    if not @isPosting and not @isFailed
-      template.controller.isEditing.set(true)
+    return showErrorBootstrapGrowl("Please wait until Knote is saved") if @isPosting or @isFailed
+    template.controller.isEditing.set(true)
 
 
 
@@ -161,6 +158,7 @@ Template.knote.events
 
 
   'click .icon-chat': (e) ->
+    return showErrorBootstrapGrowl("Please wait until Knote is saved") if @isPosting or @isFailed
     knote = $(e.currentTarget).closest('.knote')
     composePopup = knote.find('.knote-compose-popup-cn')
     actions = knote.find('.knote-actions')
@@ -174,8 +172,8 @@ Template.knote.events
 
 
   'dblclick .knote-content': (e, template) ->
-    if not @isPosting and not @isFailed
-      template.controller?.isEditing.set(true)
+    return showErrorBootstrapGrowl("Please wait until Knote is saved") if @isPosting or @isFailed
+    template.controller?.isEditing.set(true)
 
 
 
@@ -225,6 +223,11 @@ Template.knote.helpers
 
 
 
+  listOrder: ->
+    Math.abs(@order)
+
+
+
   isEditing: ->
     Template.instance()?.controller?.isEditing.get()
 
@@ -268,11 +271,6 @@ Template.knote.helpers
 
 
 
-  isPostingOrFailed: ->
-    @isPosting or @isFailed
-
-
-    
   isMobile: ->
     return mobileHelper.isMobile()
 

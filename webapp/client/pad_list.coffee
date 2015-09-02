@@ -7,20 +7,20 @@ Template.pad_list.onRendered ->
   if latestPad
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
-
-  currentKnotes = document.querySelectorAll('.currentDatePad .knotes')
-  [].forEach.call(currentKnotes, (knotes) ->
+  archivedKnotes = document.querySelectorAll('.archived-knotes')
+  [].forEach.call(archivedKnotes, (knotes) ->
     knotes._uihooks =
       insertElement: (node, next) ->
         $(node).insertBefore(next)
         Deps.afterFlush(->
-          PadsListHelper.updateOrder($(node))
+          knote = Knotes.findOne $(node).data('id')
+          PadsListHelper.updateOrder(knote.topic_id)
         )
-
       removeElement: (node) ->
         topic_id = $(node).data('topicId')
+        console.log($(node).data('archived'))
         $(node).remove()
-        PadsListHelper.updateOrder(null, topic_id)
+        PadsListHelper.updateOrder(topic_id)
     )
 
   unless window.isMobile

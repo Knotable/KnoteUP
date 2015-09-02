@@ -44,6 +44,7 @@ Template.compose.events
     $newBody = t.$(".knote-body")
     title = $newTitle.text()
     body = $newBody.html()
+    next = $('.currentDatePad .unarchived-knotes .knote').length + 1
 
     if not Meteor.userId()
       editKnote =
@@ -56,8 +57,11 @@ Template.compose.events
         subject: subject
         body: body
         topic_id: t.data?.latestPad?._id
-      optionalKnoteParameters = title: title
+      optionalKnoteParameters =
+        title: title
+        order: -Math.abs(next)
       knotesRepository.insertKnote(requiredKnoteParameters, optionalKnoteParameters)
+      Session.set 'knotesNum', next
       $newBody.html('').hide()
       $newTitle.html('').focus()
       $('#header .share-pad').show()

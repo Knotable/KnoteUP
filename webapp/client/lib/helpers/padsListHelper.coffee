@@ -69,8 +69,8 @@
 
   getSortedKnotes: (padId) ->
     {
-      unarchived: knotesRepository.find({topic_id: padId, archived: false}, {sort: {order: 1, timestamp: -1} }).fetch()
-      archived: knotesRepository.find({topic_id: padId, archived: true, is_fake: $ne: true}, {sort: {order: 1, timestamp: -1} }).fetch()
+      unarchived: knotesRepository.find({topic_id: padId, archived: false}, {sort: {order: -1, timestamp: -1} }).fetch()
+      archived: knotesRepository.find({topic_id: padId, archived: true, is_fake: $ne: true}, {sort: {order: -1, timestamp: -1} }).fetch()
     }
 
 
@@ -184,7 +184,8 @@
       forcePlaceholderSize: true
       appendTo: '.pad'
       update: (e, ui) ->
-        PadsListHelper.updateOrder(ui.item, "moved")
+        knote = Knotes.findOne ui.item.data('id')
+        PadsListHelper.updateOrder(knote.topic_id)
       start: (e, ui) ->
         ui.item.addClass('sorting')
         Session.set('isKnoteDroppabe', true)
@@ -198,31 +199,17 @@
 
 
 
-  updateOrder: (target, topicId) ->
-    if target
-      knote = Knotes.findOne target.data('id')
-      return if !knote
-      topicId = knote.topic_id
-      knoteId = knote._id
-    return if !knote and !topicId
-    $knotes = $("[data-topic-id='" + topicId + "']")
-    Session.set 'knotesNum', $knotes.length
-    knotes = _.map $knotes, (ele)-> id: $(ele).data('id'), collection: 'knotes'
-    PadsListHelper.calcOrder(topicId, knotes, knoteId)
-
-
-
-  calcOrder: (topicId, knotes, knoteId, container = 'main') ->
-    topic = Pads.findOne topicId
-    throw new Meteor.Error 500, "Topic not exist with " + topicId  unless topic?
+  updateOrder: (topicId) ->
+    return if !topicId
+    knotes = PadsListHelper.getSortedKnotes(topicId).unarchived.concat(PadsListHelper.getSortedKnotes(topicId).archived)
+    length = knotes.length
     return if knotes.length is 0
-    order = 1
-    _.each knotes, (k)->
-      updateOption =
-        order: order++
-      if k.id is knoteId
-        updateOption.containerName = container
-      Knotes.update({_id: k.id}, {$set: updateOption})
+    order = 0
+    _.each knotes, (k) ->
+      order--
+      console.log(order)
+      Knotes.update({_id: k._id}, {$set: { order : order }})
+
 
 
   knotesNumToText: (knotesNum) ->

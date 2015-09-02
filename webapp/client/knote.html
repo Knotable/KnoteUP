@@ -5,7 +5,7 @@
   {{#if isFailed}} failed {{/if}}
   {{#if archived}} gray {{/if}}"
    data-order="{{order}}" data-id="{{_id}}" data-topic-id="{{topic_id}}">
-   <div class="order">{{order}}</div>
+   <div class="order">{{listOrder}}</div>
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
       {{#with contact}}
         <div class="contact">
@@ -30,41 +30,36 @@
     <div class="knote-content">
       {{knoteTitleEditableContainer}}
       {{knoteBodyEditableContainer}}
-      {{#unless isPostingOrFailed}}
-        <div class="knote-gutter">
-          {{#unless archived}}
-            <i class="icon icon-pencil edit-knote"></i>
-            {{#if isEditing}}
-            <span class="buttons pull-right">
-              <div class="attachment">
-                {{> file_upload}}
-              </div>
-              <input type="button" class="btn btn-small my-btn btn-save" value="Save">
-              <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
-            </span>
-            {{/if}}
-          {{/unless}}
-        </div>
-      {{/unless}}
-    </div>
-    {{#unless isPostingOrFailed}}
-      <div class="knote-actions {{#unless replys}}no-replies{{/unless}} {{#if archived}}archived-actions{{/if}}">
-        {{#if archived}}
-          <i class="icon icon-trash delete-knote"></i>
-        {{else}}
-          <i class="icon icon-chat"></i>
-          {{! <i class="icon icon-share share-knote"></i> }}
-        {{/if}}
+      <div class="knote-gutter">
+        {{#unless archived}}
+          <i class="icon icon-pencil edit-knote"></i>
+          {{#if isEditing}}
+          <span class="buttons pull-right">
+            <div class="attachment">
+              {{> file_upload}}
+            </div>
+            <input type="button" class="btn btn-small my-btn btn-save" value="Save">
+            <input type="button" class="btn btn-small my-btn btn-cancel" value="Cancel">
+          </span>
+          {{/if}}
+        {{/unless}}
       </div>
-      {{#unless archived}}
-          {{> pomodoro this}}
-      {{/unless}}
-      {{> knote_replies}}
-      {{> knote_reply_compose}}
-    {{else}}
+    </div>
+    <div class="knote-actions {{#unless replys}}no-replies{{/unless}} {{#if archived}}archived-actions{{/if}}">
+      {{#if archived}}
+        <i class="icon icon-trash delete-knote"></i>
+      {{else}}
+        <i class="icon icon-chat"></i>
+        {{! <i class="icon icon-share share-knote"></i> }}
+      {{/if}}
+    </div>
+    {{#unless archived}}
+        {{> pomodoro this}}
+    {{/unless}}
+    {{> knote_replies}}
+    {{> knote_reply_compose}}
+    {{#if isFailed}}
       <div class="knote-posting-status text-right">
-        {{#if isPosting}}Posting...{{/if}}
-        {{#if isFailed}}
           {{#unless isReposting}}
             <i class="icon icon-attention-1"></i>
             <span>
@@ -73,9 +68,8 @@
             </span>
           {{/unless}}
           <input type="button" class="btn btn-small my-btn re-post-knote" value="Retry">
-        {{/if}}
       </div>
-    {{/unless}}
+    {{/if}}
   </div>
 </template>
 
