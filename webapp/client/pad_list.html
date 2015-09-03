@@ -2,7 +2,7 @@
   <div id="container">
     {{> header}}
     <div class="padList">
-      <div class="pad currentDatePad">
+      <div class="pad currentDatePad" data-id="{{latestPad._id}}">
         {{> compose}}
         <div class="pad-container">
           {{#with latestPad}}

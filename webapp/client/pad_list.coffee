@@ -1,4 +1,13 @@
-hooks =
+unarchivedHooks =
+  insertElement: (node, next) ->
+    $(node).insertBefore(next)
+    Deps.afterFlush(->
+      topicId = $('.currentDatePad').data('id')
+      console.log(topicId)
+      PadsListHelper.updateOrder(topicId)
+    )
+
+archivedHooks =
   insertElement: (node, next) ->
     $(node).insertBefore(next)
     Deps.afterFlush(->
@@ -19,7 +28,10 @@ Template.pad_list.onRendered ->
     $('#header .redirect-to-knotable').attr 'href', UrlHelper.getPadUrlFromId(latestPad._id)
 
   archived = document.querySelectorAll('.archived-knotes')
-  [].forEach.call(archived, (knotes) -> knotes._uihooks = hooks)
+  [].forEach.call(archived, (knotes) -> knotes._uihooks = archivedHooks)
+
+  unarchived = document.querySelectorAll('.unarchived-knotes')
+  [].forEach.call(unarchived, (knotes) -> knotes._uihooks = unarchivedHooks)
 
   unless window.isMobile
     PadsListHelper.initKnoteDraggable()

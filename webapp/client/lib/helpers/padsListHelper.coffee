@@ -203,7 +203,8 @@
     return if !topicId
     $knotes = $("[data-topic-id='" + topicId + "']")
     length = $knotes.length
-    return if $knotes.length is 0
+    return if length is 0
+    Session.set 'knotesNum', length
     order = 0
     _.each $knotes, (k) ->
       id = $(k).data('id')
