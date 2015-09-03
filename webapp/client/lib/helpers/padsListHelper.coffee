@@ -201,14 +201,14 @@
 
   updateOrder: (topicId) ->
     return if !topicId
-    knotes = PadsListHelper.getSortedKnotes(topicId).unarchived.concat(PadsListHelper.getSortedKnotes(topicId).archived)
-    length = knotes.length
-    return if knotes.length is 0
+    $knotes = $("[data-topic-id='" + topicId + "']")
+    length = $knotes.length
+    return if $knotes.length is 0
     order = 0
-    _.each knotes, (k) ->
+    _.each $knotes, (k) ->
+      id = $(k).data('id')
       order--
-      console.log(order)
-      Knotes.update({_id: k._id}, {$set: { order : order }})
+      Knotes.update({_id: id}, {$set: { order : order }})
 
 
 
