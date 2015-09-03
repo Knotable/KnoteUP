@@ -3,7 +3,6 @@ unarchivedHooks =
     $(node).insertBefore(next)
     Deps.afterFlush(->
       topicId = $('.currentDatePad').data('id')
-      console.log(topicId)
       PadsListHelper.updateOrder(topicId)
     )
 
