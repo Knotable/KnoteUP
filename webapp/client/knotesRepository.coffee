@@ -123,6 +123,7 @@ class KnotesRepository
     if _repository.find(isLocalKnote: true).count()
       if knote.draft_id
         _repository.remove(knote.draft_id)
+        Knotes.update knote._id, $unset: draft_id: ''
       else
         # TODO: remove this when new knotable version whit updated knote schema is deployed
         draftKnotes = _repository.find(isLocalKnote: true).fetch()
