@@ -54,7 +54,9 @@
       {{/if}}
     </div>
     {{#unless archived}}
+      {{#unless isFailed}}
         {{> pomodoro this}}
+      {{/unless}}
     {{/unless}}
     {{> knote_replies}}
     {{> knote_reply_compose}}
