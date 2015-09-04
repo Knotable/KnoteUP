@@ -323,6 +323,8 @@ displayEmbedLinks = (links, options = {}, callback) ->
       replys: []
       pinned: false
       requiresPostProcessing: true
+
+      # TODO: remove this when new knotable version whit updated knote schema is deployed
       date: new Date
 
     addKnote = ->

@@ -26,16 +26,19 @@ class KnotesRepository
 
 
   insertKnote: (requiredKnoteParameters, optionalKnoteParameters) ->
-    promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
     draftKnote = _.extend _.clone(requiredKnoteParameters), optionalKnoteParameters,
       isPosting: true
       archived: false
       isLocalKnote: true
       timestamp: Date.now()
+    draftKnoteId = _repository.insert(draftKnote)
+    optionalKnoteParameters.draft_id = draftKnoteId
+    promise = KnoteHelper.postNewKnote(requiredKnoteParameters, optionalKnoteParameters)
+    draftKnote = _.extend draftKnote, requiredKnoteParameters, optionalKnoteParameters,
       requiresPostProcessing: false
       requiredKnoteParameters: requiredKnoteParameters
       optionalKnoteParameters: optionalKnoteParameters
-    draftKnoteId = _repository.insert draftKnote
+    _repository.upsert draftKnoteId, draftKnote
     @_listenToPostCompletion(draftKnoteId, promise)
     return promise
 
@@ -118,9 +121,13 @@ class KnotesRepository
 
   _removeDraftKnoteIfExists: (knote) ->
     if _repository.find(isLocalKnote: true).count()
-      draftKnotes = _repository.find(isLocalKnote: true).fetch()
-      targetKnote = _.find draftKnotes, (draftKnote) ->  moment(draftKnote.date).isSame(knote.date, 'second')
-      _repository.remove(targetKnote._id) if targetKnote
+      if knote.draft_id
+        _repository.remove(knote.draft_id)
+      else
+        # TODO: remove this when new knotable version whit updated knote schema is deployed
+        draftKnotes = _repository.find(isLocalKnote: true).fetch()
+        targetKnote = _.find draftKnotes, (draftKnote) -> moment(draftKnote.date).isSame(knote.date, 'second')
+        _repository.remove(targetKnote._id) if targetKnote
 
 
 
