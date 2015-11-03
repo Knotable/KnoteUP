@@ -32,3 +32,9 @@ class @CommonRegularExpressions
   "darbydarbysocks@gmail.com"
   "ryanryanscarf@gmail.com"
 ]
+
+
+class @SignupMethods
+  @constants
+    knoteUp: 7
+@SignupMethods = new @SignupMethods
