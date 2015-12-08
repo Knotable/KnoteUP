@@ -3,7 +3,7 @@ cd ~/.ssh
 
 frontendIP_1=knoteup.com
 
-key=dev.pem
+key=beta.pem
 
 
 echo "
