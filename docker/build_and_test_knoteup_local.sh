@@ -2,46 +2,39 @@
 
 
 
-#smart workdir handling :)
+# Smart workdir handling :)
 root_directory=`git rev-parse --show-toplevel 2>/dev/null`
 if [ -z $root_directory"" ] ; then
-  echo "
-
-      You are not in a knoteup project directory.
-      Please cd into it and run this script again.
-      Aborting...
-  "
+  echo -e "\nYou are not in a knoteup project directory."
+  echo    "Please cd into it and run this script again."
+  echo -e "Aborting...\n"
   exit
 fi
 
 
 
 if [ ! `pwd` == $root_directory ] ; then
-  echo "changing to root directory: $root_directory"
+  echo -e "\nChanging to root directory: $root_directory"
   cd $root_directory
 fi
 
 
 
-#check whether the repo is clean
-# if [ "`git status -s`" ] ; then
-#   echo "
-#     The repository is not clean.
-#     Please make sure you committed all your changes and run this script again.
-#     Aborting...
-
-#   "
-#   exit
-# fi
+# Check whether the repo is clean
+if [ "`git status -s`" ] ; then
+  echo -e "\nThe repository is not clean."
+  echo "Please make sure you committed all your changes and run this script again."
+  echo -e "Aborting...\n"
+  exit
+fi
 
 
-echo "
 
-  If this is the first time you've run this it may take some time to download and set up all the dependencies.
-  Subsequent builds will be faster.
+echo -e "\nIf this is the first time you've run this,"
+echo    "it may take some time to download and set up all the dependencies."
+echo -e "Subsequent builds will be faster.\n\n"
 
 
-"
 
 #set up sudo for Linux
 sudo='sudo'
@@ -72,15 +65,9 @@ $sudo docker pull registry.knotable.com:443/knoteup:latest 2>/dev/null
 if [ "$(uname)" == "Darwin" ]; then
   availableVmSpace=`docker-machine ssh dev "df -P" | grep /mnt/sda1$ | awk '{print $4}'`
   if [ $availableVmSpace"" -lt 2000000 ] ; then
-    echo "
-      Warning!
-
-      docker-machine VM drive has low space. Please remove old or unused docker images or just run:
-
-        docker-machine rm dev
-
-      and restart the script.
-    "
+    echo -e "\nWarning!"
+    echo    "Low space in dev docker-machine. Please remove old or unused docker images,"
+    echo -e "Or just run: 'docker-machine rm dev' and run this script again.\n"
     exit
   fi
 fi
