@@ -111,4 +111,4 @@ rm docker/Dockerfile.$knoteup_build
 if [ $1"" == "--notest" ]
   then exit
 fi
-docker/localhost_run_knoteup_new.sh
+docker/localhost_run_knoteup.sh
