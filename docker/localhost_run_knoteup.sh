@@ -8,14 +8,29 @@ else
   knoteup_tag=knoteup:$1
 fi
 
-eval `boot2docker shellinit`
+
+
+# set up docker-machine for Mac
+if [ "$(uname)" == "Darwin" ]; then
+  eval `docker-machine env dev`
+fi
+
+
+
+#set up sudo for Linux
+sudo=sudo
+if [ "$(uname)" == "Darwin" ]; then
+  sudo=
+fi
+
+
 mkdir ~/knotable-var
 
-docker rm -f knoteup-mongo &> /dev/null
-docker run --name knoteup-mongo -d mongo:2.6 mongod --smallfiles
+$sudo docker rm -f knoteup-mongo &> /dev/null
+$sudo docker run --name knoteup-mongo -d mongo:2.6 mongod --smallfiles
 
-docker rm -f webapp &> /dev/null
-docker run -d                                     \
+$sudo docker rm -f webapp &> /dev/null
+$sudo docker run -d                                     \
     --name webapp                                 \
     -e DOMAIN_LONG=localhost.com                  \
     -e DOMAIN_SHORT=localhost.com                 \
@@ -26,8 +41,8 @@ docker run -d                                     \
     -v ~/knotable-var:/logs                       \
     registry.knotable.com:443/$knoteup_tag
 
-docker rm -f knoteup-nginx &> /dev/null
-docker run -d                                     \
+$sudo docker rm -f knoteup-nginx &> /dev/null
+$sudo docker run -d                                     \
       --name knoteup-nginx                        \
       -e DOMAIN_LONG=localhost.com                \
       -e DOMAIN_SHORT=localhost.com               \
@@ -35,17 +50,18 @@ docker run -d                                     \
       --link webapp:webapp                        \
       registry.knotable.com:443/instance-nginx
 
-echo "
-
-  To see how this build works, open in browser
-
-       http://`boot2docker ip`:4000
 
 
-  To stop the whole thing, use the following command:
-
-       eval \`boot2docker shellinit\` && docker rm -f \`docker ps -aq\`
-
-
-  Server logs can be found in ~/knotable-var directory
-"
+if [ "$(uname)" == "Darwin" ]; then
+  echo -e "\nTo see how this buld works, open in browser\n"
+  echo -e "http://`docker-machine ip dev`:4000 \n"
+  echo "To stop the whole thing, use the following command:"
+  echo "eval \`docker-machine env dev\` && docker rm -f \`docker ps -aq\`"
+  echo -e "\nServer logs can be found in ~/knotable-var directory\n"
+else
+  echo -e "\nTo see how this build works, open in browser"
+  echo -e "http://localhost:4000 \n"
+  echo "To stop the whole thing, use the following command:"
+  echo "sudo docker rm -f \`sudo docker ps -aq\`"
+  echo -e "\nServer logs can be found in ~/knotable-var directory\n"
+fi
