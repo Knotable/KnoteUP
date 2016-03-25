@@ -55,36 +55,43 @@ form
   .form-message
     margin: 7px 0
     font-size: 12px
-
-.owl-theme
-  .owl-controls
-    .owl-nav
-      [class*='owl-']
-        background: $brand-primary
-        border: 2px solid #fff
-        box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
-        &:hover
-          background-color: #248fbe
-      .owl-prev
-        display: none
-      .owl-prev
-      .owl-next
-        font-size: 16px
-        letter-spacing: 2px
-        padding: 5px 10px
-  .owl-dots .owl-dot
-    span
-      background: white
-    &.active
-      span
-        background-color: #248fbe
-  .owl-item
-    #login-box
-      margin-top: 40px
-      .signup-link
-        margin-top: 30px
-    .box .body
-      padding: 5%
+.slick-slider
+  margin-bottom: 10px
+  .slick-dots
+    bottom: -76px
+    li
+      button:before
+        content: ''
+        width: 10px
+        height: 10px
+        background: white
+        border-radius: 5px
+        opacity: 1;
+      &.slick-active
+        button:before
+          background: #248fbe
+.carousel-nav
+  text-align: center
+  padding: 0 0 40px
+  .nav
+    margin: 0 5px
+    display: inline-block !important
+    background: $brand-primary
+    border: 2px solid #fff
+    box-shadow: -1px 2px 6px -2px rgba(0,0,0,0.4)
+    cursor: pointer
+    -moz-user-select: none
+    -webkit-user-select: none
+    -ms-user-select: none
+    &:hover
+      background-color: #248fbe
+    &.slick-disabled
+      display: none !important
+  .prev
+  .next
+    font-size: 16px
+    letter-spacing: 2px
+    padding: 5px 10px
 
 .welcome-title
   font-size: 20px

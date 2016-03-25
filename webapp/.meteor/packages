@@ -22,6 +22,6 @@ language-tools
 mrt:jquery-ui@1.9.2
 edgee:slingshot
 duongthienduc:meteor-bootstrap-growl
-richsilv:owl-carousel
 mrt:cookies
 sergeyt:typeahead@=0.10.5_14
+timbrandin:slick
