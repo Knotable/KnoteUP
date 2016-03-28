@@ -4,7 +4,7 @@ if [ -z $1"" ] ; then
   exit
 fi
 
-eval `boot2docker shellinit`
+eval `docker-machine env dev`
 
 docker pull registry.knotable.com:443/knoteup:$1
 docker tag -f registry.knotable.com:443/knoteup:$1 registry.knotable.com:443/knoteup-production

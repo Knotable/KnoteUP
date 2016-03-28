@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-eval `boot2docker shellinit`
+eval `docker-machine env dev`
 knoteup_build=`docker inspect --format='{{json .Config.Env}}' registry.knotable.com:443/knoteup-local | sed -n -e 's/^.*KNOTEUP_BUILD=//p' | sed -n -e 's/".*//p'`
 
 docker tag -f registry.knotable.com:443/knoteup-local registry.knotable.com:443/knoteup-staging
