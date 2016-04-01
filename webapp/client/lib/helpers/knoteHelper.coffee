@@ -398,7 +398,7 @@ displayEmbedLinks = (links, options = {}, callback) ->
       template.controller?.isEditing?.set(false)
       knotableConnection.call 'update_knote_metadata', knote._id, {}, 'webapp:knoteup:KnoteController.save'
       #@updateKnoteEditors(knote)
-      knotableConnection.call 'remove_other_topic_viewers', knote.topic_id
+      knotableConnection.call 'makeTopicUnreadForOthers', knote.topic_id
 
 
   deleteKnote: (knoteId) ->
