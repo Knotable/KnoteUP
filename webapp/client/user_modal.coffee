@@ -76,7 +76,7 @@ regist = (username, email, password) ->
       knotableConnection.call('update_contact_gravatar_status', result.userId)
 
       logIn user.email, user.password, (err) ->
-        registerEventHandler null, {type: 'error', desc: err.reason} if err  
+        registerEventHandler null, {type: 'error', desc: err.reason} if err
 
 
 
@@ -108,27 +108,14 @@ Template.user_modal.events
 
 
 Template.welcome_carousel.onRendered ->
-  Meteor.setTimeout ->
-    carousel = $(".owl-carousel")
-    carousel.owlCarousel(
-      margin: 50,
-      nav: true,
-      autoWidth: true,
-      center: true,
-    )
-    carousel.on('changed.owl.carousel', (event) ->
-      total = event.item.count - 1
-      current = event.item.index
-      if current == 0
-        $('.owl-prev').hide()
-      else
-        $('.owl-prev').css('display', 'inline-block')
-      if total == current
-        $('.owl-next').hide()
-      else
-        $('.owl-next').css('display', 'inline-block')
-    )
-  , 1000
+  $('#carousel').slick({
+    dots: true,
+    infinite: false,
+    arrows: true,
+    prevArrow: $('.carousel-nav .prev'),
+    nextArrow: $('.carousel-nav .next'),
+  });
+
 
 
 Template.welcome_carousel.helpers

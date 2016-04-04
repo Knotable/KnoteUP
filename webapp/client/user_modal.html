@@ -15,9 +15,8 @@
 </Template>
 
 
-
 <Template name="welcome_carousel">
-  <div class="owl-carousel">
+  <div id="carousel">
     <div class="item">
       <div class="welcome-title first">KnoteUp makes SlackUps work better.</div>
       <img src="/images/welcome/intro.png" alt="Overview" class="welcome-img not-mobile">
@@ -44,6 +43,10 @@
     <div class="item">
       {{> login_box}}
     </div>
+  </div>
+  <div class="carousel-nav">
+    <div class="nav prev">Prev</div>
+    <div class="nav next">Next</div>
   </div>
 </template>
 
