@@ -7,15 +7,9 @@
    data-order="{{order}}" data-id="{{_id}}" data-topic-id="{{topic_id}}">
    <div class="order">{{listOrder}}</div>
     <div class="knote-header" title="{{#unless archived}}Click and hold to move{{/unless}}">
-      {{#with contact}}
-        <div class="contact">
-          {{#if hasAvatar}}
-            <img class="account-avatar account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
-          {{else}}
-            <span class="account-avatar account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
-          {{/if}}
-        </div>
-      {{/with}}
+      <div class="contact">
+        {{> avatar contact}}
+      </div>
       <div class="knote-header-right">
         <div class="knote-date">
           <span data-date="{{date}}">{{dateNewFormat}}</span>

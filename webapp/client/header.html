@@ -3,13 +3,7 @@
     <div class="right-header">
       {{#if currentUser}}
         <div class="user right-header-item">
-          {{#with currentContact}}
-            {{#if hasAvatar}}
-              <img class="account-avatar large account-avatar-current" data-id="{{_id}}" src="{{avatar.path}}">
-            {{else}}
-              <span class="account-avatar large account-avatar-current {{bgcolor}}" data-id="{{_id}}">{{initialName}}</span>
-            {{/if}}
-          {{/with}}
+          {{> avatar currentContact}}
           {{> settings_dropdown}}
         </div>
         <div class="latest-share right-header-item">

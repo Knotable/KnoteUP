@@ -1,16 +1,13 @@
 <Template name="avatar">
   {{#if is_activated}}
     {{#if avatar_src }}
-      <img class="account-avatar small circle-avatar {{currentUserClass}}" src="{{ avatar_src }}" alt="{{ get_username }}" data-id="{{ _id }}" data-email="{{ email }}">
+      <img class="account-avatar circle-avatar {{currentUserClass}}" src="{{ avatar_src }}" alt="{{ get_username }}" data-id="{{ _id }}" data-email="{{ email }}">
     {{else}}
-      <span class="activated account-avatar small circle-avatar {{ get_bgcolor }} {{currentUserClass}}" data-id="{{ _id }}"
+      <span class="activated account-avatar circle-avatar {{ get_bgcolor }} {{currentUserClass}}" data-id="{{ _id }}"
         data-email="{{ email }}" title="{{title}}">{{ initial_name }}</span>
     {{/if}}
-    <div class="username">
-       {{ get_username }}
-    </div>
   {{else}}
-    <span class="unactivated account-avatar small circle-avatar {{currentUserClass}}"><img src="{{baseUrl '/images/letter.png'}}"></span>
+    <span class="unactivated account-avatar circle-avatar {{currentUserClass}}"><img src="{{baseUrl '/images/letter.png'}}"></span>
   {{/if}}
 </Template>
 
@@ -18,9 +15,9 @@
 
 <Template name="suggestion_avatar">
   {{#if avatarPath}}
-    <img class="account-avatar small" src="{{avatarPath}}" height="20" width="20">
+    <img class="account-avatar" src="{{avatarPath}}" height="20" width="20">
   {{else}}
-    <span class="account-avatar small {{contact.bgcolor}}">
+    <span class="account-avatar {{contact.bgcolor}}">
       {{initialName}}
     </span>
   {{/if}}

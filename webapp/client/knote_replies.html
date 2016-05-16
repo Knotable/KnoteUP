@@ -17,10 +17,9 @@
     <ul class="knote-replys">
       {{#each replys.replys}}
       <li data-id="{{this.replyId}}">
-      {{#with replyContact}}
-      {{> avatar}}
+      {{> avatar replyContact}}
       <!-- to be re-added when timestamps are working <div class="timestamp" data-dt='{{this.date}}'>{{replyedTime}}</div>-->
-      {{/with}}
+      <div class="username">{{ getUsername replyContact }}</div>
       {{#if isEditingReply}}
       {{{editBody}}}
       {{else}}
