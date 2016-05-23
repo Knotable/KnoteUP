@@ -46,6 +46,11 @@ Template.knote_replies.helpers
 
 
 
+  getUsername: (contact) ->
+    AppHelper.render_user_name contact, 'anonymous'
+
+
+
   replys: ->
     return false if _.isEmpty(@replys)
     defaultReplyDisplay = 3

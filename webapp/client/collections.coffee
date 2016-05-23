@@ -34,14 +34,6 @@ Meteor.users = new Mongo.Collection 'users', connection: knotableConnection
 
 @Contacts = new Meteor.Collection "contacts",
   connection: knotableConnection
-  transform: (contact) ->
-    contact.hasAvatar = if contact.avatar
-      true
-    else
-      false
-    name = contact.nickname || contact.fullname || contact.username
-    contact.initialName = name[0].toUpperCase()
-    return contact
 
 
 @SharingKeys = new Meteor.Collection "sharing_keys", connection: knoteupConnection

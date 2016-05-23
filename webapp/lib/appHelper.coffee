@@ -105,13 +105,13 @@
 
 
   getAvatarUrlOfContact: (contact, type) ->
-    return false unless contact
-    type = 'path' unless type is 'mini'
-    url = contact.avatar_uploaded?[type]
-    return url if url and url isnt "false"
-    url = contact.avatar?[type]
-    return url if url and url isnt "false"
-    return false
+    avatars = contact?.avatars
+    return false unless avatars
+    avatar = avatars['uploaded'] || avatars['gravatar'] || avatars['google'] || avatars['facebook']
+    if avatar
+      return avatar[type] || avatar['normal']
+    else
+      return false
 
 
 
