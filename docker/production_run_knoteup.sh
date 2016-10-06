@@ -50,6 +50,7 @@ ssh -i $key ubuntu@$frontendIP_1 bash -c '              \
       -e MONGO_URL="mongodb://knoteup-mongo/knotepad"   \
       -p 5000:80                                        \
       -v /knotable-var:/logs                            \
+      --restart always                                  \
       registry.knotable.com:443/knoteup-production  &&  \
                                                         \
   sudo docker rm -f knoteup-nginx &>/dev/null       ;   \
@@ -60,6 +61,7 @@ ssh -i $key ubuntu@$frontendIP_1 bash -c '              \
         -e DOMAIN_SHORT=knoteup                         \
         -p 80:80                                        \
         --link webapp:webapp                            \
+        --restart always                                \
         registry.knotable.com:443/instance-nginx    &&  \
                                                         \
   sudo docker rmi -f registry.knotable.com:443/knoteup-production:old                                           ;   \
